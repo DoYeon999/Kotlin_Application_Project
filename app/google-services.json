@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "524335109838",
+    "project_id": "fishing-4f003",
+    "storage_bucket": "fishing-4f003.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524335109838:android:678824f4f61bb0181c629f",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524335109838-ef2n02kl28h8941uvscp0ajacc0qr8km.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "e238a0eedfff3d2bb0bf30c1ba4d99a270c4955a"
+          }
+        },
+        {
+          "client_id": "524335109838-2tetcof25j4enu33n48fp09nuqsq76jp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgNs3_kWNduCXDr2wlV-Pfi32NYj_UcFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524335109838-2tetcof25j4enu33n48fp09nuqsq76jp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

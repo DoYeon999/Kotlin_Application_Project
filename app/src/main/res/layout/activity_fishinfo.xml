@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".kdy.FishinfoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="어종별"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="25dp" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:orientation="horizontal">
+    </androidx.viewpager2.widget.ViewPager2>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="요즘 핫한 어종!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="25dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/one"/>
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/two"/>
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/three"/>
+
+    </LinearLayout>
+
+</LinearLayout>

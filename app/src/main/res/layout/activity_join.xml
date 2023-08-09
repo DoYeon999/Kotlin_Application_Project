@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="30dp"
+    tools:context=".kdy.JoinActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textSize="30sp"
+        android:layout_margin="70dp"
+        android:gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textPersonName"
+        android:hint="이름" />
+
+    <EditText
+        android:id="@+id/nicknameInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="textPersonName"
+        android:hint="닉네임" />
+
+    <EditText
+        android:id="@+id/telInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:hint="전화번호" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/idInput"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="아이디" />
+
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20sp"
+            android:backgroundTint="#959595"
+            android:text="중복 확인" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/pwInput"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="비밀번호"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/pw2Input"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="비밀번호 확인"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/joinbutton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:backgroundTint="#3F51B5" />
+
+    <Button
+        android:id="@+id/backlogin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="로그인 화면으로 돌아가기"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white" />
+</LinearLayout>
