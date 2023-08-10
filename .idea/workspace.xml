@@ -9,20 +9,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="김도연_로그인, 회원가입, 낚시박사 완료">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="김도연_로그인, 회원가입, 낚시박사, 낚시포인트 작업중">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/test.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/FishinfoActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/FishinfoActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/FishplaceActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/FishplaceActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/model/place.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/kdy/model/place.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishinfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishinfo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishplace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishplace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_fishplace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_fishplace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,10 +79,10 @@
       <list>
         <option value="Kotlin Data Class" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Class" />
+        <option value="Class" />
         <option value="layoutResourceFile" />
         <option value="resourceFile" />
-        <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -113,21 +107,24 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "android-custom-viewC:/Users/admin/.gradle/caches/modules-2/files-2.1/androidx.viewpager2/viewpager2/1.0.0/3c3569044e6969f1ee5c3aa03b08e6717a2d782f/viewpager2-1.0.0-sources.jar!/androidx/viewpager2/widget/ViewPager2.java_SELECTED": "ViewPager2",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/admin/AndroidStudioProjects/Fishing/app/src/main/java/com/example/myapplication/kdy",
+    "last_opened_file_path": "C:/Users/admin/AndroidStudioProjects/Fishing/app/src/main/res/font",
     "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\res\font" />
+      <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\res\drawable" />
       <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\java\com\example\myapplication\kdy" />
       <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\java\com\example\myapplication\kdy\adapter" />
       <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\java\com\example\myapplication\model" />
-      <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\res\drawable" />
-      <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app" />
     </key>
     <key name="android.template.1454869501">
       <recent name="com.example.myapplication" />
       <recent name="com.example.myapplication.fragment" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\admin\AndroidStudioProjects\Fishing\app\src\main\res\font" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.example.myapplication" />
@@ -136,7 +133,7 @@
       <recent name="com.example.myapplication" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.LoginActivity">
+  <component name="RunManager" selected="Android App.MainActivity">
     <configuration name="FishinfoActivity (1)" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
       <module name="My_Application.app.main" />
       <option name="DEPLOY" value="true" />
@@ -535,10 +532,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Android App.MainActivity" />
         <item itemvalue="Android App.LoginActivity" />
         <item itemvalue="Android App.FishplaceActivity" />
         <item itemvalue="Android App.FishinfoActivity (1)" />
-        <item itemvalue="Android App.MainActivity" />
         <item itemvalue="Android App.FishinfoActivity" />
       </list>
     </recent_temporary>
@@ -552,6 +549,21 @@
       <option name="presentableId" value="Default" />
       <updated>1691125601266</updated>
     </task>
+    <task id="LOCAL-00001" summary="김도연_로그인, 회원가입, 낚시박사, 낚시포인트 작업중">
+      <created>1691574132319</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691574132319</updated>
+    </task>
+    <task id="LOCAL-00002" summary="김도연_로그인, 회원가입, 낚시박사, 낚시포인트 작업중">
+      <created>1691574158540</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1691574158540</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -576,5 +588,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="김도연_로그인, 회원가입, 낚시박사, 낚시포인트 작업중" />
+    <option name="LAST_COMMIT_MESSAGE" value="김도연_로그인, 회원가입, 낚시박사, 낚시포인트 작업중" />
   </component>
 </project>

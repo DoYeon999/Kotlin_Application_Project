@@ -22,7 +22,7 @@ class FishplaceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        databaseCallfunc("사천")
+        databaseCallfunc("영흥도")
 
 
         binding.yeongheundo.setOnClickListener {
@@ -35,13 +35,10 @@ class FishplaceActivity : AppCompatActivity() {
             databaseCallfunc("거제")
         }
         binding.tongyeong.setOnClickListener {
-            databaseCallfunc("통영")
+            databaseCallfunc("인천")
         }
         binding.yeosu.setOnClickListener {
-            databaseCallfunc("여수")
-        }
-        binding.jinhae.setOnClickListener {
-            databaseCallfunc("진해")
+            databaseCallfunc("태안")
         }
 
     }

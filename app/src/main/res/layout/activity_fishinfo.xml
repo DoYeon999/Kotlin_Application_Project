@@ -30,30 +30,14 @@
         android:textStyle="bold"
         android:layout_margin="25dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/one"/>
-
-        <ImageButton
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/two"/>
-
-        <ImageButton
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/three"/>
-
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/info"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_fishinfo">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
