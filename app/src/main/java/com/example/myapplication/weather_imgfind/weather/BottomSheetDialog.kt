@@ -22,10 +22,10 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : MutableList<Entry>, val tempers : MutableList<temper>, val where : String, val lunars : List<String>) : BottomSheetDialogFragment() {
 
-    lateinit var btn: Button
     lateinit var txtview: TextView
     lateinit var txtview2: TextView
     lateinit var rcview: RecyclerView

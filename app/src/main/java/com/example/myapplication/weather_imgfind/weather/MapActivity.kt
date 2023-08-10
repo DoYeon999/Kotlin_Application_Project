@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.myapplication.R
-import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.databinding.ActivityBottomSheetDialogBinding
 import com.example.myapplication.databinding.ActivityMapBinding
 import com.example.myapplication.weather_imgfind.model.ForecastModel
 import com.example.myapplication.weather_imgfind.model.TideModel
@@ -55,7 +55,7 @@ import java.time.format.DateTimeFormatter
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
-    lateinit var binding : ActivityMapBinding
+    lateinit var binding : ActivityBottomSheetDialogBinding
     //lateinit var binding : ActivitySixthPracticeGoogleMapBinding
 
     // The entry point to the Places API.
@@ -104,7 +104,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         // [END_EXCLUDE]
 
 //        myadapter = APISlidingAdapter(this)
-        binding = ActivityMapBinding.inflate(layoutInflater)
+        binding = ActivityBottomSheetDialogBinding.inflate(layoutInflater)
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map)
 
