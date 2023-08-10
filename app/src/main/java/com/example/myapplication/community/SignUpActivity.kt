@@ -1,4 +1,4 @@
-package com.android.project_board
+package com.example.myapplication.community
 
 import android.os.Bundle
 import android.util.Log
@@ -18,57 +18,58 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySingUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
         itemClick()
     }
 
     private fun itemClick() {
-//        // 회원가입 버튼
-//        binding.btJoin.setOnClickListener {
-//            if (!binding.edEmail.text.toString()
-//                    .equals("") && !binding.edPassword.text.toString()
-//                    .equals("")
-//            ) {
-//                // 이메일과 비밀번호가 공백이 아닌 경우
-//                createUser(binding.edEmail.text.toString(), binding.edPassword.text.toString())
-//            } else {
-//                // 이메일과 비밀번호가 공백인 경우
-//                Toast.makeText(this@SignUpActivity, "모든 입력란을 작성해주세요.", Toast.LENGTH_LONG).show()
-//            }
-//        }
+        // 회원가입 버튼
+        binding.btJoin.setOnClickListener {
+            if (!binding.edEmail.text.toString().equals("")
+                && !binding.edPassword.text.toString().equals("")
+                && !binding.edNickname.text.toString().equals("")
+            ) {
+                // 이메일과 비밀번호가 공백이 아닌 경우
+                createUser(binding.edEmail.text.toString(), binding.edPassword.text.toString(), binding.edNickname.text.toString())
+            } else {
+                // 이메일과 비밀번호가 공백인 경우
+                Toast.makeText(this@SignUpActivity, "모든 입력란을 작성해주세요.", Toast.LENGTH_LONG).show()
+            }
+        }
 
         binding.imBack.setOnClickListener{
             finish()
         }
     }
 
-//    private fun createUser(email: String, password: String) {
-//        firebaseAuth!!.createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener { task: Task<AuthResult?> ->
-//                if (task.isSuccessful) {
-//                    val userModel = UserModel()
-//                    val uid = FirebaseAuth.getInstance().currentUser!!.uid
-//                    userModel.email = binding.edEmail.text.toString()
-//                    userModel.password = binding.edPassword.text.toString()
-//
-//                    val db = FirebaseFirestore.getInstance()
-//                    db.collection("Users").document(uid).set(userModel)
-//                        .addOnSuccessListener { aVoid: Void? ->
-//                            Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
-//                            finish()
-//                        }.addOnFailureListener { e: Exception ->
-//                            Log.e(
-//                                "SignUpActivity",
-//                                "onFailure: " + e.message
-//                            )
-//                        }
-//
-//                } else {
-//                    task.addOnFailureListener {
-//                        Log.e("##ERROR", ": error = task erro = ${it.message}");
-//                    }
-//                    Toast.makeText(this, "회원가입 실패", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//    }
+    //유저의 데이터를 전송하여 회원가입을 진행한다.
+    private fun createUser(email: String, password: String, nickname: String) {
+        firebaseAuth!!.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task: Task<AuthResult?> ->
+                if (task.isSuccessful) {
+                    val userModel = UserModel()
+                    val uid = FirebaseAuth.getInstance().currentUser!!.uid
+                    userModel.email = email
+                    userModel.password = password
+                    userModel.nickname = nickname
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("Users").document(uid).set(userModel)
+                        .addOnSuccessListener { aVoid: Void? ->
+                            Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
+                            finish()
+                        }.addOnFailureListener { e: Exception ->
+                            Log.e(
+                                "SignUpActivity",
+                                "onFailure: " + e.message
+                            )
+                        }
+
+                } else {
+                    task.addOnFailureListener {
+                        Log.e("##ERROR", ": error = task erro = ${it.message}");
+                    }
+                    Toast.makeText(this, "회원가입 실패", Toast.LENGTH_LONG).show()
+                }
+            }
+    }
 }

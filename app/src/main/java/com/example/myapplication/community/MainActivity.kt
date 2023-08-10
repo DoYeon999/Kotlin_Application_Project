@@ -1,4 +1,4 @@
-package com.android.project_board
+package com.example.myapplication.community
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,29 +6,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.android.material.circularreveal.CircularRevealHelper.Strategy
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    // 구글api클라이언트
-    private var mGoogleSignInClient: GoogleSignInClient? = null
-
-    // 구글 계정
-    private var gsa: GoogleSignInAccount? = null
-
-    // 파이어베이스 인증 객체 생성
-    private var mAuth: FirebaseAuth? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,45 +18,46 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         itemClick()
 
-        // 파이어베이스 인증 객체 선언
-//        mAuth = FirebaseAuth.getInstance()
     }
 
 
     private fun itemClick() {
-//        binding.btLogin.setOnClickListener { view ->
-//
-//            val auth: FirebaseAuth
-//            auth = FirebaseAuth.getInstance()
-//            val email: String = binding.edEmail.getText().toString()
-//            val passward: String = binding.edPassword.getText().toString()
-//            auth.signInWithEmailAndPassword(email, passward)
-//                .addOnCompleteListener(this) { task ->
-//                    if (task.isSuccessful) {
-//                    } else {
-//                        Log.i(
-//                            "##INFO",
-//                            "onComplete(): failure",
-//                            task.exception
-//                        )
-//                    }
-//                    task.addOnFailureListener { e: Exception ->
-//                        Toast.makeText(this@MainActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
-//                        Log.i("##INFO", "onComplete(): e = " + e.message)
-//                    }
-//                }
-//
-//                .addOnFailureListener {
-//                    Log.e("##ERROR", "it = ${it.message} ");
-//                }
-//                .addOnSuccessListener {
-//                    Toast.makeText(this@MainActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
-//                    getUserInfoToDataBase()
-//
-//                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
-//                    startActivity(intent)
-//                }
-//        }
+        // 로그인 버튼 클릭시 파이어베이스 auth로 유저의 정보를 전송한다.
+        binding.btLogin.setOnClickListener { view ->
+
+            val auth: FirebaseAuth
+            auth = FirebaseAuth.getInstance()
+            val email: String = binding.edEmail.getText().toString()
+            val passward: String = binding.edPassword.getText().toString()
+            auth.signInWithEmailAndPassword(email, passward)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                    } else {
+                        Log.i(
+                            "##INFO",
+                            "onComplete(): failure",
+                            task.exception
+                        )
+                    }
+                    task.addOnFailureListener { e: Exception ->
+                        Toast.makeText(this@MainActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
+                        Log.i("##INFO", "onComplete(): e = " + e.message)
+                    }
+                }
+
+                .addOnFailureListener {
+                    Log.e("##ERROR", "it = ${it.message} ");
+                }
+                .addOnSuccessListener {
+                    Toast.makeText(this@MainActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+                    getUserInfoToDataBase()
+
+                    val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                    startActivity(intent)
+                }
+        }
+
+        //회원가입 페이지로 이동하는 클릭 이벤트 리스너
         binding.btSignup.setOnClickListener { view ->
             val intent = Intent(this@MainActivity, SignUpActivity::class.java)
             startActivity(intent)
