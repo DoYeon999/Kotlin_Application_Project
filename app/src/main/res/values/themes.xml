@@ -8,7 +8,7 @@
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 
     <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+        parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
         <item name="android:windowIsFloating">false</item>
     </style>
