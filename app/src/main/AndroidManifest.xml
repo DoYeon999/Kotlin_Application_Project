@@ -35,6 +35,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <activity
+            android:name=".community.MainActivity"
             android:name=".weather_imgfind.findfish.FindFishActivity"
             android:exported="true" />
         <activity
@@ -53,6 +54,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".community.SignUpActivity"/>
+        <activity android:name=".community.HomeActivity"/>
+        <activity android:name=".community.ActivityDetailPost"/>
+        <activity android:name=".community.ActivityWritePost"/>
     </application>
 
 </manifest>
