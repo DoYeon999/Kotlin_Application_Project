@@ -52,6 +52,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="middletest" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -337,7 +342,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="chocozzang" />
+                        <option value="middletest" />
                       </list>
                     </value>
                   </entry>
@@ -350,7 +355,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-  <MESSAGE value="first commit" />
-  <option name="LAST_COMMIT_MESSAGE" value="first commit" />
+    <MESSAGE value="first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit" />
   </component>
 </project>
