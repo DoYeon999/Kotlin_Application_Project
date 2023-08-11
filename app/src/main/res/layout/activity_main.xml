@@ -13,11 +13,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <!--        <androidx.appcompat.widget.Toolbar-->
-        <!--            android:id="@+id/toolbar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:background="#1E57BA"/>-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:src="@drawable/profile" />
+
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="홍길동"
+                android:textSize="15sp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"/>
+        </androidx.appcompat.widget.Toolbar>
+
+
 
         <ImageView
             android:id="@+id/backdrop"
@@ -25,7 +46,7 @@
             android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:src="@drawable/main"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             app:layout_collapseMode="parallax" />
 
         <Button
@@ -77,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="실시간 인기 조항!"
+            android:fontFamily="@font/yeongdeok_blueroad"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:textStyle="bold"
@@ -85,7 +107,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
             android:orientation="horizontal" >
             <ImageView
                 android:layout_width="150dp"
@@ -104,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="커뮤니티"
+            android:fontFamily="@font/yeongdeok_blueroad"
             android:textStyle="bold"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="20dp"

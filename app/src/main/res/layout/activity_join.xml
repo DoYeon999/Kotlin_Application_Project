@@ -5,16 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="30dp"
     tools:context=".kdy.JoinActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원가입"
+        android:fontFamily="@font/yeongdeok_blueroad"
         android:textSize="30sp"
-        android:layout_margin="70dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/galleryAdd"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:cardCornerRadius="90dp"
+        app:cardElevation="0dp"
+        android:layout_gravity="center"
+        >
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:src="@drawable/profile" />
+    </androidx.cardview.widget.CardView>
 
     <EditText
         android:id="@+id/nameInput"
@@ -22,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:inputType="textPersonName"
+        android:layout_marginTop="10dp"
         android:hint="이름" />
 
     <EditText
@@ -83,14 +101,14 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:backgroundTint="#3F51B5" />
 
     <Button
         android:id="@+id/backlogin"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="로그인 화면으로 돌아가기"
         android:gravity="center"
         android:textSize="12sp"

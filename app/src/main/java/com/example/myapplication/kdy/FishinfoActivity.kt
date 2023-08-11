@@ -14,7 +14,6 @@ import com.google.firebase.storage.FirebaseStorage
 class FishinfoActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityFishinfoBinding
-
     data class Info(val commuimg : String)
     override fun onCreate(savedInstanceState: Bundle?) {
 
