@@ -9,19 +9,19 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="fishing contest and newbie guide 230810">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="포스터 수정 완료 .&#10;2023 . 08 . 11">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContentPoster.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PhDividerItemDecoration.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content_poster.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_poster2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/model/poster.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/model/poster.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_poster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_poster.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,8 +83,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -128,6 +128,9 @@
       <recent name="C:\Users\it\AndroidStudioProjects\Kotlin_Application_Project\app\src\main\res\layout" />
       <recent name="C:\Users\it\AndroidStudioProjects\Kotlin_Application_Project\app\src\main\java\com\example\myapplication\FishingContent\recycler" />
       <recent name="C:\Users\it\AndroidStudioProjects\Kotlin_Application_Project\app\src\main\java\com\example\myapplication\FishingContent\model" />
+    </key>
+    <key name="android.template.1865126755">
+      <recent name="com.example.myapplication.FishingContent" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\it\AndroidStudioProjects\Kotlin_Application_Project\app" />
@@ -546,7 +549,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -560,6 +563,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fishing contest and newbie guide 230810" />
-    <option name="LAST_COMMIT_MESSAGE" value="fishing contest and newbie guide 230810" />
+    <MESSAGE value="포스터 수정 완료 .&#10;2023 . 08 . 11" />
+    <option name="LAST_COMMIT_MESSAGE" value="포스터 수정 완료 .&#10;2023 . 08 . 11" />
   </component>
 </project>
