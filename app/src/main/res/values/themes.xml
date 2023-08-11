@@ -3,10 +3,13 @@
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 
+    <style name="theme_dialog" parent="android:Theme.Holo.Dialog">
+    <item name="android:windowMinWidthMajor">80%</item>
+    <item name="android:windowMinWidthMinor">80%</item>
     <style name="AppBottomSheetDialogTheme"
         parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
