@@ -43,7 +43,6 @@ android {
 }
 
 dependencies {
-
     //retrofit 사용하기위한 외주 저장소.
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     // json 변환하기 위한 라이브러리, gson 예시.
