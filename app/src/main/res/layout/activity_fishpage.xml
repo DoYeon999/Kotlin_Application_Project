@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".kdy.FishpageActivity">
+
+    <ImageView
+        android:id="@+id/imgurl"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_margin="40dp" />
+    
+    <TextView
+        android:id="@+id/fishname"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20sp"
+        android:text="고등어"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_margin="20dp" >
+
+    <TextView
+        android:id="@+id/fishinfo"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="생김새"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/fishdate"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="금어기"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/fishsize"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="금지체장"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/fishpopular"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="낚시시즌"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/fishplace"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="서식지"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/fisheat"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="미끼추천"
+        android:textSize="15sp" />
+
+    </LinearLayout>
+</LinearLayout>

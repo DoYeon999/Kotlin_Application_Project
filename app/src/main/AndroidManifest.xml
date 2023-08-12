@@ -2,8 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
+        android:name=".kdy.APIApplication"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +16,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".kdy.FishplaceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.FishpageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.JoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.FishinfoActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
