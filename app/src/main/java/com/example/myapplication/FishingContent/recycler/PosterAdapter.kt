@@ -1,7 +1,6 @@
 package com.example.myapplication.FishingContent.recycler
 
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,7 @@ class PosterViewHolder(val binding: ItemPosterBinding): RecyclerView.ViewHolder(
 class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private lateinit var fsview : View
+    private val storageReference = FirebaseStorage.getInstance().reference
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder{
         fsview = LayoutInflater.from(parent.context).inflate(R.layout.item_poster,parent,false)
@@ -35,9 +35,9 @@ class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<Recycl
         val binding=(holder as PosterViewHolder).binding
         //imageRef.downloadUrl.addOnSuccessListener { uri
         //    -> val nowUrl = uri.toString()
-            Glide.with(fsview.context)
-                .load(poster.contestthumbnail)
-                .into(binding.ps)
+        Glide.with(fsview.context)
+            .load(poster.contestthumbnail)
+            .into(binding.ps)
         //}
 
         binding.ps.setOnClickListener {

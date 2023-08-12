@@ -50,7 +50,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     override fun onBindViewHolder(holder: ViewHolderMainBoard, position: Int) {
         Log.d("##INFO", "$pList")
         val postInfo = pList[position]
-        //holder.title.text = postInfo.title
+        holder.fishspecies.text = postInfo.fishspecies
         //holder.replayCount.text = "[${pList[position].replies.size}]"
         if(postInfo.pictures.size > 0) {
             holder.picture.visibility = View.VISIBLE
@@ -129,7 +129,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
                 postUpdate?.nickname = postInfo.nickname
-                postUpdate?.title = postInfo.title
+                postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
                 postUpdate?.favoriteCount = postInfo.favoriteCount + 1
                 postInfo.favoriteCount += 1
@@ -160,7 +160,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
                 postUpdate?.nickname = postInfo.nickname
-                postUpdate?.title = postInfo.title
+                postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
                 postUpdate?.favoriteCount = postInfo.favoriteCount - 1
                 postInfo.favoriteCount -= 1
@@ -288,6 +288,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         val likeCnt : TextView
         val likeCnt2 : TextView
         val replyCnt : TextView
+        val fishspecies : TextView
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
@@ -302,6 +303,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             likeCnt = itemView.findViewById(R.id.emptyCnt)
             likeCnt2 = itemView.findViewById(R.id.fullCnt)
             replyCnt = itemView.findViewById(R.id.tv_replies_count_detail_post)
+            fishspecies = itemView.findViewById(R.id.tv_fishspecies)
             onItemClick()
         }
 

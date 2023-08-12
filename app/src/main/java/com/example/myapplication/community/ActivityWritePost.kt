@@ -110,7 +110,7 @@ class ActivityWritePost : AppCompatActivity() {
 
         // 넘어온 데이터가 있을 경우
         if (getPostData != null) {
-            mBinding.edTitleWrite.setText(getPostData.title)
+            mBinding.edFishspeciesWrite.setText(getPostData.fishspecies)
             mBinding.edContentWrite.setText(getPostData.content)
             mBinding.edPasswordWrite.setText(getPostData.password)
             postId = getPostData.id
@@ -126,10 +126,10 @@ class ActivityWritePost : AppCompatActivity() {
         mBinding.btCreateWrite.setOnClickListener { v ->
             mBinding.prLoadingPost.setVisibility(View.VISIBLE)
             //user 입력란에 공백이 있는지에 대한 확인
-            val title: String = mBinding.edTitleWrite.getText().toString()
+            val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
             val content: String = mBinding.edContentWrite.getText().toString()
             val password: String = mBinding.edPasswordWrite.getText().toString()
-            if (title.isEmpty() && password.isEmpty()) {
+            if (fishspecies.isEmpty() && password.isEmpty()) {
                 Toast.makeText(this, "빈 부분이 있습니다", Toast.LENGTH_SHORT).show()
                 mBinding.prLoadingPost.setVisibility(View.GONE)
             } else if (!bitmapList.isEmpty()) {
@@ -178,7 +178,7 @@ class ActivityWritePost : AppCompatActivity() {
         val storageRef: StorageReference = storage.getReference()
         val randomNum = (Math.random() * 100000).toInt()
         val mountainsRef: StorageReference =
-            storageRef.child(mBinding.edTitleWrite.text.toString() + randomNum.toString() + ".jpg")
+            storageRef.child(mBinding.edFishspeciesWrite.text.toString() + randomNum.toString() + ".jpg")
         val baos = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -203,7 +203,7 @@ class ActivityWritePost : AppCompatActivity() {
     }
 
     private fun addPost() {
-        val title: String = mBinding.edTitleWrite.getText().toString()
+        val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
         val content: String = mBinding.edContentWrite.getText().toString()
         val password: String = mBinding.edPasswordWrite.getText().toString()
         auth = FirebaseAuth.getInstance()
@@ -218,7 +218,7 @@ class ActivityWritePost : AppCompatActivity() {
                 PostDataModel(
                     postId,
                     nowUserNick,
-                    title,
+                    fishspecies,
                     content,
                     password,
                     ArrayList(),
