@@ -36,6 +36,8 @@
             android:value="${MAPS_API_KEY}" />
         <activity
             android:name=".community.MainActivity"
+            android:exported="true"/>
+        <activity
             android:name=".weather_imgfind.findfish.FindFishActivity"
             android:exported="true" />
         <activity
@@ -43,8 +45,7 @@
             android:exported="false" />
         <activity
             android:name=".weather_imgfind.weather.MapActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

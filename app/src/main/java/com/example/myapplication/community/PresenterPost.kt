@@ -17,7 +17,7 @@ class PresenterPost private constructor() {
     fun setPost(postInfo: PostDataModel?, postId: String): Boolean {
         Log.d("test1234", "$postInfo")
         if (postInfo == null) return false
-        if (postInfo.title.isEmpty() || postInfo.content.isEmpty() || postInfo.password.isEmpty()) return false
+        if (postInfo.fishspecies.isEmpty() || postInfo.content.isEmpty() || postInfo.password.isEmpty()) return false
 
         if (!postId.isEmpty()) {
             //case -> 게시글 수정
@@ -62,7 +62,7 @@ class PresenterPost private constructor() {
                         val data = PostDataModel()
                         data.id = snapshot.id
                         data.nickname = java.lang.String.valueOf(res["nickname"])
-                        data.title = java.lang.String.valueOf(res["title"])
+                        data.fishspecies = java.lang.String.valueOf(res["fishspecies"])
                         data.content = java.lang.String.valueOf(res["content"])
                         data.password = java.lang.String.valueOf(res["password"])
                         data.replies = java.util.ArrayList<Replies>(res["replies"] as Collection<Replies?>?)

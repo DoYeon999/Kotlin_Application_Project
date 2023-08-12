@@ -9,7 +9,7 @@
 
     <style name="theme_dialog" parent="android:Theme.Holo.Dialog">
         <item name="android:windowMinWidthMajor">80%</item>
-        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
     <style name="AppBottomSheetDialogTheme"
         parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
