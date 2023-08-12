@@ -1,11 +1,21 @@
 package com.example.myapplication.FishingContent
 
+import android.app.Dialog
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.kotlin_application_project.R
 import com.example.kotlin_application_project.databinding.ActivityFishingContentBinding
 import com.example.myapplication.FishingContent.model.Poster
+import com.example.myapplication.FishingContent.recycler.PhDividerItemDecoration
 import com.example.myapplication.FishingContent.recycler.PosterAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class FishingContent : AppCompatActivity() {
 
@@ -24,6 +34,9 @@ class FishingContent : AppCompatActivity() {
             posterlist.clear()
             loadFirestoreData("포스터")
         }
+//        // 인텐트에서 글 정보 및 이미지 url을 가져옴
+//        val title = intent.getStringExtra("title")
+//        val imageUrl = intent.getStringExtra("imageUrl")
 //        val imageView: ImageView =findViewById(R.id.myImageView)
 //
 //        imageView.setOnClickListener {
@@ -43,12 +56,11 @@ class FishingContent : AppCompatActivity() {
 //            dialog.show()
 //        }
 
-
     }
-
-
-
     private fun loadFirestoreData(path: String) {
+        val firebaseStorage = FirebaseStorage.getInstance()
+        val storageRef = firebaseStorage.reference
+        var count = 0
         db.collection(path).get()
             .addOnSuccessListener {  querySnapshot  ->
                 val dataToShow = StringBuilder()
@@ -56,25 +68,40 @@ class FishingContent : AppCompatActivity() {
                     if (documentSnapshot.exists()) {
                         val data = documentSnapshot.data
                         val title = data?.get("title") as String // 필드 이름을 적절히 변경하세요
-//                        val date = data?.get("date") as String
+                        val date = data?.get("date") as String
 //                        val location = data?.get("location") as String
 //                        val fs =data?.get("fs") as String
                         val ps = data?.get("ps") as String
-                        posterlist.add(Poster(title, ps ))
+                        storageRef.child(ps).downloadUrl.addOnSuccessListener {
+                            uri -> posterlist.add(Poster(title, date, uri.toString()))
+                            count++
+                            if(count == querySnapshot.size()) {
+                                viewBindingFunc(posterlist)
+                            }
+                        }
+
                         //dataToShow.append(info).append("\n")
                     }
                 }
-                viewBindingFunc(posterlist)
             }
             .addOnFailureListener { exception ->
                 //binding.textView.text = "데이터를 불러오는 중에 오류가 발생했습니다."
                 // 오류 처리 코드를 여기에 추가하세요
+
+
             }
+
+
 
     }
     fun viewBindingFunc(fishes : List<Poster>) {
         psAdapter = PosterAdapter(fishes)
+//        val divideItemDecoration = DividerItemDecoration(binding.recyclerView.context,
+//            LinearLayoutManager(this).orientation)
+        Log.d("test", "${Color.GRAY}")
+        val divideItemDecoration = PhDividerItemDecoration(10F, Color.GRAY)
         binding.recyclerView.adapter = psAdapter
+        binding.recyclerView.addItemDecoration(divideItemDecoration)
 
     }
 
