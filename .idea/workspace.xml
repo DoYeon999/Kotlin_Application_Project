@@ -10,18 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="포스터 수정 완료 .&#10;2023 . 08 . 11">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContentPoster.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PhDividerItemDecoration.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content_poster.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_poster2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/model/poster.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/model/poster.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_fishing_content.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/NewbieAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/NewbieAdapter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_poster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_poster.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_newbie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_newbie.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +79,7 @@
       <list>
         <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
+        <option value="resourceFile" />
       </list>
     </option>
   </component>
@@ -149,7 +144,7 @@
       <recent name="com.example.myapplication.FishingContent.retrofit" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.Newbie">
+  <component name="RunManager" selected="Android App.FishingContent (1)">
     <configuration name="FishingContent (1)" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
       <module name="My_Application.app.main" />
       <option name="DEPLOY" value="true" />
@@ -282,7 +277,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainActivity" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
+    <configuration name="FishingContentPoster" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
       <module name="My_Application.app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -341,7 +336,7 @@
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
       <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="com.example.myapplication.MainActivity" />
+      <option name="ACTIVITY_CLASS" value="com.example.myapplication.FishingContent.FishingContentPoster" />
       <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
       <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
       <method v="2">
@@ -516,11 +511,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Android App.Newbie" />
         <item itemvalue="Android App.FishingContent (1)" />
+        <item itemvalue="Android App.Newbie" />
+        <item itemvalue="Android App.FishingContentPoster" />
         <item itemvalue="Gradle.Kotlin_Application_Project:app [signingReport]" />
         <item itemvalue="Android App.FishingContent" />
-        <item itemvalue="Android App.MainActivity" />
       </list>
     </recent_temporary>
   </component>
@@ -536,6 +531,14 @@
       <option name="presentableId" value="Default" />
       <updated>1691125601266</updated>
     </task>
+    <task id="LOCAL-00001" summary="포스터 수정 완료 .&#10;2023 . 08 . 11">
+      <created>1691740480027</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691740480027</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
