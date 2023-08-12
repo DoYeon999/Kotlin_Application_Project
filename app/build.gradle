@@ -37,9 +37,6 @@ android {
         viewBinding true
         mlModelBinding true
     }
-    buildFeatures {
-        viewBinding true
-    }
 }
 
 dependencies {
