@@ -55,6 +55,7 @@
         android:textSize="20sp"
         android:layout_gravity="center"
         android:gravity="center"
+        android:background="@drawable/hiyoutube"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
 </LinearLayout>

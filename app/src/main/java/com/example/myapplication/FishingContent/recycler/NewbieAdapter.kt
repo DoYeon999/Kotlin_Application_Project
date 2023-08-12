@@ -35,6 +35,7 @@ class NewbieAdpater(val guides: List<Guide>) : RecyclerView.Adapter<RecyclerView
         val binding=(holder as NewbieViewHolder).binding
         imageRef.downloadUrl.addOnSuccessListener { uri
             -> val nowUrl = uri.toString()
+            Log.d("ropeurl", "$nowGuide ======== $nowUrl")
             Glide.with(myview.context)
                 .load(nowUrl)
                 .into(binding.youtubeThumbnail)

@@ -99,6 +99,9 @@ class FishingContent : AppCompatActivity() {
 //        val divideItemDecoration = DividerItemDecoration(binding.recyclerView.context,
 //            LinearLayoutManager(this).orientation)
         Log.d("test", "${Color.GRAY}")
+        for(poster in fishes) {
+            Log.d("posters", "$poster")
+        }
         val divideItemDecoration = PhDividerItemDecoration(10F, Color.GRAY)
         binding.recyclerView.adapter = psAdapter
         binding.recyclerView.addItemDecoration(divideItemDecoration)
