@@ -107,7 +107,7 @@ class Newbie : AppCompatActivity() {
     fun viewBindingFunc(newbies : List<FishRope>) {
         Log.d("tt", "=====$newbies=====")
         nbAdapter = NewbieAdpater(newbies)
-        Log.d("tt", "=====${nbAdapter.guides.toString()}=====")
+        //Log.d("tt", "=====${nbAdapter.guides.toString()}=====")
         binding.recyclerView2.adapter = nbAdapter
 //        val binding = ActivityNewbieBinding.inflate(layoutInflater)
 //        val recycle  = binding.recyclerView2

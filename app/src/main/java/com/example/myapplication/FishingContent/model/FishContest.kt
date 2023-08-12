@@ -8,8 +8,8 @@ data class FishContest(
     var fcid : Long,
     @SerializedName("contesttitle")
     var contesttitle : String,
-    @SerializedName("contestvideourl")
-    var contestvideourl : String,
+    @SerializedName("contestdate")
+    var contestdate : String,
     @SerializedName("contestthumbnail")
     var contestthumbnail : String
 ) : Serializable
