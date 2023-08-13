@@ -27,6 +27,26 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishinfoActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishpageActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishplaceActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.LoginActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.JoinActivity"
+            android:exported="true" />
         <activity
             android:name="com.example.myapplication.FishingContent.FishingContentPoster"
             android:exported="false" />
