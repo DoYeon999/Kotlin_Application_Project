@@ -100,5 +100,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'com.navercorp.nid:oauth:5.7.0'
+    implementation("com.naver.maps:map-sdk:3.17.0")
 
 }

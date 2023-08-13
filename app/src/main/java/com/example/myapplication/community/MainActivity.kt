@@ -3,6 +3,7 @@ package com.example.myapplication.community
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityMainBinding
@@ -19,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         itemClick()
 
     }
-
 
     private fun itemClick() {
         // 로그인 버튼 클릭시 파이어베이스 auth로 유저의 정보를 전송한다.
