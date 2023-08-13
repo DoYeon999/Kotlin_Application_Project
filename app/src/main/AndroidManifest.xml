@@ -84,7 +84,9 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.myapplication.community.SignUpActivity"/>
-        <activity android:name="com.example.myapplication.community.HomeActivity"/>
+        <activity android:name="com.example.myapplication.community.HomeActivity"
+            android:exported="true"/>
+
         <activity android:name="com.example.myapplication.community.ActivityDetailPost"/>
         <activity android:name="com.example.myapplication.community.ActivityWritePost"/>
     </application>

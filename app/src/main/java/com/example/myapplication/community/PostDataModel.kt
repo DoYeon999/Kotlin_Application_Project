@@ -11,7 +11,7 @@ data class PostDataModel(
     var fishspecies: String = "",
     var content: String = "",
     var password: String = "",
-    var replies: ArrayList<Replies> = ArrayList(),
+    var replies: MutableList<String> = ArrayList(),
     var pictures: ArrayList<String> = ArrayList(),
     var favoriteCount: Int = 0,
     var favorites : MutableMap<String, Boolean> = HashMap(),
