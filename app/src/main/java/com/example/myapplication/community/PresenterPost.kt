@@ -15,7 +15,7 @@ class PresenterPost private constructor() {
     private lateinit var binding : ActivityMainBoardBinding
 
     fun setPost(postInfo: PostDataModel?, postId: String): Boolean {
-        Log.d("test1234", "$postInfo")
+        Log.d("test1234", "------$postInfo---------")
         if (postInfo == null) return false
         if (postInfo.fishspecies.isEmpty() || postInfo.content.isEmpty() || postInfo.password.isEmpty()) return false
 
@@ -69,6 +69,7 @@ class PresenterPost private constructor() {
                         data.pictures = ArrayList(res["pictures"] as Collection<String>?)
                         data.favorites = res.get("favorites") as HashMap<String, Boolean>
                         data.favoriteCount = java.lang.String.valueOf(res.get("favoriteCount")).toInt()
+                        data.wherecatchfish = java.lang.String.valueOf(res.get("wherecatchfish"))
                         postsList.add(data)
                         count++
                         callback.onResult(postsList)
