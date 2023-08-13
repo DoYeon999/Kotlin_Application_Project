@@ -10,10 +10,10 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.databinding.Fragment2Binding
-import com.example.myapplication.kdy.APIApplication
 import com.example.myapplication.kdy.FishpageActivity
 import com.example.myapplication.kdy.model.FishInfoModel
-import com.example.myapplication.kdy.model.FishService
+import com.example.myapplication.FishingContent.FishService
+import com.example.myapplication.weather_imgfind.net.APIApplication
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call

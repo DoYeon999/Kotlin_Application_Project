@@ -1,6 +1,5 @@
 package com.example.myapplication.kdy.util
 
-import com.example.myapplication.kdy.APIApplication
 import java.text.SimpleDateFormat
 import java.util.Date
 
