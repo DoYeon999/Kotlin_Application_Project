@@ -222,18 +222,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/popup"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:onClick="onClick"
-                android:text="popup"
-                android:adjustViewBounds="true"
-                android:background="@drawable/thebogy"
-                android:layout_marginLeft="270dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+<!--            <Button-->
+<!--                android:id="@+id/popup"-->
+<!--                android:layout_width="20dp"-->
+<!--                android:layout_height="20dp"-->
+<!--                android:onClick="onClick"-->
+<!--                android:text="popup"-->
+<!--                android:adjustViewBounds="true"-->
+<!--                android:background="@drawable/thebogy"-->
+<!--                android:layout_marginLeft="270dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"/>-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

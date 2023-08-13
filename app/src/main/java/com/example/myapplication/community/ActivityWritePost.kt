@@ -48,7 +48,7 @@ class ActivityWritePost : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var auth : FirebaseAuth? = null
     private var postId = ""
-    private var replies: ArrayList<Replies> = ArrayList<Replies>()
+    private var replies: MutableList<Replies> = ArrayList()
     private var imageUriList = ArrayList<String>()
     private var favoritesList = mutableMapOf<String, Boolean>()
     private val bitmapList = ArrayList<Bitmap>()
@@ -206,7 +206,8 @@ class ActivityWritePost : AppCompatActivity() {
             mBinding.edContentWrite.setText(getPostData.content)
             mBinding.edPasswordWrite.setText(getPostData.password)
             postId = getPostData.id
-            replies = getPostData.replies!!
+
+            //replies = getPostData.replies!!
             if (getPostData.pictures?.size == 0) return
 
             Glide.with(this).load(getPostData.pictures?.get(0)).into(mBinding.imOneWrite)
