@@ -23,6 +23,7 @@ import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import org.w3c.dom.Text
 
 /**
  * 게시판의 게시글을 보여주는 어댑터 및 게시글의 관리 클래스
@@ -58,7 +59,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                 .load(postInfo.pictures[0])
                 .into(holder.picture)
         }
-
+        holder.catchedplace.text = postInfo.wherecatchfish
         holder.content.text = postInfo.content
         //삭제버튼 클릭시 게시글 삭제
         holder.nickname.text = postInfo.nickname
@@ -139,6 +140,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                 postUpdate?.password = postInfo.password
                 postUpdate?.pictures = postInfo.pictures
                 postUpdate?.replies = postInfo.replies
+                postUpdate?.wherecatchfish = postInfo.wherecatchfish
                 nowDoc.update("Posts", postUpdate)
             }
             holder.likeEmptyButton.visibility = View.GONE
@@ -170,6 +172,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                 postUpdate?.password = postInfo.password
                 postUpdate?.pictures = postInfo.pictures
                 postUpdate?.replies = postInfo.replies
+                postUpdate?.wherecatchfish = postInfo.wherecatchfish
                 nowDoc.update("Posts", postUpdate)
             }
             holder.likeEmptyButton.visibility = View.VISIBLE
@@ -289,6 +292,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         val likeCnt2 : TextView
         val replyCnt : TextView
         val fishspecies : TextView
+        val catchedplace : TextView
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
@@ -304,6 +308,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             likeCnt2 = itemView.findViewById(R.id.fullCnt)
             replyCnt = itemView.findViewById(R.id.tv_replies_count_detail_post)
             fishspecies = itemView.findViewById(R.id.tv_fishspecies)
+            catchedplace = itemView.findViewById(R.id.catchedplace)
             onItemClick()
         }
 
