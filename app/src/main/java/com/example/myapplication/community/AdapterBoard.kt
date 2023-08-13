@@ -36,6 +36,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     private val COLLECTION_PATH = "BoardPosts"
     private lateinit var dlg : Dialog
     private lateinit var nowContext : Context
+    private var pos = -1
 
     init {
         pList = list
@@ -49,7 +50,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolderMainBoard, position: Int) {
-        Log.d("##INFO", "$pList")
+        Log.d("##test", "${pList[position].replies.toString()}")
         val postInfo = pList[position]
         holder.fishspecies.text = postInfo.fishspecies
         //holder.replayCount.text = "[${pList[position].replies.size}]"
@@ -90,7 +91,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                     }
                 }
         }
-
+        holder.replyCnt.text = postInfo.replies.size.toString()
         //수정하기 버튼 클릭시 실행 로직
         holder.modifyButton.setOnClickListener { v ->
             managePasswordDialog()
@@ -192,7 +193,18 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             //contextActivity.finish()
             //(nowContext as Activity).overridePendingTransition(0, 0)
         }
-        holder.onItemClick()
+
+        holder.commentbtn.setOnClickListener { v: View? ->
+            Log.d("testtesttest", "asdfasdf44444")
+            Log.d("testtesttest", "${pList[position]}")
+            val i = Intent(
+                nowContext,
+                ActivityDetailPost::class.java
+            )
+            if(position >= 0) { i.putExtra("PostInfo", pList[position]) }
+            nowContext.startActivity(i)
+        }
+        //holder.onItemClick()
     }
 
     private fun checkMyFavorite(user : String, post : PostDataModel, holder: ViewHolderMainBoard){
@@ -293,6 +305,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         val replyCnt : TextView
         val fishspecies : TextView
         val catchedplace : TextView
+        val commentbtn : TextView
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
@@ -309,19 +322,12 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             replyCnt = itemView.findViewById(R.id.tv_replies_count_detail_post)
             fishspecies = itemView.findViewById(R.id.tv_fishspecies)
             catchedplace = itemView.findViewById(R.id.catchedplace)
-            onItemClick()
+            commentbtn = itemView.findViewById(R.id.total_reply)
+            //onItemClick()
         }
 
         fun onItemClick() {
-            itemView.setOnClickListener { v: View? ->
-                val i = Intent(
-                    itemView.context,
-                    ActivityDetailPost::class.java
-                )
 
-                i.putExtra("PostInfo", pList[adapterPosition])
-                itemView.context.startActivity(i)
-            }
         }
     }
 }

@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
@@ -23,20 +24,71 @@ import com.google.firebase.auth.FirebaseAuth
 class ActivityDetailPost : AppCompatActivity() {
     private lateinit var mBinding: ActivityDetailPostBinding
     private lateinit var postInfo: PostDataModel
-    private lateinit var replyList: ArrayList<Replies>
+    private lateinit var replyList: MutableList<String>
     private lateinit var mAdapter: AdapterReplay
     private lateinit var dlg: Dialog
     private var auth : FirebaseAuth? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("testtesttest", intent.getSerializableExtra("PostInfo").toString())
+        postInfo = (intent.getSerializableExtra("PostInfo") as PostDataModel)
+        Log.d("testtesttest", "-----${postInfo.replies}-------")
+        //replyList = postInfo.replies
         super.onCreate(savedInstanceState)
         mBinding = ActivityDetailPostBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-        checkUserType()
+        //checkUserType()
         initVariable()
         //getPostItem()
-        onViewClick()
+        //onViewClick()
+        setReplyData(postInfo.replies)
+
+        mBinding.imBackDetailPost.setOnClickListener { v ->
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
+
+        //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트
+        mBinding.imSendDetail.setOnClickListener {
+            Log.i("##TEST", "asdfsadf${mBinding.edReplyDetail.text.toString()}sadfsadf")
+            //managePasswordDialog()
+//            findViewById<View>(R.id.bt_ok_dialog)
+//                .setOnClickListener {
+                    val reply: String = mBinding.edReplyDetail.text.toString()
+                    Log.i("##TEST", "-----$reply")
+                    //val inputPassword =
+                    //    (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
+                    //        .toString()
+                    Log.i("##TEST", "onViewClick(): re.getReply() = $reply")
+                    Log.i(
+                        "##TEST",
+                        "onViewClick(): replayList.size = " + replyList.size
+                    )
+                    postInfo.replies.add(reply)
+                    Log.d("##TEST", "-----${postInfo.replies}---------")
+                    PresenterPost.instance?.setReply(postInfo)
+                    //dlg.dismiss()
+                    mAdapter = AdapterReplay(postInfo.replies)
+                    mBinding.reRepliesDetail.adapter = mAdapter
+                    val linearLayoutManager = LinearLayoutManager(this)
+                    linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+                    mBinding.reRepliesDetail.layoutManager = linearLayoutManager
+                    //mAdapter.updateReplyList(postInfo.replies)
+                    mBinding.edReplyDetail.setText("")
+                    //mBinding.reRepliesDetail.adapter = AdapterReplay(postInfo.replies)
+                //}
+            Log.i("##INFO", "onViewClick(): replayList.size = " + replyList.size)
+            //            mBinding.tvRepliesCountDetailPost.setText(replyList.size() + "");
+
+            //댓글 입력시 자동으로 키보드 내림
+            val view = this.currentFocus
+            if (view != null) {
+                val imm =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        }
     }
 
 
@@ -55,8 +107,8 @@ class ActivityDetailPost : AppCompatActivity() {
     }
 
     private fun initVariable() {
-        replyList = ArrayList<Replies>()
-        mAdapter = AdapterReplay(replyList)
+        replyList = ArrayList<String>()
+        //mAdapter = AdapterReplay(replyList)
     }
 
 //    private fun getPostItem() {
@@ -84,12 +136,14 @@ class ActivityDetailPost : AppCompatActivity() {
 //        setReplyData()
 //    }
 
-    private fun setReplyData() {
+    private fun setReplyData(reps : MutableList<String>) {
+        Log.d("testtesttest", "${reps}")
+        mAdapter = AdapterReplay(reps)
         mBinding.reRepliesDetail.adapter = mAdapter
         mBinding.reRepliesDetail.layoutManager = LinearLayoutManager(this)
-        mAdapter.updateReplyList(replyList)
+        //mAdapter.updateReplyList(replyList)
     }
-
+/*
     private fun onViewClick() {
         mAdapter.onItemClickListener(object : AdapterReplay.OnItemClick {
             override fun clickDelete(reply: String?, position: Int) {
@@ -117,7 +171,7 @@ class ActivityDetailPost : AppCompatActivity() {
                             .toString()
                     if (inputPassword == password) {
                         replyList.removeAt(position)
-                        mAdapter.resetReplyList(replyList)
+                        //mAdapter.resetReplyList(replyList)
                         postInfo.replies = replyList
                         PresenterPost.instance?.deleteReply(postInfo)
                         dlg.dismiss()
@@ -131,45 +185,46 @@ class ActivityDetailPost : AppCompatActivity() {
                 }
             }
         })
-
-        mBinding.imBackDetailPost.setOnClickListener { v ->
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
-        }
-
-        //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트
-        mBinding.imSendDetail.setOnClickListener { v ->
-            managePasswordDialog()
-            dlg.findViewById<View>(R.id.bt_ok_dialog)
-                .setOnClickListener { t: View? ->
-                    val reply: String = mBinding.edReplyDetail.getText().toString()
-                    val inputPassword =
-                        (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
-                            .toString()
-                    val re = Replies(reply, inputPassword.toInt())
-                    Log.i("##INFO", "onViewClick(): re.getReply() = $reply")
-                    replyList.add(re)
-                    Log.i(
-                        "##INFO",
-                        "onViewClick(): replayList.size = " + replyList.size
-                    )
-                    postInfo.replies = replyList
-                    PresenterPost.instance?.setReply(postInfo)
-                    dlg.dismiss()
-                    mAdapter.updateReplyList(replyList)
-                    mBinding.edReplyDetail.setText("")
-                }
-            Log.i("##INFO", "onViewClick(): replayList.size = " + replyList.size)
-            //            mBinding.tvRepliesCountDetailPost.setText(replyList.size() + "");
-
-            //댓글 입력시 자동으로 키보드 내림
-            val view = this.currentFocus
-            if (view != null) {
-                val imm =
-                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
-            }
-        }
+*/
+//        mBinding.imBackDetailPost.setOnClickListener { v ->
+//            startActivity(Intent(this, HomeActivity::class.java))
+//            finish()
+//        }
+//
+//        //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트
+//        mBinding.imSendDetail.setOnClickListener { v ->
+//            Log.i("##INFO", "reply")
+//            managePasswordDialog()
+//            dlg.findViewById<View>(R.id.bt_ok_dialog)
+//                .setOnClickListener { t: View? ->
+//                    val reply: String = mBinding.edReplyDetail.getText().toString()
+//                    val inputPassword =
+//                        (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
+//                            .toString()
+//                    val re = Replies(reply, inputPassword.toInt())
+//                    Log.i("##INFO", "onViewClick(): re.getReply() = $reply")
+//                    replyList.add(re)
+//                    Log.i(
+//                        "##INFO",
+//                        "onViewClick(): replayList.size = " + replyList.size
+//                    )
+//                    postInfo.replies = replyList
+//                    PresenterPost.instance?.setReply(postInfo)
+//                    dlg.dismiss()
+//                    mAdapter.updateReplyList(replyList)
+//                    mBinding.edReplyDetail.setText("")
+//                }
+//            Log.i("##INFO", "onViewClick(): replayList.size = " + replyList.size)
+//            //            mBinding.tvRepliesCountDetailPost.setText(replyList.size() + "");
+//
+//            //댓글 입력시 자동으로 키보드 내림
+//            val view = this.currentFocus
+//            if (view != null) {
+//                val imm =
+//                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(view.windowToken, 0)
+//            }
+//        }
 
 
     }
@@ -186,6 +241,7 @@ class ActivityDetailPost : AppCompatActivity() {
 //        }
 //    }
 //
+/*
     private fun managePasswordDialog() {
         dlg = Dialog(this@ActivityDetailPost, R.style.theme_dialog)
         dlg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -207,4 +263,5 @@ class ActivityDetailPost : AppCompatActivity() {
     companion object {
         private const val TAG = "##H"
     }
-}
+
+}*/

@@ -65,7 +65,7 @@ class PresenterPost private constructor() {
                         data.fishspecies = java.lang.String.valueOf(res["fishspecies"])
                         data.content = java.lang.String.valueOf(res["content"])
                         data.password = java.lang.String.valueOf(res["password"])
-                        data.replies = java.util.ArrayList<Replies>(res["replies"] as Collection<Replies?>?)
+                        data.replies = java.util.ArrayList<String>(res["replies"] as Collection<String?>?)
                         data.pictures = ArrayList(res["pictures"] as Collection<String>?)
                         data.favorites = res.get("favorites") as HashMap<String, Boolean>
                         data.favoriteCount = java.lang.String.valueOf(res.get("favoriteCount")).toInt()
