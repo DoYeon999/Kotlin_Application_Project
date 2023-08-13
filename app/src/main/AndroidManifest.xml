@@ -74,15 +74,19 @@
             android:exported="true"
             />
         <activity
-
             android:name="com.example.myapplication.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity
+        android:name="com.example.myapplication.IntroActivity"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
         <activity android:name="com.example.myapplication.community.SignUpActivity"/>
         <activity android:name="com.example.myapplication.community.HomeActivity"
             android:exported="true"/>
