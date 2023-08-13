@@ -3,7 +3,6 @@ package com.example.myapplication.FishingContent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
-import com.example.kotlin_application_project.R
 import com.example.kotlin_application_project.databinding.ActivityFishingContentPosterBinding
 import com.example.myapplication.FishingContent.model.Poster
 

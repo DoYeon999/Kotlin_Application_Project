@@ -1,14 +1,11 @@
 package com.example.myapplication.FishingContent
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.kotlin_application_project.R
 import com.example.kotlin_application_project.databinding.ActivityNewbieBinding
 import com.example.myapplication.FishingContent.model.Guide
 import com.example.myapplication.FishingContent.recycler.NewbieAdpater
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Newbie : AppCompatActivity() {

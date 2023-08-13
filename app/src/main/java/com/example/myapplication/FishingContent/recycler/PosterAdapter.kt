@@ -1,16 +1,11 @@
 package com.example.myapplication.FishingContent.recycler
 
-import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.kotlin_application_project.R
 import com.example.kotlin_application_project.databinding.ItemPosterBinding
 import com.example.myapplication.FishingContent.FishingContentPoster

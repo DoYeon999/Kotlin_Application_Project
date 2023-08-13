@@ -21,9 +21,16 @@ class APIApplication : Application(){
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+    val retrofit3 : Retrofit
+        get() = Retrofit.Builder()
+            .baseUrl("http://10.100.103.29:8088/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
     init {
         tideService = retrofit.create(NetworkService::class.java)
         temperService = retrofit2.create(TemperService::class.java)
+        fishService = retrofit3.create(FishService::class.java)
     }
 
 }

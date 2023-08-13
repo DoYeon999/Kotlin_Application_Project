@@ -9,13 +9,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="포스터 수정 완료 .&#10;2023 . 08 . 11">
+    <list default="true" id="279d4818-f2d4-4718-924a-98b1b64d23e4" name="Changes" comment="포스터 수정 완료 .&#10;2023 . 08 . 11">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContent.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/NewbieAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/NewbieAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_newbie.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_newbie.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_newbie.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContentPoster.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/FishingContentPoster.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/Newbie.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/Newbie.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/FishingContent/recycler/PosterAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/community/ActivityDetailPost.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/community/ActivityDetailPost.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/community/PresenterPost.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/community/PresenterPost.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/weather_imgfind/weather/BottomSheetDialog.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/weather_imgfind/weather/BottomSheetDialog.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/weather_imgfind/weather/MapActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/myapplication/weather_imgfind/weather/MapActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +113,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/it/AndroidStudioProjects/Kotlin_Application_Project/app/src/androidTest/java&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/it/AndroidStudioProjects/Kotlin_Application_Project_0805&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/it/AndroidStudioProjects/Kotlin_Application_Project&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -144,7 +149,7 @@
       <recent name="com.example.myapplication.FishingContent.retrofit" />
     </key>
   </component>
-  <component name="RunManager" selected="Android App.FishingContent (1)">
+  <component name="RunManager" selected="Android App.Newbie">
     <configuration name="FishingContent (1)" type="AndroidRunConfigurationType" factoryName="Android App" temporary="true">
       <module name="My_Application.app.main" />
       <option name="DEPLOY" value="true" />
@@ -511,10 +516,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Android App.FishingContent (1)" />
         <item itemvalue="Android App.Newbie" />
-        <item itemvalue="Android App.FishingContentPoster" />
         <item itemvalue="Gradle.Kotlin_Application_Project:app [signingReport]" />
+        <item itemvalue="Android App.FishingContent (1)" />
+        <item itemvalue="Android App.FishingContentPoster" />
         <item itemvalue="Android App.FishingContent" />
       </list>
     </recent_temporary>
@@ -525,7 +530,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7aef9acb-47ad-4237-a8ff-8e826229bbd8" name="Changes" comment="" />
+      <changelist id="279d4818-f2d4-4718-924a-98b1b64d23e4" name="Changes" comment="포스터 수정 완료 .&#10;2023 . 08 . 11" />
       <created>1691125601266</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
