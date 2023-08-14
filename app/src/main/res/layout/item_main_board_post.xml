@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/boardrecycleitem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:background="@drawable/backgorund_line"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_content_detail_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/boardrecycleitem">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sc_content_image_detail_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/layout_content_detail_post">
+
+                <ImageView
+                    android:id="@+id/im_one_detail_post"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:adjustViewBounds="true"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/profileLayout"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/im_one_detail_post"
+                    android:layout_width="300dp"
+                    android:layout_height="30dp">
+
+                    <ImageView
+                        android:id="@+id/profileImg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/boardprofile"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/boardNickname"
+                        android:layout_width="200dp"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
+                        android:layout_marginTop="6dp"
+                        android:paddingLeft="16dp"
+                        app:layout_constraintStart_toEndOf="@id/profileImg"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fishPointLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profileLayout"
+                    android:layout_width="300dp"
+                    android:layout_height="40dp">
+
+                    <ImageView
+                        android:id="@+id/fishImg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/boardfish"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_fishspecies"
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
+                        android:text="감성돔"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        app:layout_constraintStart_toEndOf="@id/fishImg"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/whereImg"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/nowpoint"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_fishspecies"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/catchedplace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="거제도"
+                        app:layout_constraintStart_toEndOf="@id/whereImg"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tv_content_detail_post"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/fishPointLayout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="\n1\n1\n2\n\3" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_tools_detail_post"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sc_content_image_detail_post">
+
+            <Button
+                android:id="@+id/likebtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="170dp"
+                android:background="@drawable/button_like"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/likefill"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/like_fill"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/emptyCnt"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/likebtn"/>
+
+            <TextView
+                android:id="@+id/fullCnt"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginLeft="15dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/likefill"/>
+
+            <TextView
+                android:id="@+id/total_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="55dp"
+                android:text="전체 댓글"
+                android:textColor="@color/navy_200"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_replies_count_detail_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/total_reply"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/navy_200"
+                android:textStyle="bold"
+                tools:text="3" />
+
+            <TextView
+                android:id="@+id/tv_modify_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ 수정 ]"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_delete_content"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_delete_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ 삭제 ]"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/popup"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:onClick="onClick"
+                android:text="popup"
+                android:adjustViewBounds="true"
+                android:background="@drawable/thebogy"
+                android:layout_marginLeft="270dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_reply_title"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_tools_detail_post">
+
+<!--            <TextView-->
+<!--                android:id="@+id/total_reply"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                android:text="전체 댓글"-->
+<!--                android:textColor="@color/navy_200"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_replies_count_detail_post"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@id/total_reply"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:textColor="@color/navy_200"-->
+<!--                android:textStyle="bold"-->
+<!--                tools:text="3" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
