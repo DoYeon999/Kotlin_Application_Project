@@ -12,13 +12,22 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:layout_margin="40dp" />
-    
+        android:src="@drawable/godeungau"
+        android:layout_margin="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:backgroundTint="#F7ECECEC"
+        android:background="@drawable/round">
     <TextView
         android:id="@+id/fishname"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginBottom="20sp"
+        android:layout_marginTop="20dp"
         android:text="고등어"
         android:gravity="center"
         android:layout_gravity="center"
@@ -37,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="5dp"
         android:text="생김새"
         android:textSize="15sp" />
 
@@ -71,7 +79,7 @@
     <TextView
         android:id="@+id/fishplace"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="5dp"
         android:text="서식지"
@@ -79,11 +87,11 @@
     <TextView
         android:id="@+id/fisheat"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="5dp"
         android:text="미끼추천"
         android:textSize="15sp" />
-
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>
