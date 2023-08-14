@@ -12,7 +12,7 @@ class IntroActivity  : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
         Handler().postDelayed(Runnable {
-            val intent = Intent(this@IntroActivity, FishinfoActivity::class.java)
+            val intent = Intent(this@IntroActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

@@ -1,6 +1,7 @@
 package com.example.myapplication.FishingContent
 
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import com.example.myapplication.databinding.ActivityNewbieBinding
 import com.example.myapplication.FishingContent.model.Guide
 import com.example.myapplication.FishingContent.recycler.NewbieAdpater
 import com.example.myapplication.FishingContent.recycler.NewbieAdpater2
+import com.example.myapplication.FishingContent.recycler.PhDividerItemDecoration
 import com.example.myapplication.weather_imgfind.net.APIApplication
 import com.google.firebase.firestore.FirebaseFirestore
 import retrofit2.Call
@@ -109,6 +111,8 @@ class Newbie : AppCompatActivity() {
         nbAdapter = NewbieAdpater(newbies)
         //Log.d("tt", "=====${nbAdapter.guides.toString()}=====")
         binding.recyclerView2.adapter = nbAdapter
+        val linearLayoutManager = PhDividerItemDecoration(10F, Color.BLACK)
+        binding.recyclerView2.addItemDecoration(linearLayoutManager)
 //        val binding = ActivityNewbieBinding.inflate(layoutInflater)
 //        val recycle  = binding.recyclerView2
 
@@ -119,6 +123,8 @@ class Newbie : AppCompatActivity() {
         nbAdapter2 = NewbieAdpater2(newbies)
         //Log.d("tt", "=====${nbAdapter.guides.toString()}=====")
         binding.recyclerView2.adapter = nbAdapter2
+        val linearLayoutManager = PhDividerItemDecoration(10F, Color.BLACK)
+        binding.recyclerView2.addItemDecoration(linearLayoutManager)
 //        val binding = ActivityNewbieBinding.inflate(layoutInflater)
 //        val recycle  = binding.recyclerView2
 

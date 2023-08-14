@@ -6,12 +6,18 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.FishingContent.FishingContent
+import com.example.myapplication.FishingContent.Newbie
+import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.kdy.FishinfoActivity
 import com.example.myapplication.kdy.FishplaceActivity
+import com.example.myapplication.kdy.JoinActivity
 import com.example.myapplication.kdy.LoginActivity
 import com.example.myapplication.kdy.adapter.InfoAdapter
 import com.example.myapplication.kdy.adapter.MainAdapter
+import com.example.myapplication.weather_imgfind.findfish.FindFishActivity
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,11 +35,57 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.mainDrawerView.setNavigationItemSelectedListener {
-            Toast.makeText(
-                this@MainActivity,
-                "navigation item click... ${it.title}",
-                Toast.LENGTH_SHORT
-            ).show()
+            it ->
+            if(it.title == "날씨") {
+                val intent = Intent(this@MainActivity, MapActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "낚시포인트") {
+                val intent = Intent(this@MainActivity, FishplaceActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "낚시박사") {
+                val intent = Intent(this@MainActivity, FishinfoActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "커뮤니티") {
+                val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "낚시대회") {
+                val intent = Intent(this@MainActivity, FishingContent::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "초보자가이드") {
+                val intent = Intent(this@MainActivity, Newbie::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "로그인") {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title == "회원가입") {
+                val intent = Intent(this@MainActivity, JoinActivity::class.java)
+                startActivity(intent)
+            }
+
+            else if(it.title =="검색") {
+                val intent = Intent(this@MainActivity, FindFishActivity::class.java)
+                startActivity(intent)
+            }
+//
+//            Toast.makeText(
+//                this@MainActivity,
+//                "navigation item click... ${it.title}",
+//                Toast.LENGTH_SHORT
+//            ).show()
             true
         }
 
