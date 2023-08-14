@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.kotlin_application_project">
+    package="com.example.myapplication">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -16,7 +16,8 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name="com.example.myapplication.FishingContent.MyApplication"
+        android:name="com.example.myapplication.weather_imgfind.net.APIApplication"
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,12 +27,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishinfoActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishpageActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.FishplaceActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.LoginActivity"
+            android:exported="true" />
+
+        <activity
+            android:name="com.example.myapplication.kdy.JoinActivity"
+            android:exported="true" />
         <activity
             android:name="com.example.myapplication.FishingContent.FishingContentPoster"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name="com.example.myapplication.FishingContent.MyApplication" -->
-        <!-- android:exported="false" /> -->
         <activity
             android:name="com.example.myapplication.FishingContent.Newbie"
             android:exported="true" />
@@ -45,14 +63,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
         <activity
-            android:name=".community.MainActivity"
-            android:name=".weather_imgfind.findfish.FindFishActivity"
+            android:name="com.example.myapplication.community.MainActivity"
+            android:exported = "true"/>
+        <activity
+            android:name="com.example.myapplication.weather_imgfind.findfish.FindFishActivity"
             android:exported="true" />
+
         <activity
-            android:name=".weather_imgfind.weather.BottomSheetDialog"
-            android:exported="false" />
-        <activity
-            android:name=".weather_imgfind.weather.MapActivity"
+            android:name="com.example.myapplication.weather_imgfind.weather.MapActivity"
             android:exported="true"
             />
         <activity
@@ -65,10 +83,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".community.SignUpActivity"/>
-        <activity android:name=".community.HomeActivity"/>
-        <activity android:name=".community.ActivityDetailPost"/>
-        <activity android:name=".community.ActivityWritePost"/>
+        <activity android:name="com.example.myapplication.community.SignUpActivity"/>
+        <activity android:name="com.example.myapplication.community.HomeActivity"/>
+        <activity android:name="com.example.myapplication.community.ActivityDetailPost"/>
+        <activity android:name="com.example.myapplication.community.ActivityWritePost"/>
     </application>
 
 </manifest>

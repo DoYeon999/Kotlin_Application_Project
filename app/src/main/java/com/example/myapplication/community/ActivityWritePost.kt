@@ -1,18 +1,27 @@
 package com.example.myapplication.community
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.webkit.GeolocationPermissions
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.myapplication.community.util.FileUtils
 import com.example.myapplication.databinding.ActivityWritePostBinding
@@ -23,7 +32,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.NaverMapSdk
+import com.naver.maps.map.util.FusedLocationSource
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.util.function.Consumer
 
 class ActivityWritePost : AppCompatActivity() {
@@ -36,10 +53,20 @@ class ActivityWritePost : AppCompatActivity() {
     private var favoritesList = mutableMapOf<String, Boolean>()
     private val bitmapList = ArrayList<Bitmap>()
     private val maxSize = 2
+    private var addr = ""
+    private lateinit var locationManager : LocationManager
+    private lateinit var naverMap : NaverMap
+    private val locationPermissionCode = 1001
+    private val PERMISSION_REQUEST_CODE = 1
+    private var lat : Double = 0.0
+    private var lng : Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityWritePostBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        requestLocationPermissions()
+        startLocationUpdates()
         initVariable()
         setPostItem()
         onViewClick()
@@ -83,6 +110,7 @@ class ActivityWritePost : AppCompatActivity() {
             Log.d("#######", "uri 없음 !!")
         }
     }
+
     private val isPhotoPickerAvailable: Boolean
         private get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 
@@ -103,6 +131,70 @@ class ActivityWritePost : AppCompatActivity() {
         }
     }
 
+    private fun requestLocationPermissions() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                PERMISSION_REQUEST_CODE
+            )
+        } else {
+            startLocationUpdates()
+        }
+    }
+
+    private fun startLocationUpdates() {
+        try {
+            locationManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                10000000000, // Minimum time interval between location updates (in milliseconds)
+                10f, // Minimum distance between location updates (in meters)
+                locationListener
+            )
+        } catch (e: SecurityException) {
+            e.printStackTrace()
+        }
+    }
+
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            lat = location.latitude
+            lng = location.longitude
+            Log.d("lsy", "locationListener : ${lat}, ${lng}")
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startLocationUpdates()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Location permission denied.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
     //endregion
     private fun initVariable() {}
     private fun setPostItem() {
@@ -110,7 +202,7 @@ class ActivityWritePost : AppCompatActivity() {
 
         // 넘어온 데이터가 있을 경우
         if (getPostData != null) {
-            mBinding.edTitleWrite.setText(getPostData.title)
+            mBinding.edFishspeciesWrite.setText(getPostData.fishspecies)
             mBinding.edContentWrite.setText(getPostData.content)
             mBinding.edPasswordWrite.setText(getPostData.password)
             postId = getPostData.id
@@ -126,10 +218,10 @@ class ActivityWritePost : AppCompatActivity() {
         mBinding.btCreateWrite.setOnClickListener { v ->
             mBinding.prLoadingPost.setVisibility(View.VISIBLE)
             //user 입력란에 공백이 있는지에 대한 확인
-            val title: String = mBinding.edTitleWrite.getText().toString()
+            val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
             val content: String = mBinding.edContentWrite.getText().toString()
             val password: String = mBinding.edPasswordWrite.getText().toString()
-            if (title.isEmpty() && password.isEmpty()) {
+            if (fishspecies.isEmpty() && password.isEmpty()) {
                 Toast.makeText(this, "빈 부분이 있습니다", Toast.LENGTH_SHORT).show()
                 mBinding.prLoadingPost.setVisibility(View.GONE)
             } else if (!bitmapList.isEmpty()) {
@@ -178,7 +270,7 @@ class ActivityWritePost : AppCompatActivity() {
         val storageRef: StorageReference = storage.getReference()
         val randomNum = (Math.random() * 100000).toInt()
         val mountainsRef: StorageReference =
-            storageRef.child(mBinding.edTitleWrite.text.toString() + randomNum.toString() + ".jpg")
+            storageRef.child(mBinding.edFishspeciesWrite.text.toString() + randomNum.toString() + ".jpg")
         val baos = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -203,36 +295,88 @@ class ActivityWritePost : AppCompatActivity() {
     }
 
     private fun addPost() {
-        val title: String = mBinding.edTitleWrite.getText().toString()
+        val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
         val content: String = mBinding.edContentWrite.getText().toString()
         val password: String = mBinding.edPasswordWrite.getText().toString()
         auth = FirebaseAuth.getInstance()
         val nowuid = auth?.currentUser?.uid
         var nowUserNick = ""
         var res = false
-        db.collection("Users").document(nowuid.toString()).get().addOnSuccessListener {
-            nowUserNick = it.get("nickname").toString()
-            Log.d("test1234", "$nowUserNick")
-            //Log.d("test1234", "${it.data?.get("nickname")}")
-            res = PresenterPost.instance!!.setPost(
-                PostDataModel(
-                    postId,
-                    nowUserNick,
-                    title,
-                    content,
-                    password,
-                    ArrayList(),
-                    imageUriList,
-                    0,
-                    favoritesList
-                ), postId
-            )
-            if (res) {
-                Toast.makeText(this, "게시글 작성에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                Toast.makeText(this, "게시글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+        NaverMapSdk.getInstance(this).client = NaverMapSdk.NaverCloudPlatformClient("qvyf49n4ce")
+        //val location = locationSource.lastLocation
+        //val latLng = LatLng(35.17511139898044, 129.17485747232317)
+        //val latLng = LatLng(33.447950785763965, 134.8336172422697)
+        var latLng = LatLng(lat, lng)
+        //if(location != null) latLng = LatLng(location?.latitude!!, location?.longitude!!)
+        //else latLng = LatLng(33.447950785763965, 134.8336172422697)
+        val client = OkHttpClient()
+        val apiKey = "qvyf49n4ce"
+        val url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=${latLng.longitude},${latLng.latitude}&sourcecrs=epsg:4326&output=json"
+
+        val request = Request.Builder()
+            .url(url)
+            .header("X-NCP-APIGW-API-KEY-ID", apiKey)
+            .header("X-NCP-APIGW-API-KEY", "iuQKWKRJphGXCsxwK3BTegMJzFejD0PxIb5ABxWD")
+            .build()
+        Log.d("maptest", "${request.url}")
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+
+                Log.e("maptest", "Error: ${e.message}")
             }
-        }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                val responseBody = response.body?.string()
+                Log.d("maptest", "Address: $responseBody")
+                val jsonObject = JSONObject(responseBody)
+
+                val check = jsonObject.getJSONObject("status").get("code").toString() == "0"
+                Log.d("maptest", "Address: $check")
+                if(check) {
+                    val address = jsonObject.getJSONArray("results").get(0).toString()
+                    val addr0 = JSONObject(address).getJSONObject("region").getJSONObject("area0").get("name")
+                    val addr1 = JSONObject(address).getJSONObject("region").getJSONObject("area1").get("name")
+                    val addr2 = JSONObject(address).getJSONObject("region").getJSONObject("area2").get("name")
+                    val addr3 = JSONObject(address).getJSONObject("region").getJSONObject("area3").get("name")
+                    addr += String.format("%s %s %s", addr1.toString(), addr2.toString(), addr3.toString())
+                    Log.d("maptest", "Address: $addr0 - $addr1 - $addr2 - $addr3")
+                    Log.d("maptest", "###$addr###")
+                } else {
+                    Log.d("maptest", "###xxxxxxxxxx##")
+                    addr += String.format("[%.2f, %.2f]", latLng.latitude, latLng.longitude)
+                    Log.d("maptest", "바다 - [위도, 경도] : [${latLng.latitude}, ${latLng.longitude}]")
+                    Log.d("maptest", "###$addr###")
+                }
+
+                db.collection("Users").document(nowuid.toString()).get().addOnSuccessListener {
+                    nowUserNick = it.get("nickname").toString()
+                    Log.d("test1234", "$nowUserNick")
+                    Log.d("test1234", "$addr")
+                    //Log.d("test1234", "${it.data?.get("nickname")}")
+                    res = PresenterPost.instance!!.setPost(
+                        PostDataModel(
+                            postId,
+                            nowUserNick,
+                            fishspecies,
+                            content,
+                            password,
+                            ArrayList(),
+                            imageUriList,
+                            0,
+                            favoritesList,
+                            addr
+                        ), postId
+                    )
+                    if (res) {
+                        Toast.makeText(this@ActivityWritePost, "게시글 작성에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@ActivityWritePost, "게시글 작성에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        })
+
     }
+
 }

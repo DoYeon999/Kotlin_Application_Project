@@ -11,15 +11,16 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.kotlin_application_project.R
-import com.example.kotlin_application_project.databinding.ItemPosterBinding
 import com.example.myapplication.FishingContent.FishingContentPoster
+import com.example.myapplication.FishingContent.model.FishContest
 import com.example.myapplication.FishingContent.model.Poster
+import com.example.myapplication.R
+import com.example.myapplication.databinding.ItemPosterBinding
 import com.google.firebase.storage.FirebaseStorage
 
 class PosterViewHolder(val binding: ItemPosterBinding): RecyclerView.ViewHolder(binding.root)
 
-class PosterAdapter(val posters:List<Poster>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private lateinit var fsview : View
     private lateinit var nowview : View
@@ -40,8 +41,8 @@ class PosterAdapter(val posters:List<Poster>) : RecyclerView.Adapter<RecyclerVie
         Log.d("tt22tt", "$poster")
 //        val imageRef = storageReference.child(nowGuide.ps)
         val binding=(holder as PosterViewHolder).binding
-        binding.title.text = poster.title
-        binding.date.text = poster.date
+        binding.title.text = poster.contesttitle
+        binding.date.text = poster.contestthumbnail
 //        imageRef.downloadUrl.addOnSuccessListener { uri
 //            -> val nowUrl = uri.toString()
 //            Glide.with(fsview.context)
