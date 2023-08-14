@@ -1,37 +1,28 @@
 package com.example.myapplication
 
 import android.content.Intent
-import android.net.Uri
-import android.os.Build.VERSION_CODES.M
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.PopupMenu
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.kdy.FishinfoActivity
 import com.example.myapplication.kdy.FishplaceActivity
-import com.example.myapplication.kdy.JoinActivity
 import com.example.myapplication.kdy.LoginActivity
-import com.google.firebase.firestore.auth.User
-import com.navercorp.nid.NaverIdLoginSDK
-import com.navercorp.nid.oauth.NidOAuthLogin
-import com.navercorp.nid.oauth.OAuthLoginCallback
-import com.google.firebase.FirebaseApp
+import com.example.myapplication.kdy.adapter.InfoAdapter
+import com.example.myapplication.kdy.adapter.MainAdapter
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.ktx.initialize
+import com.google.firebase.storage.FirebaseStorage
+import com.navercorp.nid.NaverIdLoginSDK
+
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 //    var user: User? = null
 
+    data class Main(val fishname : String, val fishimg : String)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,15 +39,56 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-//        binding.profileImage.setOnClickListener {
-//            showPopup(binding.profileImage)
-//        }
 
-        binding.naverlogout.setOnClickListener {
-            NaverIdLoginSDK.logout()
-            val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+        val database = Firebase.firestore
+        val docList = database.collection("8월제철")
+        var mainfish = mutableListOf<Main>()
+        var count = 0
+        docList.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val docs = document.documents
+                    var checkflag = true
+                    docs.forEach {
+                        if(!checkflag) return@forEach
+                        if(it.exists()) {
+                            Log.d("test11111", "${it.data?.get("fishimg")}")
+                            Log.d("test11111", "${it.data?.get("fishname")}")
+                            val storage =
+                                FirebaseStorage.getInstance("gs://fishing-4f003.appspot.com")
+                            val storageRef =
+                                storage.reference.child(it.data?.get("fishimg").toString())
+                            storageRef.downloadUrl
+                                .addOnSuccessListener { uri ->
+                                    mainfish.add(
+                                        Main(
+                                            it.data?.get("fishname").toString(),
+                                            uri.toString()
+                                        )
+                                    )
+                                    count++
+                                    if (docs.size == count) {
+                                        Log.d("test1234", "aaaaaaaaaaaaaaaaa")
+                                        val mainAdapter = MainAdapter(mainfish)
+                                        val linearLayoutManager = LinearLayoutManager(this)
+                                        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+                                        binding.mainfish.layoutManager = linearLayoutManager
+                                        binding.mainfish.adapter = mainAdapter
+                                    }
+                                }
+                        }
+                    }
+                }
+
+            }
+
+
+        //네이버 로그아웃
+//        binding.naverlogout.setOnClickListener {
+//            NaverIdLoginSDK.logout()
+//            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+//            startActivity(intent)
+//        }
 
         binding.fishinfo.setOnClickListener {
             val intent = Intent(this@MainActivity, FishinfoActivity::class.java)
@@ -67,6 +99,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, FishplaceActivity::class.java)
             startActivity(intent)
         }
+
+        //        binding.profileImage.setOnClickListener {
+//            showPopup(binding.profileImage)
+//        }
+
 
     }
 
