@@ -30,7 +30,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/boardprofile" />
+        android:src="@drawable/profile" />
     </androidx.cardview.widget.CardView>
 
     <EditText
