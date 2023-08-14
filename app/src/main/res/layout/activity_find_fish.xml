@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/cameraButton"
-        android:text="Take Picture"
+        android:text="카메라"
         android:textAllCaps="false"
         android:layout_alignParentBottom="true"
         android:textSize="20dp"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:text="Pick Picture"
+        android:text="갤러리"
         android:textAllCaps="false"
         android:textSize="20dp"
         android:textStyle="bold" />

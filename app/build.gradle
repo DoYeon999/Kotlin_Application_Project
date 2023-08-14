@@ -2,10 +2,11 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
-    namespace 'com.example.kotlin_application_project'
+    namespace 'com.example.myapplication'
     compileSdk 33
 
     defaultConfig {
@@ -14,13 +15,13 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -36,10 +37,6 @@ android {
         viewBinding true
         mlModelBinding true
     }
-    buildFeatures {
-        viewBinding true
-    }
-
 }
 
 dependencies {
@@ -48,16 +45,7 @@ dependencies {
     // json 변환하기 위한 라이브러리, gson 예시.
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
-    implementation 'com.google.firebase:firebase-firestore:24.7.0'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.2.1'
-    implementation "androidx.multidex:multidex:2.0.1"
-    implementation(platform("com.google.firebase:firebase-bom:32.2.2"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-
-
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -67,16 +55,20 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
     implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:22.1.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
 
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:29.2.0')
-    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation platform('com.google.firebase:firebase-bom:32.2.2')
+    implementation('com.google.firebase:firebase-analytics-ktx')
+    implementation 'com.google.firebase:firebase-firestore:+'
+    implementation 'com.google.firebase:firebase-firestore-ktx:+'
     implementation 'com.google.firebase:firebase-database-ktx'
-    implementation 'com.google.firebase:firebase-storage:17.0.0'
+    implementation 'com.google.firebase:firebase-storage:20.2.1'
 
     // Add the dependency for the Firebase SDK for Google Analytics
     // When using the BoM, don't specify versions in Firebase dependencies
@@ -88,9 +80,11 @@ dependencies {
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-auth'
-
+    implementation 'com.google.firebase:firebase-auth:22.1.1'
+    implementation 'com.google.firebase:firebase-database:20.2.2'
+    implementation 'com.google.android.material:material:1.9.0'
     // Also declare the dependency for the Google Play services library and specify its version
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.android.gms:play-services-auth:20.6.0'
 
     // image
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -102,4 +96,10 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:3.2.0'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.github.usingsky:KoreanLunarCalendar:0.3.1'
+    implementation 'com.google.firebase:firebase-core:+'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.navercorp.nid:oauth:5.7.0'
+    implementation("com.naver.maps:map-sdk:3.17.0")
+
 }

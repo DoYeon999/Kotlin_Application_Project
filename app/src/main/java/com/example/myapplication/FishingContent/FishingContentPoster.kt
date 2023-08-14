@@ -3,8 +3,8 @@ package com.example.myapplication.FishingContent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
-import com.example.kotlin_application_project.databinding.ActivityFishingContentPosterBinding
 import com.example.myapplication.FishingContent.model.Poster
+import com.example.myapplication.databinding.ActivityFishingContentPosterBinding
 
 class FishingContentPoster : AppCompatActivity() {
     private lateinit var binding : ActivityFishingContentPosterBinding

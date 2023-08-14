@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlin_application_project.R
+import com.example.myapplication.R
 
 class AdapterReplay(list: ArrayList<Replies>) :
     RecyclerView.Adapter<AdapterReplay.ViewHolderReplay>() {

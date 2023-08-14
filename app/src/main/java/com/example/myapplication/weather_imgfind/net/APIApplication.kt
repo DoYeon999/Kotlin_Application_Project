@@ -1,6 +1,7 @@
 package com.example.myapplication.weather_imgfind.net
 
 import android.app.Application
+import com.example.myapplication.FishingContent.FishService
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -8,6 +9,7 @@ class APIApplication : Application(){
 
     var tideService : NetworkService
     var temperService : TemperService
+    var fishService : FishService
 
     val retrofit : Retrofit
         get() = Retrofit.Builder()
@@ -23,7 +25,7 @@ class APIApplication : Application(){
 
     val retrofit3 : Retrofit
         get() = Retrofit.Builder()
-            .baseUrl("http://10.100.103.29:8088/")
+            .baseUrl("http://10.100.103.33:8088/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
