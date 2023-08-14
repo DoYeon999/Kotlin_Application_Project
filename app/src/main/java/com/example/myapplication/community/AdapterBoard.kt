@@ -8,12 +8,14 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,14 +31,14 @@ import org.w3c.dom.Text
  * 게시판의 게시글을 보여주는 어댑터 및 게시글의 관리 클래스
  */
 class AdapterBoard(list: ArrayList<PostDataModel>) :
-    RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>() {
+    RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>(), PopupMenu.OnMenuItemClickListener{
 
     private var pList: ArrayList<PostDataModel>
     private val db = FirebaseFirestore.getInstance()
     private val COLLECTION_PATH = "BoardPosts"
     private lateinit var dlg : Dialog
     private lateinit var nowContext : Context
-    private var pos = -1
+    private var pos = 0
 
     init {
         pList = list
@@ -50,6 +52,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolderMainBoard, position: Int) {
+        pos = holder.adapterPosition
         Log.d("##test", "${pList[position].replies.toString()}")
         val postInfo = pList[position]
         holder.fishspecies.text = postInfo.fishspecies
@@ -65,6 +68,11 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         //삭제버튼 클릭시 게시글 삭제
         holder.nickname.text = postInfo.nickname
         holder.replyCnt.text = postInfo.replies.size.toString()
+        holder.popup.setOnClickListener {
+            showPopup(holder.popup)
+        }
+
+        /*
         holder.deleteButton.setOnClickListener { v ->
             managePasswordDialog()
             //상단에 취소키를 눌렀을때 다이얼로그창 종료
@@ -117,7 +125,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                             .show()
                     }
                 }
-        }
+        }*/
 
         val auth = FirebaseAuth.getInstance()
         val nowUser = auth?.currentUser?.uid
@@ -204,12 +212,97 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
             if(position >= 0) { i.putExtra("PostInfo", pList[position]) }
             nowContext.startActivity(i)
         }
+
         //holder.onItemClick()
     }
 
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        when (item?.itemId) { // 메뉴 아이템에 따라 동작 다르게 하기
+            R.id.tv_modify_content -> modifyPost(pList[pos])
+            R.id.tv_delete_content -> deletePost(pList[pos])
+        }
+
+        return item != null // 아이템이 null이 아닌 경우 true, null인 경우 false 리턴
+    }
+
+
+    private fun modifyPost(postInfo: PostDataModel) {
+        managePasswordDialog()
+        //상단에 취소키를 눌렀을때 다이얼로그창 종료
+        dlg!!.findViewById<View>(R.id.im_cancel_dialog)
+            .setOnClickListener { t: View? -> dlg!!.dismiss() }
+        dlg!!.findViewById<View>(R.id.bt_ok_dialog)
+            .setOnClickListener { t: View? ->
+                val password: String = postInfo.password
+                val inputPassword =
+                    (dlg!!.findViewById<View>(R.id.ed_password_dialog) as EditText).text
+                        .toString()
+                if (inputPassword == password) {
+                    dlg!!.dismiss()
+                    val i =
+                        Intent(nowContext, ActivityWritePost::class.java)
+                    i.putExtra("postInfo", postInfo)
+                    nowContext.startActivity(i)
+                    val contextActivity = nowContext as AppCompatActivity
+                    contextActivity.finish()
+                } else {
+                    Toast.makeText(nowContext, "비밀번호가 틀립니다", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+    }
+
+    private fun deletePost(postInfo: PostDataModel) {
+        managePasswordDialog()
+        //상단에 취소키를 눌렀을때 다이얼로그창 종료
+        dlg.findViewById<View>(R.id.im_cancel_dialog)
+            .setOnClickListener { t: View? -> dlg.dismiss() }
+        dlg.findViewById<View>(R.id.bt_ok_dialog)
+            .setOnClickListener { t: View? ->
+                val password: String = postInfo.password
+                val inputPassword =
+                    (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
+                        .toString()
+                if (inputPassword == password) {
+                    val updates = hashMapOf<String, Any>(
+                        "Posts" to FieldValue.delete(),
+                    )
+
+                    postInfo.id.let {
+                        db.collection(COLLECTION_PATH).document(it).delete().addOnSuccessListener {
+                            Log.i(
+                                "##INFO",
+                                "deletePost(): success"
+                            )
+                        }.addOnFailureListener { e ->
+                            Log.i(
+                                "##INFO",
+                                "deletePost(): e = " + e.message
+                            )
+                        }
+                    }
+                    dlg.dismiss()
+                    Toast.makeText(nowContext, "게시글이 삭제되었습니다", Toast.LENGTH_SHORT)
+                        .show()
+                    val intent = Intent(nowContext, HomeActivity::class.java)
+                    nowContext.startActivity(intent)
+                    //val contextActivity = nowContext as AppCompatActivity
+                    //contextActivity.finish()
+                } else {
+                    Toast.makeText(nowContext, "비밀번호가 틀립니다", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+    }
+
+    private fun showPopup(v: View) {
+        val popup = PopupMenu(nowContext, v) // PopupMenu 객체 선언
+        popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
+        popup.setOnMenuItemClickListener(this)
+        popup.show() // 팝업 보여주기
+    }
+
     private fun checkMyFavorite(user : String, post : PostDataModel, holder: ViewHolderMainBoard){
-        Log.d("test1234", "forCheckFavorite")
-        Log.d("test1234", "$user=========$post")
         if(post.favorites.containsKey(user)) {
             holder.likeFillButton.visibility = View.VISIBLE
             holder.likeEmptyButton.visibility = View.GONE
@@ -255,26 +348,26 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     }
 
     //게시글을 삭제하는 메서드
-    fun deletePost(postInfo: PostDataModel): Boolean {
-        val updates = hashMapOf<String, Any>(
-            "Posts" to FieldValue.delete(),
-        )
-
-        postInfo.id.let {
-            db.collection(COLLECTION_PATH).document(it).delete().addOnSuccessListener {
-                Log.i(
-                    "##INFO",
-                    "deletePost(): success"
-                )
-            }.addOnFailureListener { e ->
-                Log.i(
-                    "##INFO",
-                    "deletePost(): e = " + e.message
-                )
-            }
-        }
-        return true
-    }
+//    fun deletePost(postInfo: PostDataModel): Boolean {
+//        val updates = hashMapOf<String, Any>(
+//            "Posts" to FieldValue.delete(),
+//        )
+//
+//        postInfo.id.let {
+//            db.collection(COLLECTION_PATH).document(it).delete().addOnSuccessListener {
+//                Log.i(
+//                    "##INFO",
+//                    "deletePost(): success"
+//                )
+//            }.addOnFailureListener { e ->
+//                Log.i(
+//                    "##INFO",
+//                    "deletePost(): e = " + e.message
+//                )
+//            }
+//        }
+//        return true
+//    }
 
     override fun getItemCount(): Int {
         return pList.size
@@ -297,8 +390,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         val picture: ImageView
         val likeEmptyButton : Button
         val likeFillButton : Button
-        val modifyButton : TextView
-        val deleteButton : TextView
+        //val modifyButton : TextView
+        //val deleteButton : TextView
         val nickname : TextView
         val likeCnt : TextView
         val likeCnt2 : TextView
@@ -306,16 +399,18 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         val fishspecies : TextView
         val catchedplace : TextView
         val commentbtn : TextView
+        val popup : Button
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
+            popup = itemView.findViewById(R.id.bt_popup)
             content = itemView.findViewById(R.id.tv_content_detail_post)
             //replayCount = itemView.findViewById<TextView>(R.id.tv_re_count_item_post)
             picture = itemView.findViewById(R.id.im_one_detail_post)
             likeEmptyButton = itemView.findViewById(R.id.likebtn)
             likeFillButton = itemView.findViewById(R.id.likefill)
-            modifyButton = itemView.findViewById(R.id.tv_modify_content)
-            deleteButton = itemView.findViewById(R.id.tv_delete_content)
+            //modifyButton = itemView.findViewById(R.id.tv_modify_content)
+            //deleteButton = itemView.findViewById(R.id.tv_delete_content)
             nickname = itemView.findViewById(R.id.boardNickname)
             likeCnt = itemView.findViewById(R.id.emptyCnt)
             likeCnt2 = itemView.findViewById(R.id.fullCnt)
