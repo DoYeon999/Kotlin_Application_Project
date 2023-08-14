@@ -1,23 +1,8 @@
 package com.example.myapplication
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.FishingContent.FishingContent
-import com.example.myapplication.FishingContent.Newbie
-import com.example.myapplication.community.HomeActivity
-import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.kdy.FishinfoActivity
-import com.example.myapplication.kdy.FishplaceActivity
-import com.example.myapplication.kdy.JoinActivity
-import com.example.myapplication.kdy.LoginActivity
-import com.example.myapplication.kdy.adapter.InfoAdapter
-import com.example.myapplication.kdy.adapter.MainAdapter
-import com.example.myapplication.weather_imgfind.findfish.FindFishActivity
-import com.example.myapplication.weather_imgfind.weather.MapActivity
+import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage

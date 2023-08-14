@@ -2,6 +2,7 @@ package com.example.myapplication.FishingContent
 
 import com.example.myapplication.FishingContent.model.FishBait
 import com.example.myapplication.FishingContent.model.FishContest
+import com.example.myapplication.FishingContent.model.FishFish
 import com.example.myapplication.FishingContent.model.FishRope
 import com.example.myapplication.kdy.model.FishInfoModel
 import retrofit2.Call
@@ -30,6 +31,13 @@ interface FishService {
     @GET("fish/fishcontestdetail")
     fun fishContestDetail(
         @Query("fcid") fcid : Long) : Call<FishContest>
+
+    @GET("fish/fishfishlist")
+    fun fishFishList(): Call<List<FishFish>>
+
+    @GET("fish/fishfishdetail")
+    fun fishFishDetail(
+        @Query("ffid") ffid:Long) : Call<FishFish>
 
     @GET("fish/fishlist")
     fun getFishList(

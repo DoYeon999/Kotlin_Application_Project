@@ -1,13 +1,22 @@
 package com.example.myapplication.FishingContent
 
+import android.app.Dialog
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.myapplication.FishingContent.model.FishContest
-import com.example.myapplication.databinding.ActivityFishingContentBinding
 import com.example.myapplication.FishingContent.model.Poster
+import com.example.myapplication.FishingContent.recycler.PhDividerItemDecoration
 import com.example.myapplication.FishingContent.recycler.PosterAdapter
+import com.example.myapplication.databinding.ActivityFishingContentBinding
 import com.example.myapplication.weather_imgfind.net.APIApplication
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -42,7 +42,7 @@ class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<Recycl
 //        val imageRef = storageReference.child(nowGuide.ps)
         val binding=(holder as PosterViewHolder).binding
         binding.title.text = poster.contesttitle
-        binding.date.text = poster.contestdate
+        binding.date.text = poster.contestthumbnail
 //        imageRef.downloadUrl.addOnSuccessListener { uri
 //            -> val nowUrl = uri.toString()
 //            Glide.with(fsview.context)
@@ -67,7 +67,16 @@ class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<Recycl
             intent.putExtra("posterimg", poster)
             nowview.context.startActivity(intent)
 
+//            val dialog = Dialog(fsview2.context)
+//            dialog.setContentView(binding.root)
+//            val ps: ImageView = dialog.findViewById(R.id.ps)
+//            imageRef.downloadUrl.addOnSuccessListener { uri ->
+//                val nowUrl = uri.toString()
+//                Glide.with(fsview2.context)
+//                    .load(nowUrl)
+//                    .into(ps)
             }
+//            dialog.show()
         }
 
 //        binding.title.text = nowGuide.title
