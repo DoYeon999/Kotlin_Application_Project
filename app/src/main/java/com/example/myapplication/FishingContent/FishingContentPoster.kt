@@ -33,7 +33,7 @@ class FishingContentPoster : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick).text = nick
+        findViewById<TextView>(R.id.toolbarnick).text = "\n" + nick
         if(url != "") {
             Glide.with(this)
                 .load(url)
