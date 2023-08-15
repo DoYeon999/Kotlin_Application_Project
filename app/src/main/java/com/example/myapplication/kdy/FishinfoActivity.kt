@@ -58,21 +58,11 @@ class FishinfoActivity : AppCompatActivity() {
                     docs.forEach {
                         if(!checkflag) return@forEach
                         if(it.exists()) {
-                            Log.d("test11111", "${it.data?.get("commuimg")}")
-                            val storage =
-                                FirebaseStorage.getInstance("gs://fishing-4f003.appspot.com")
-                            val storageRef =
-                                storage.reference.child(it.data?.get("commuimg").toString())
-                            storageRef.downloadUrl
-                                .addOnSuccessListener { uri ->
-                                   fishinginfo.add(
-                                       Info(
-                                           uri.toString()
-                                       )
-                                   )
+                            val storage = FirebaseStorage.getInstance("gs://fishing-4f003.appspot.com")
+                            val storageRef = storage.reference.child(it.data?.get("commuimg").toString())
+                            storageRef.downloadUrl.addOnSuccessListener { uri -> fishinginfo.add(Info(uri.toString()))
                                     count++
                             if (docs.size == count) {
-                                Log.d("test1234", "aaaaaaaaaaaaaaaaa")
                                 val infoAdapter = InfoAdapter(fishinginfo)
                                 val linearLayoutManager = LinearLayoutManager(this)
                                 linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL

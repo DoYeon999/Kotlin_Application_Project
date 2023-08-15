@@ -140,8 +140,9 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                 }
         }*/
 
-        val auth = FirebaseAuth.getInstance()
-        val nowUser = auth?.currentUser?.uid
+        //val auth = FirebaseAuth.getInstance()
+        val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nowUser = sharedPref.getString("id", "")
 
         checkMyFavorite(nowUser.toString(), pList[position], holder)
 

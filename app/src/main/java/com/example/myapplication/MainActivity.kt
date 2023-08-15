@@ -14,15 +14,20 @@ import com.example.myapplication.FishingContent.FishingContent
 import com.example.myapplication.FishingContent.Newbie
 import com.example.myapplication.FishingContent.model.FishContest
 import com.example.myapplication.community.HomeActivity
+import com.example.myapplication.community.PostDataModel
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.kdy.FishinfoActivity
 import com.example.myapplication.kdy.FishplaceActivity
 import com.example.myapplication.kdy.JoinActivity
 import com.example.myapplication.kdy.LoginActivity
+import com.example.myapplication.kdy.adapter.CommunityAdapter
 import com.example.myapplication.kdy.adapter.MainAdapter
+import com.example.myapplication.kdy.adapter.MainbanerAdapter
+import com.example.myapplication.kdy.adapter.PlaceAdapter
 import com.example.myapplication.weather_imgfind.findfish.FindFishActivity
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -32,7 +37,6 @@ import com.navercorp.nid.NaverIdLoginSDK
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 //    var user: User? = null
-
     data class Main(val fishname : String, val fishimg : String)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,21 +47,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, MainActivity::class.java)
             startActivity(intent)
         }
-
+        // sharedPreference에서 데이터 받아와서 이름/프로필사진 띄움
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        Log.d("maintest", "--${sharedPref.getString("nickname", "")}--" )
-        Log.d("maintest", "--${sharedPref.getString("profileuri", "")}--" )
         findViewById<TextView>(R.id.toolbarnick2).text = nick
         if(url != "") {
             Glide.with(this)
                 .load(url)
                 .into(findViewById(R.id.toolbarprofile2))
         }
+        binding.viewpagerbaner.adapter = MainbanerAdapter(this)
 
-        binding.mainDrawerView.setNavigationItemSelectedListener {
-            it ->
+        binding.mainDrawerView.setNavigationItemSelectedListener { it ->
             if(it.title == "날씨") {
                 val intent = Intent(this@MainActivity, MapActivity::class.java)
                 startActivity(intent)
@@ -126,8 +128,6 @@ class MainActivity : AppCompatActivity() {
                     docs.forEach {
                         if(!checkflag) return@forEach
                         if(it.exists()) {
-                            Log.d("test11111", "${it.data?.get("fishimg")}")
-                            Log.d("test11111", "${it.data?.get("fishname")}")
                             val storage =
                                 FirebaseStorage.getInstance("gs://fishing-4f003.appspot.com")
                             val storageRef =
@@ -142,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                                     )
                                     count++
                                     if (docs.size == count) {
-                                        Log.d("test1234", "aaaaaaaaaaaaaaaaa")
                                         val mainAdapter = MainAdapter(mainfish)
                                         val linearLayoutManager = LinearLayoutManager(this)
                                         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -183,6 +182,36 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, FishingContent::class.java)
             startActivity(intent)
         }
+
+        val db = Firebase.firestore.collection("BoardPosts")
+        var imgcnt = 0
+        var totalcnt = 0
+        var urilist = mutableListOf<String>()
+        val imgs = db.get()
+            .addOnSuccessListener { doc ->
+                if(doc != null) {
+                    val myimg = doc.documents
+                    var imgcount = 0
+                    myimg.forEach{
+                        if(it.exists()) {
+                            val img = ((it.data?.getValue("Posts") as HashMap<String, String>))
+                                .getValue("pictures") as MutableList<String>
+                            totalcnt++
+                            if(imgcnt < 5) {
+                                urilist.add(img.get(0))
+                                imgcnt++
+                        }
+                            if(doc.size() == totalcnt) {
+                                binding.commnuityrecyclerview.adapter = CommunityAdapter(urilist)
+                                val linearLayoutManager = LinearLayoutManager(this)
+                                linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+                                binding.commnuityrecyclerview.layoutManager = linearLayoutManager
+                            }
+
+                    }
+                    }
+                }
+            }
 
 
 

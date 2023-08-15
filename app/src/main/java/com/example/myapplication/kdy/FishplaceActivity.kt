@@ -44,10 +44,7 @@ class FishplaceActivity : AppCompatActivity() {
                 .load(url)
                 .into(findViewById(R.id.toolbarprofile))
         }
-
         databaseCallfunc("영흥도")
-
-
         binding.yeongheundo.setOnClickListener {
             databaseCallfunc("영흥도")
         }
@@ -65,7 +62,6 @@ class FishplaceActivity : AppCompatActivity() {
         }
 
     }
-
     fun databaseCallfunc(docName : String) {
         val database = Firebase.firestore
         val docList = database.collection(docName)
@@ -79,9 +75,6 @@ class FishplaceActivity : AppCompatActivity() {
                     docs.forEach {
                         if(!checkflag) return@forEach
                         if(it.exists()) {
-                            Log.d("test11111", "${it.data?.get("name")}")
-                            Log.d("test11111", "${it.data?.get("fish")}")
-                            Log.d("test11111", "${it.data?.get("tel")}")
                             val storage =
                                 FirebaseStorage.getInstance("gs://fishing-4f003.appspot.com")
                             val storageRef =
@@ -114,7 +107,6 @@ class FishplaceActivity : AppCompatActivity() {
 
 
     fun fishingplacefunc(places : MutableList<Place>) {
-        Log.d("test1234", "***********$places")
         val placeAdpater = PlaceAdapter(places)
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
