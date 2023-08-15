@@ -34,9 +34,12 @@ class JoinActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
     private var profileuri : String? = ""
+    private var id : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityJoinBinding.inflate(layoutInflater)
+        var sameidcheck = false
+        var count = 0
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -55,17 +58,15 @@ class JoinActivity : AppCompatActivity() {
                     .apply(RequestOptions().override(150, 150))
                     .centerCrop()
                     .into(binding.profileImage)
+                // 이미지 파이어베이스 스토리지에 저장 - 파일명 앞에 현재시간 붙임
                 val storageRef : StorageReference = storage.reference
-                Log.d("registertest", "$imgUri , ${imgUri?.lastPathSegment}")
                 val profilelocation = "userimages/${System.currentTimeMillis()}_${imgUri?.lastPathSegment}"
                 val imageRef = storageRef.child(profilelocation)
                 imageRef.putFile(imgUri!!)
                     .addOnSuccessListener {
                         it.storage.downloadUrl.addOnSuccessListener {
                             profileuri = it.toString()
-                            Log.d("registertest", "$profileuri")
                         }.addOnFailureListener {
-                            Log.d("registertest", "failure`1111")
                         }
                     }
                 val cursor = contentResolver.query(
@@ -99,17 +100,46 @@ class JoinActivity : AppCompatActivity() {
             )
 
         }
+            // 중복체크
+            binding.sameidcheck.setOnClickListener {
+                id = binding.idInput.text.toString()
+                if(! id.isEmpty()) {
+                    if (sameidcheck) Toast.makeText(this, "이미 확인하였습니다.", Toast.LENGTH_SHORT).show()
+                    else {
+                        db.collection("UserInfo").get().addOnSuccessListener {
+                            val ids = it.documents
+                            for (user in ids) {
+                                val tempuser = user.data
+                                Log.d("aabbccdd", "$id -- ${tempuser?.get("id")} -- $sameidcheck")
+                                Log.d("aabbccdd", "${it.size()} -- $count")
+                                if (tempuser?.get("id") == id) {
+                                    sameidcheck = false
+                                    break
+                                }
+                                count++
+                                sameidcheck = true
+                            }
+                            if (count == it.size() && sameidcheck) {
+                                Toast.makeText(this, "가능한 아이디입니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            if (!sameidcheck) {
+                                sameidcheck = false
+                                Toast.makeText(this, "불가능한 아이디입니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "아이디를 입력하세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
             //회원가입 버튼
             binding.joinbutton.setOnClickListener {
-
                 val name: String = binding.nameInput.text.toString()
                 val nickname: String = binding.nicknameInput.text.toString()
                 val tel: String = binding.telInput.text.toString()
                 val id: String = binding.idInput.text.toString()
                 val pw: String = binding.pwInput.text.toString()
                 val pw2: String = binding.pw2Input.text.toString()
-
-                Log.d("registertest", "tttttttttt")
 
                 // 사용자가 필수 입력 사항을 모두 입력하지 않은 경우
                 if (id.isEmpty() || name.isEmpty() || nickname.isEmpty() || tel.isEmpty() || pw.isEmpty() || pw2.isEmpty()) {
@@ -120,22 +150,16 @@ class JoinActivity : AppCompatActivity() {
                     }
                 }
 
-                Log.d("registertest", "32532525")
-                Log.d("registertest", "$isExistBlank $isPWSame")
-
-                if (!isExistBlank && isPWSame) {
+                if (!isExistBlank && isPWSame && sameidcheck) {
                     val user = UserModel(name, nickname, tel, id, pw, profileuri!!)
-                    Log.d("registertest", "$profileuri")
                     db.collection("UserInfo")
                         .add(user)
                         .addOnSuccessListener {
-                            Log.d("registertest", "success")
                             Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .addOnCanceledListener {
-                            Log.d("registertest", "fail")
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
 

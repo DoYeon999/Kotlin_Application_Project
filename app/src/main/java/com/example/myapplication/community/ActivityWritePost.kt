@@ -69,6 +69,8 @@ class ActivityWritePost : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityWritePostBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+        val sharedPrefs = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nowUserNick = sharedPrefs.getString("nickname", "")
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<ImageView>(R.id.logomain).setOnClickListener {
             val intent = Intent(this@ActivityWritePost, MainActivity::class.java)
@@ -369,15 +371,17 @@ class ActivityWritePost : AppCompatActivity() {
                     Log.d("maptest", "###$addr###")
                 }
 
+                val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+                val nowUserNick = sharedPref.getString("id", "")
+
                 db.collection("Users").document(nowuid.toString()).get().addOnSuccessListener {
-                    nowUserNick = it.get("nickname").toString()
                     Log.d("test1234", "$nowUserNick")
                     Log.d("test1234", "$addr")
                     //Log.d("test1234", "${it.data?.get("nickname")}")
                     res = PresenterPost.instance!!.setPost(
                         PostDataModel(
                             postId,
-                            nowUserNick,
+                            nowUserNick!!,
                             fishspecies,
                             content,
                             password,

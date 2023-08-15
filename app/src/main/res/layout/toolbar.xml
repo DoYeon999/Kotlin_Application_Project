@@ -48,7 +48,8 @@
                 android:src="@drawable/profile"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginRight="5dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

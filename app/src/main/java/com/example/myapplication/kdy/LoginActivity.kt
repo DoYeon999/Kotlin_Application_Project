@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        //로그인 버튼
+        //로그인 버튼 - 로그인 시에 shared preference에 로그인 정보를 넣음
         binding.loginbutton.setOnClickListener{
             val id : String = binding.idInput.text.toString()
             val pw : String = binding.pwInput.text.toString()
@@ -57,8 +57,7 @@ class LoginActivity : AppCompatActivity() {
             var count = 0
             db.collection("UserInfo")
                 .get()
-                .addOnSuccessListener { users
-                    ->
+                .addOnSuccessListener { users ->
                     for(user in users.documents) {
                         val tempuser = user.data
                         if(id == tempuser?.get("id") && pw == tempuser?.get("password")) {
