@@ -30,16 +30,13 @@ import org.w3c.dom.Text
 /**
  * 게시판의 게시글을 보여주는 어댑터 및 게시글의 관리 클래스
  */
-class AdapterBoard(list: ArrayList<PostDataModel>) :
-    RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>(), PopupMenu.OnMenuItemClickListener{
+class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>(){
 
     private var pList: ArrayList<PostDataModel>
     private val db = FirebaseFirestore.getInstance()
     private val COLLECTION_PATH = "BoardPosts"
     private lateinit var dlg : Dialog
     private lateinit var nowContext : Context
-    private var pos = 0
-
     init {
         pList = list
     }
@@ -52,7 +49,6 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolderMainBoard, position: Int) {
-        pos = holder.adapterPosition
         Log.d("##test", "${pList[position].replies.toString()}")
         val postInfo = pList[position]
         holder.fishspecies.text = postInfo.fishspecies
@@ -69,7 +65,24 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         holder.nickname.text = postInfo.nickname
         holder.replyCnt.text = postInfo.replies.size.toString()
         holder.popup.setOnClickListener {
-            showPopup(holder.popup)
+            //showPopup(holder.popup)
+            val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
+            popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
+            //popup.setOnMenuItemClickListener(this)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.tv_modify_content -> {
+                        modifyPost(postInfo)
+                        true
+                    }
+                    R.id.tv_delete_content -> {
+                        deletePost(postInfo)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show() // 팝업 보여주기
         }
 
         /*
@@ -216,18 +229,10 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
         //holder.onItemClick()
     }
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        when (item?.itemId) { // 메뉴 아이템에 따라 동작 다르게 하기
-            R.id.tv_modify_content -> modifyPost(pList[pos])
-            R.id.tv_delete_content -> deletePost(pList[pos])
-        }
-
-        return item != null // 아이템이 null이 아닌 경우 true, null인 경우 false 리턴
-    }
-
 
     private fun modifyPost(postInfo: PostDataModel) {
         managePasswordDialog()
+        //Log.d("##test", "${adapterPosition}")
         //상단에 취소키를 눌렀을때 다이얼로그창 종료
         dlg!!.findViewById<View>(R.id.im_cancel_dialog)
             .setOnClickListener { t: View? -> dlg!!.dismiss() }
@@ -243,8 +248,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                         Intent(nowContext, ActivityWritePost::class.java)
                     i.putExtra("postInfo", postInfo)
                     nowContext.startActivity(i)
-                    val contextActivity = nowContext as AppCompatActivity
-                    contextActivity.finish()
+                    //val contextActivity = nowContext as AppCompatActivity
+                    //contextActivity.finish()
                 } else {
                     Toast.makeText(nowContext, "비밀번호가 틀립니다", Toast.LENGTH_SHORT)
                         .show()
@@ -293,13 +298,6 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
                         .show()
                 }
             }
-    }
-
-    private fun showPopup(v: View) {
-        val popup = PopupMenu(nowContext, v) // PopupMenu 객체 선언
-        popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
-        popup.setOnMenuItemClickListener(this)
-        popup.show() // 팝업 보여주기
     }
 
     private fun checkMyFavorite(user : String, post : PostDataModel, holder: ViewHolderMainBoard){
@@ -374,6 +372,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) :
     }
 
     fun updatePostList(list: ArrayList<PostDataModel>) {
+        Log.d("##INFO", "$list")
         pList = list
         notifyDataSetChanged()
     }

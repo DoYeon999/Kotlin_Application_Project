@@ -14,6 +14,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.webkit.GeolocationPermissions
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -23,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import com.example.myapplication.community.util.FileUtils
 import com.example.myapplication.databinding.ActivityWritePostBinding
 import com.google.android.gms.tasks.OnFailureListener
@@ -39,6 +43,7 @@ import com.naver.maps.map.util.FusedLocationSource
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.function.Consumer
@@ -64,6 +69,21 @@ class ActivityWritePost : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityWritePostBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@ActivityWritePost, MainActivity::class.java)
+            startActivity(intent)
+        }
+        findViewById<TextView>(R.id.activitytitle).text = "글쓰기"
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        findViewById<TextView>(R.id.toolbarnick).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile))
+        }
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         requestLocationPermissions()
         startLocationUpdates()
@@ -236,7 +256,7 @@ class ActivityWritePost : AppCompatActivity() {
                 addPost()
             }
         }
-        mBinding.imBackWrite.setOnClickListener { v -> finish() }
+
         mBinding.ibtGetPhotoWrite.setOnClickListener { v ->
             if (mBinding.imOneWrite.getDrawable() != null) {
                 Toast.makeText(this@ActivityWritePost, "이미지는 최대 1장까지 선택 가능합니다.", Toast.LENGTH_SHORT)

@@ -13,8 +13,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.myapplication.community.UserModel
 import com.example.myapplication.databinding.ActivityJoinBinding
 import com.example.myapplication.kdy.util.dateToString
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import io.grpc.Context.Storage
 import java.util.Date
 
 
@@ -26,6 +31,9 @@ class JoinActivity : AppCompatActivity() {
     var imgStatus = 0
     var defaultdocId: String = "profile"
     var imgUri: Uri? = null
+    private val db = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
+    private var profileuri : String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityJoinBinding.inflate(layoutInflater)
@@ -47,8 +55,19 @@ class JoinActivity : AppCompatActivity() {
                     .apply(RequestOptions().override(150, 150))
                     .centerCrop()
                     .into(binding.profileImage)
-
-
+                val storageRef : StorageReference = storage.reference
+                Log.d("registertest", "$imgUri , ${imgUri?.lastPathSegment}")
+                val profilelocation = "userimages/${System.currentTimeMillis()}_${imgUri?.lastPathSegment}"
+                val imageRef = storageRef.child(profilelocation)
+                imageRef.putFile(imgUri!!)
+                    .addOnSuccessListener {
+                        it.storage.downloadUrl.addOnSuccessListener {
+                            profileuri = it.toString()
+                            Log.d("registertest", "$profileuri")
+                        }.addOnFailureListener {
+                            Log.d("registertest", "failure`1111")
+                        }
+                    }
                 val cursor = contentResolver.query(
                     it.data?.data as Uri,
                     arrayOf<String>(MediaStore.Images.Media.DATA), null, null, null
@@ -57,6 +76,7 @@ class JoinActivity : AppCompatActivity() {
                     filePath = cursor?.getString(0) as String
                 }
             }
+            else profileuri = ""
         }
 
         //프로필 추가
@@ -89,6 +109,8 @@ class JoinActivity : AppCompatActivity() {
                 val pw: String = binding.pwInput.text.toString()
                 val pw2: String = binding.pw2Input.text.toString()
 
+                Log.d("registertest", "tttttttttt")
+
                 // 사용자가 필수 입력 사항을 모두 입력하지 않은 경우
                 if (id.isEmpty() || name.isEmpty() || nickname.isEmpty() || tel.isEmpty() || pw.isEmpty() || pw2.isEmpty()) {
                     isExistBlank = true
@@ -98,20 +120,36 @@ class JoinActivity : AppCompatActivity() {
                     }
                 }
 
+                Log.d("registertest", "32532525")
+                Log.d("registertest", "$isExistBlank $isPWSame")
+
                 if (!isExistBlank && isPWSame) {
+                    val user = UserModel(name, nickname, tel, id, pw, profileuri!!)
+                    Log.d("registertest", "$profileuri")
+                    db.collection("UserInfo")
+                        .add(user)
+                        .addOnSuccessListener {
+                            Log.d("registertest", "success")
+                            Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .addOnCanceledListener {
+                            Log.d("registertest", "fail")
+                            Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                        }
 
                     // 회원가입 성공 토스트 메세지 띄우기
-                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
 
                     // 유저가 입력한 id, pw를 쉐어드에 저장한다.
-                    val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
-                    val editor = sharedPreference.edit()
-                    editor.putString("id", id)
-                    editor.putString("pw", pw)
-                    editor.apply()
+                    //val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
+                    //val editor = sharedPreference.edit()
+                    //editor.putString("id", id)
+                    //editor.putString("pw", pw)
+                    //editor.apply()
                     // 로그인 화면으로 이동
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
+                    //val intent = Intent(this, LoginActivity::class.java)
+                    //startActivity(intent)
 
                 } else {
                     // 상태에 따라 다른 다이얼로그 띄워주기
@@ -125,6 +163,7 @@ class JoinActivity : AppCompatActivity() {
                 }
 
             }
+
             binding.backlogin.setOnClickListener {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)

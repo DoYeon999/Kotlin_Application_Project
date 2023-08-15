@@ -1,7 +1,27 @@
 package com.example.myapplication
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.myapplication.FishingContent.FishingContent
+import com.example.myapplication.FishingContent.Newbie
+import com.example.myapplication.FishingContent.model.FishContest
+import com.example.myapplication.community.HomeActivity
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.kdy.FishinfoActivity
+import com.example.myapplication.kdy.FishplaceActivity
+import com.example.myapplication.kdy.JoinActivity
+import com.example.myapplication.kdy.LoginActivity
+import com.example.myapplication.kdy.adapter.MainAdapter
+import com.example.myapplication.weather_imgfind.findfish.FindFishActivity
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,6 +38,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        findViewById<ImageView>(R.id.logomain2).setOnClickListener {
+            val intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        Log.d("maintest", "--${sharedPref.getString("nickname", "")}--" )
+        Log.d("maintest", "--${sharedPref.getString("profileuri", "")}--" )
+        findViewById<TextView>(R.id.toolbarnick2).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile2))
+        }
 
         binding.mainDrawerView.setNavigationItemSelectedListener {
             it ->
@@ -74,7 +111,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        setSupportActionBar(binding.toolbar)
+        //setSupportActionBar(binding.toolbar)
 
 
         val database = Firebase.firestore
@@ -127,6 +164,11 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
+        binding.weatherforfishing.setOnClickListener {
+            val intent = Intent(this@MainActivity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.fishinfo.setOnClickListener {
             val intent = Intent(this@MainActivity, FishinfoActivity::class.java)
             startActivity(intent)
@@ -136,6 +178,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, FishplaceActivity::class.java)
             startActivity(intent)
         }
+
+        binding.fishtonement.setOnClickListener {
+            val intent = Intent(this@MainActivity, FishingContent::class.java)
+            startActivity(intent)
+        }
+
+
 
         //        binding.profileImage.setOnClickListener {
 //            showPopup(binding.profileImage)

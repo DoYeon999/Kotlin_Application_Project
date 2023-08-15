@@ -1,11 +1,19 @@
 package com.example.myapplication.community
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBoardBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
 
@@ -18,7 +26,21 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        findViewById<ImageView>(R.id.logomain).setOnClickListener{
+            val intent = Intent(this@HomeActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
+        findViewById<TextView>(R.id.activitytitle).text = "커뮤니티"
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        findViewById<TextView>(R.id.toolbarnick).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile))
+        }
         initVariable()
         getPosts()
         onViewClick()
@@ -50,7 +72,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun onViewClick() {
-        binding.imWriteMainBoard.setOnClickListener {
+        findViewById<FloatingActionButton>(R.id.im_write_main_board).setOnClickListener {
+            Log.d("aaa", "clicked")
             startActivity(Intent(this, ActivityWritePost::class.java))
         }
     }

@@ -42,7 +42,7 @@ class PosterAdapter(val posters:List<FishContest>) : RecyclerView.Adapter<Recycl
 //        val imageRef = storageReference.child(nowGuide.ps)
         val binding=(holder as PosterViewHolder).binding
         binding.title.text = poster.contesttitle
-        binding.date.text = poster.contestthumbnail
+        binding.date.text = poster.contestdate
 //        imageRef.downloadUrl.addOnSuccessListener { uri
 //            -> val nowUrl = uri.toString()
 //            Glide.with(fsview.context)

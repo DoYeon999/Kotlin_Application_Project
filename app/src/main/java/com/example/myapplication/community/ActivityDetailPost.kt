@@ -12,10 +12,14 @@ import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityDetailPostBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -43,9 +47,20 @@ class ActivityDetailPost : AppCompatActivity() {
         //onViewClick()
         setReplyData(postInfo.replies)
 
-        mBinding.imBackDetailPost.setOnClickListener { v ->
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+        findViewById<ImageView>(R.id.logomain).setOnClickListener{
+            val intent = Intent(this@ActivityDetailPost, MainActivity::class.java)
+            startActivity(intent)
+        }
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish()}
+        findViewById<TextView>(R.id.activitytitle).text = "댓글"
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        findViewById<TextView>(R.id.toolbarnick).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile))
         }
 
         //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트
