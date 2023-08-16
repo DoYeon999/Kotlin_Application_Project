@@ -42,19 +42,16 @@ class Newbie : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             newbielist.clear()
-            Log.d("testtest1234", "asdfasdfasdfasdfasfasd")
             loadFirestoreData("매듭")  // 원하는 문서 ID를 적절히 변경하세요
         }
 
         binding.button1.setOnClickListener {
             newbielist.clear()
-            Log.d("testtest1234", "werqwrweqteqwtqwtqwetwetqwet")
             loadFirestoreData("미끼")  // 원하는 문서 ID를 적절히 변경하세요
         }
 
         binding.button2.setOnClickListener {
             newbielist.clear()
-            Log.d("testtest1234", "werqwrweqteqwtqwtqwetwetqwet")
             loadFirestoreData("회")  // 원하는 문서 ID를 적절히 변경하세요
         }
 

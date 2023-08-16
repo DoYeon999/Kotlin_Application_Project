@@ -110,8 +110,6 @@ class JoinActivity : AppCompatActivity() {
                             val ids = it.documents
                             for (user in ids) {
                                 val tempuser = user.data
-                                Log.d("aabbccdd", "$id -- ${tempuser?.get("id")} -- $sameidcheck")
-                                Log.d("aabbccdd", "${it.size()} -- $count")
                                 if (tempuser?.get("id") == id) {
                                     sameidcheck = false
                                     break
