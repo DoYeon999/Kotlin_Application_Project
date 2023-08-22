@@ -226,7 +226,7 @@ class ActivityWritePost : AppCompatActivity() {
         if (getPostData != null) {
             mBinding.edFishspeciesWrite.setText(getPostData.fishspecies)
             mBinding.edContentWrite.setText(getPostData.content)
-            mBinding.edPasswordWrite.setText(getPostData.password)
+            //mBinding.edPasswordWrite.setText(getPostData.password)
             postId = getPostData.id
 
             //replies = getPostData.replies!!
@@ -243,8 +243,8 @@ class ActivityWritePost : AppCompatActivity() {
             //user 입력란에 공백이 있는지에 대한 확인
             val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
             val content: String = mBinding.edContentWrite.getText().toString()
-            val password: String = mBinding.edPasswordWrite.getText().toString()
-            if (fishspecies.isEmpty() && password.isEmpty()) {
+            //val password: String = mBinding.edPasswordWrite.getText().toString()
+            if (fishspecies.isEmpty()) {
                 Toast.makeText(this, "빈 부분이 있습니다", Toast.LENGTH_SHORT).show()
                 mBinding.prLoadingPost.setVisibility(View.GONE)
             } else if (!bitmapList.isEmpty()) {
@@ -320,7 +320,7 @@ class ActivityWritePost : AppCompatActivity() {
     private fun addPost() {
         val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
         val content: String = mBinding.edContentWrite.getText().toString()
-        val password: String = mBinding.edPasswordWrite.getText().toString()
+        //val password: String = mBinding.edPasswordWrite.getText().toString()
         auth = FirebaseAuth.getInstance()
         val nowuid = auth?.currentUser?.uid
         var nowUserNick = ""
@@ -384,7 +384,6 @@ class ActivityWritePost : AppCompatActivity() {
                             nowUserNick!!,
                             fishspecies,
                             content,
-                            password,
                             ArrayList(),
                             imageUriList,
                             0,

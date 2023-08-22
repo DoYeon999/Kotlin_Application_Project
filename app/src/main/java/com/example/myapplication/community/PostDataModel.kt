@@ -10,7 +10,7 @@ data class PostDataModel(
     var nickname : String = "",
     var fishspecies: String = "",
     var content: String = "",
-    var password: String = "",
+    //var password: String = "",
     var replies: MutableList<String> = ArrayList(),
     var pictures: ArrayList<String> = ArrayList(),
     var favoriteCount: Int = 0,
