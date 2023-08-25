@@ -20,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
@@ -54,10 +55,12 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         holder.fishspecies.text = postInfo.fishspecies
         //holder.replayCount.text = "[${pList[position].replies.size}]"
         if(postInfo.pictures.size > 0) {
-            holder.picture.visibility = View.VISIBLE
+            //holder.picture.visibility = View.VISIBLE
+            /*
             Glide.with(holder.itemView)
                 .load(postInfo.pictures[0])
-                .into(holder.picture)
+                .into(holder.picture)*/
+            holder.picture.adapter = CommunityImageAdapter((nowContext as AppCompatActivity), postInfo.pictures)
         }
         holder.catchedplace.text = postInfo.wherecatchfish
         holder.content.text = postInfo.content
@@ -394,7 +397,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         //val title: TextView
         val content : TextView
         //val replayCount: TextView
-        val picture: ImageView
+        //val picture: ImageView
+        val picture : ViewPager2
         val likeEmptyButton : Button
         val likeFillButton : Button
         //val modifyButton : TextView

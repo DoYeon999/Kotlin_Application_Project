@@ -19,7 +19,6 @@ class Mainbaner1 : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         binding = ActivityMainbaner1Binding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
     }

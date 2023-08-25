@@ -27,15 +27,23 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/layout_content_detail_post">
 
-                <ImageView
+<!--                <ImageView-->
+<!--                    android:id="@+id/im_one_detail_post"-->
+<!--                    android:layout_width="300dp"-->
+<!--                    android:layout_height="300dp"-->
+<!--                    android:adjustViewBounds="true"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_bias="0.504"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+                <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/im_one_detail_post"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
-                    android:adjustViewBounds="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.504"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/profileLayout"
@@ -113,8 +121,7 @@
                         android:layout_marginTop="10dp"
                         android:paddingLeft="10dp"
                         android:text="거제도"
-                        app:layout_constraintStart_toEndOf="@id/whereImg"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintStart_toEndOf="@id/whereImg" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
