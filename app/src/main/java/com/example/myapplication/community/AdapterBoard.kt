@@ -67,8 +67,9 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         holder.popup.setOnClickListener {
             val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
             val nowid = sharedPref.getString("id", "")
+            Log.d("imgtest", "$nowid ------****------ ${postInfo.nickname}")
             //showPopup(holder.popup)
-            if(nowid == postInfo.id) {
+            if(nowid == postInfo.nickname) {
                 val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
                 popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
                 //popup.setOnMenuItemClickListener(this)
