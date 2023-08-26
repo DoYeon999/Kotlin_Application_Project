@@ -293,19 +293,13 @@ class ActivityWritePost : AppCompatActivity() {
             mBinding.imOneWrite5.setImageResource(0)
             if (!imageUriList.isEmpty()) {
                 Log.i("##INFO", "onViewClick(): delete Image to imageUriList")
-                imageUriList.removeAt(0)
-                imageUriList.removeAt(0)
-                imageUriList.removeAt(0)
-                imageUriList.removeAt(0)
-                imageUriList.removeAt(0)
+                val counter = imageUriList.size
+                for(i in 0 until counter) imageUriList.removeAt(0)
             }
             if (!bitmapList.isEmpty()) {
                 Log.i("##INFO", "onViewClick(): delete Image to bitmapList")
-                bitmapList.removeAt(0)
-                bitmapList.removeAt(0)
-                bitmapList.removeAt(0)
-                bitmapList.removeAt(0)
-                bitmapList.removeAt(0)
+                val counter2 = bitmapList.size
+                for(i in 0 until counter2) bitmapList.removeAt(0)
             }
         }
 //        if (!bitmapList.isEmpty()) {

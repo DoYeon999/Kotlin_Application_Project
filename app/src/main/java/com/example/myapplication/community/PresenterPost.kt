@@ -65,7 +65,7 @@ class PresenterPost private constructor() {
                         data.fishspecies = java.lang.String.valueOf(res["fishspecies"])
                         data.content = java.lang.String.valueOf(res["content"])
                         //data.password = java.lang.String.valueOf(res["password"])
-                        data.replies = java.util.ArrayList<String>(res["replies"] as Collection<String?>?)
+                        data.replies = ArrayList<Replies>(res["replies"] as Collection<Replies>?)
                         data.pictures = ArrayList(res["pictures"] as Collection<String>?)
                         data.favorites = res.get("favorites") as HashMap<String, Boolean>
                         data.favoriteCount = java.lang.String.valueOf(res.get("favoriteCount")).toInt()
@@ -81,6 +81,7 @@ class PresenterPost private constructor() {
     }
 
     fun setReply(postInfo: PostDataModel): Boolean {
+        Log.d("##INFO", "$postInfo  ****************")
         postInfo.id.let {
             db.collection(COLLECTION_PATH).document(it).update("Posts", postInfo)
                 .addOnSuccessListener {
@@ -91,6 +92,7 @@ class PresenterPost private constructor() {
 
                 }.addOnFailureListener { e -> Log.i("##INFO", "setReply(): e = " + e.message) }
         }
+        Log.d("##INFO", "UPDATE FINISHED")
         return true
     }
 

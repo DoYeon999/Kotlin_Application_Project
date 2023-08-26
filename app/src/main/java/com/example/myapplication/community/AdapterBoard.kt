@@ -162,6 +162,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
+                postUpdate?.id = postInfo.id
                 postUpdate?.nickname = postInfo.nickname
                 postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
@@ -194,6 +195,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
+                postUpdate?.id = postInfo.id
                 postUpdate?.nickname = postInfo.nickname
                 postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
