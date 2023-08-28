@@ -22,7 +22,7 @@ class APIViewHolder(val binding : ItemPracticeBinding) : RecyclerView.ViewHolder
 // getItemCount
 // onBindViewHolder를 Implement할 것
 class APIAdapter(val context : Context, val datas : List<TideModel>?, val tempers : List<temper>?, val lunars : List<String>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
         = APIViewHolder(ItemPracticeBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun getItemCount(): Int {

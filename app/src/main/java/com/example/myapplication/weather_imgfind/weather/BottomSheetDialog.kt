@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +21,6 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : MutableList<Entry>, val tempers : MutableList<temper>, val where : String, val lunars : List<String>) : BottomSheetDialogFragment() {
 

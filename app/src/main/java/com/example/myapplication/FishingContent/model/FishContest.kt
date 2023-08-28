@@ -6,10 +6,10 @@ import java.io.Serializable
 data class FishContest(
     @SerializedName("fcid")
     var fcid : Long,
-    @SerializedName("contesttitle")
+    @SerializedName("contestname")
     var contesttitle : String,
     @SerializedName("contestdate")
     var contestdate : String,
-    @SerializedName("contestthumbnail")
+    @SerializedName("posterimgurl")
     var contestthumbnail : String
 ) : Serializable

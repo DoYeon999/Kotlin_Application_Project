@@ -3,6 +3,7 @@ package com.example.myapplication.weather_imgfind.findfish
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,6 +17,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityFindFishBinding
 import com.example.myapplication.ml.Model
 import com.example.myapplication.weather_imgfind.adapter.ConfidenceAdpater
@@ -37,6 +41,21 @@ class FindFishActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFindFishBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        findViewById<ImageView>(R.id.logomain).setOnClickListener{
+            val intent = Intent(this@FindFishActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        findViewById<TextView>(R.id.toolbarnick2).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile2))
+        }
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
+        findViewById<TextView>(R.id.activitytitle).text = "어종 검색"
         result = binding.result
         //confidence = binding.confidence
         imageView = binding.imageView
@@ -110,14 +129,9 @@ class FindFishActivity : AppCompatActivity() {
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
             val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
             byteBuffer.order(ByteOrder.nativeOrder())
-            //Log.d("test16", "Classify2")
             // get 1D array of 224 * 224 pixels in image
             val intValues = IntArray(imageSize * imageSize)
-            //Log.d("test16", "${intValues.size}")
-            //Log.d("test16", "${image?.width}, ${image?.height}")
-            //for(x in intValues) Log.d("test16", "$x\n")
             image!!.getPixels(intValues, 0, image.width, 0, 0, image.width, image.height)
-            //Log.d("test16", "Classify3")
             // iterate over pixels and extract R, G, and B values. Add to bytebuffer.
             var pixel = 0
             for (i in 0 until imageSize) {
@@ -129,7 +143,6 @@ class FindFishActivity : AppCompatActivity() {
                 }
             }
             inputFeature0.loadBuffer(byteBuffer)
-            //Log.d("test16", "Classify4")
             // Runs model inference and gets result.
             val outputs: Model.Outputs = model.process(inputFeature0)
             val outputFeature0: TensorBuffer = outputs.getOutputFeature0AsTensorBuffer()

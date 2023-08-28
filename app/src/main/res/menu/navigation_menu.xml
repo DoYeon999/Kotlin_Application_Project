@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:icon="@android:drawable/btn_dropdown"
+        android:icon="@drawable/loginicon"
+        android:title="로그인"/>
+    <item
+        android:icon="@drawable/signupicon"
+        android:title="회원가입"/>
+    <item
+        android:icon="@drawable/fishfindicon"
+        android:title="검색"/>
+    <item
+        android:icon="@drawable/weathericon"
         android:title="날씨"/>
     <item
-        android:icon="@android:drawable/ic_menu_report_image"
+        android:icon="@drawable/fishplaceicon"
         android:title="낚시포인트"/>
     <item
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/fishdictionaryicon"
         android:title="낚시박사"/>
     <item
-        android:icon="@android:drawable/ic_lock_idle_lock"
+        android:icon="@drawable/coummunityicon"
         android:title="커뮤니티"/>
     <item
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/fishcontesticon"
         android:title="낚시대회"/>
     <item
-        android:icon="@android:drawable/ic_menu_call"
+        android:icon="@drawable/newbieguideicon"
         android:title="초보자가이드"/>
+
 
 </menu>

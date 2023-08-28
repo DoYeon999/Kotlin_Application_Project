@@ -11,8 +11,6 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.FishingContent.model.FishRope
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemNewbieBinding
-import com.example.myapplication.FishingContent.model.Guide
-import com.google.firebase.storage.FirebaseStorage
 
 class NewbieViewHolder(val binding: ItemNewbieBinding): RecyclerView.ViewHolder(binding.root)
 

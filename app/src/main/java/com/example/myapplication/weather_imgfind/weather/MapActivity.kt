@@ -2,7 +2,9 @@ package com.example.myapplication.weather_imgfind.weather
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
@@ -13,14 +15,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityBottomSheetDialogBinding
-import com.example.myapplication.databinding.ActivityMapBinding
 import com.example.myapplication.weather_imgfind.model.ForecastModel
 import com.example.myapplication.weather_imgfind.model.TideModel
 import com.example.myapplication.weather_imgfind.model.TidePreModel
@@ -92,6 +96,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     // [START maps_current_place_on_create]
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         //binding = ActivitySixthPracticeGoogleMapBinding.inflate(layoutInflater)
         // [START_EXCLUDE silent]
         // Retrieve location and camera position from saved instance state.
@@ -107,6 +112,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityBottomSheetDialogBinding.inflate(layoutInflater)
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map)
+        findViewById<ImageView>(R.id.logomain).setOnClickListener{
+            val intent = Intent(this@MapActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        findViewById<TextView>(R.id.toolbarnick2).text = nick
+        if(url != "") {
+            Glide.with(this)
+                .load(url)
+                .into(findViewById(R.id.toolbarprofile2))
+        }
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
+        findViewById<TextView>(R.id.activitytitle).text = "날씨"
+
 
         // [START_EXCLUDE silent]
         // Construct a PlacesClient

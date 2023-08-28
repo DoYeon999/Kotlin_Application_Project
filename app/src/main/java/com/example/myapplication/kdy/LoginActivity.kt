@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.myapplication.MainActivity
 import com.example.myapplication.databinding.ActivityLoginBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
 
@@ -46,11 +48,52 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        //로그인 버튼
+        //로그인 버튼 - 로그인 시에 shared preference에 로그인 정보를 넣음
         binding.loginbutton.setOnClickListener{
             val id : String = binding.idInput.text.toString()
             val pw : String = binding.pwInput.text.toString()
+            //var canlogin = false
+            val db = FirebaseFirestore.getInstance()
+            var count = 0
+            db.collection("UserInfo")
+                .get()
+                .addOnSuccessListener { users ->
+                    for(user in users.documents) {
+                        val tempuser = user.data
+                        if(id == tempuser?.get("id") && pw == tempuser?.get("password")) {
+                            val sharedPref = getSharedPreferences("logininfo", MODE_PRIVATE)
+                            sharedPref.edit().run {
+                                putString("id", tempuser?.get("id").toString())
+                                putString("name", tempuser?.get("name").toString())
+                                putString("nickname", tempuser?.get("nickname").toString())
+                                putString("phone", tempuser?.get("phone").toString())
+                                putString("profileuri", tempuser?.get("profileuri").toString())
+                                commit()
+                            }
+                            dialog("success")
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            break
+                        }
+                        count++
+                        if(users.size() == count) {
+                            dialog("failure")
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "failedforlogin", Toast.LENGTH_SHORT).show()
+                }
 
+//            if(canlogin) {
+//                dialog("success")
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//            } else {
+//                dialog("failure")
+//            }
+
+            /*
             // 쉐어드로부터 저장된 id, pw 가져오기
             val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
             val savedId = sharedPreference.getString("id", "")
@@ -68,8 +111,13 @@ class LoginActivity : AppCompatActivity() {
             else{
                 // 로그인 실패 다이얼로그 보여주기
                 dialog("failure")
-            }
+            }*/
 
+        }
+
+        binding.signinbutton.setOnClickListener {
+            val intent = Intent(this@LoginActivity, JoinActivity::class.java)
+            startActivity(intent)
         }
 
         binding.naver.setOnClickListener {

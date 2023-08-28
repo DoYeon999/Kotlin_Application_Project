@@ -7,14 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.myapplication.FishingContent.Newbie">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="초보자 가이드"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"/>
+    <include layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,6 +36,18 @@
             android:text="미끼 끼우는 방법"
             android:textSize="15dp" />
     </LinearLayout>
+
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#3F51B5"
+        android:textColor="@color/white"
+        android:text="회 손질 하는 법"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="15dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView2"

@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.FishingContent.model.FishBait
-import com.example.myapplication.FishingContent.model.FishRope
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemNewbieBinding
-import com.example.myapplication.FishingContent.model.Guide
+
 
 class NewbieViewHolder2(val binding: ItemNewbieBinding): RecyclerView.ViewHolder(binding.root)
 

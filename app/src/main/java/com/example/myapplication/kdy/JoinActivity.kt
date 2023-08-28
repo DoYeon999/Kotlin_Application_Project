@@ -13,8 +13,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.myapplication.community.UserModel
 import com.example.myapplication.databinding.ActivityJoinBinding
 import com.example.myapplication.kdy.util.dateToString
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import io.grpc.Context.Storage
 import java.util.Date
 
 
@@ -26,9 +31,15 @@ class JoinActivity : AppCompatActivity() {
     var imgStatus = 0
     var defaultdocId: String = "profile"
     var imgUri: Uri? = null
+    private val db = FirebaseFirestore.getInstance()
+    private val storage = FirebaseStorage.getInstance()
+    private var profileuri : String? = ""
+    private var id : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding = ActivityJoinBinding.inflate(layoutInflater)
+        var sameidcheck = false
+        var count = 0
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -47,8 +58,17 @@ class JoinActivity : AppCompatActivity() {
                     .apply(RequestOptions().override(150, 150))
                     .centerCrop()
                     .into(binding.profileImage)
-
-
+                // 이미지 파이어베이스 스토리지에 저장 - 파일명 앞에 현재시간 붙임
+                val storageRef : StorageReference = storage.reference
+                val profilelocation = "userimages/${System.currentTimeMillis()}_${imgUri?.lastPathSegment}"
+                val imageRef = storageRef.child(profilelocation)
+                imageRef.putFile(imgUri!!)
+                    .addOnSuccessListener {
+                        it.storage.downloadUrl.addOnSuccessListener {
+                            profileuri = it.toString()
+                        }.addOnFailureListener {
+                        }
+                    }
                 val cursor = contentResolver.query(
                     it.data?.data as Uri,
                     arrayOf<String>(MediaStore.Images.Media.DATA), null, null, null
@@ -57,6 +77,7 @@ class JoinActivity : AppCompatActivity() {
                     filePath = cursor?.getString(0) as String
                 }
             }
+            else profileuri = ""
         }
 
         //프로필 추가
@@ -79,9 +100,38 @@ class JoinActivity : AppCompatActivity() {
             )
 
         }
+            // 중복체크
+            binding.sameidcheck.setOnClickListener {
+                id = binding.idInput.text.toString()
+                if(! id.isEmpty()) {
+                    if (sameidcheck) Toast.makeText(this, "이미 확인하였습니다.", Toast.LENGTH_SHORT).show()
+                    else {
+                        db.collection("UserInfo").get().addOnSuccessListener {
+                            val ids = it.documents
+                            for (user in ids) {
+                                val tempuser = user.data
+                                if (tempuser?.get("id") == id) {
+                                    sameidcheck = false
+                                    break
+                                }
+                                count++
+                                sameidcheck = true
+                            }
+                            if (count == it.size() && sameidcheck) {
+                                Toast.makeText(this, "가능한 아이디입니다.", Toast.LENGTH_SHORT).show()
+                            }
+                            if (!sameidcheck) {
+                                sameidcheck = false
+                                Toast.makeText(this, "불가능한 아이디입니다.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "아이디를 입력하세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
             //회원가입 버튼
             binding.joinbutton.setOnClickListener {
-
                 val name: String = binding.nameInput.text.toString()
                 val nickname: String = binding.nicknameInput.text.toString()
                 val tel: String = binding.telInput.text.toString()
@@ -98,20 +148,30 @@ class JoinActivity : AppCompatActivity() {
                     }
                 }
 
-                if (!isExistBlank && isPWSame) {
+                if (!isExistBlank && isPWSame && sameidcheck) {
+                    val user = UserModel(name, nickname, tel, id, pw, profileuri!!)
+                    db.collection("UserInfo")
+                        .add(user)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .addOnCanceledListener {
+                            Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                        }
 
                     // 회원가입 성공 토스트 메세지 띄우기
-                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
 
                     // 유저가 입력한 id, pw를 쉐어드에 저장한다.
-                    val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
-                    val editor = sharedPreference.edit()
-                    editor.putString("id", id)
-                    editor.putString("pw", pw)
-                    editor.apply()
+                    //val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
+                    //val editor = sharedPreference.edit()
+                    //editor.putString("id", id)
+                    //editor.putString("pw", pw)
+                    //editor.apply()
                     // 로그인 화면으로 이동
-                    val intent = Intent(this, LoginActivity::class.java)
-                    startActivity(intent)
+                    //val intent = Intent(this, LoginActivity::class.java)
+                    //startActivity(intent)
 
                 } else {
                     // 상태에 따라 다른 다이얼로그 띄워주기
@@ -125,6 +185,7 @@ class JoinActivity : AppCompatActivity() {
                 }
 
             }
+
             binding.backlogin.setOnClickListener {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
