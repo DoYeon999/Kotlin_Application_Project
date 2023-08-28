@@ -60,6 +60,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var map: GoogleMap? = null
     private var cameraPosition: CameraPosition? = null
     lateinit var binding : ActivityBottomSheetDialogBinding
+    var bottomcheckcondition = false
     //lateinit var binding : ActivitySixthPracticeGoogleMapBinding
 
     // The entry point to the Places API.
@@ -119,11 +120,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick2).text = nick
+        findViewById<TextView>(R.id.toolbarnick).text = nick
         if(url != "") {
             Glide.with(this)
                 .load(url)
-                .into(findViewById(R.id.toolbarprofile2))
+                .into(findViewById(R.id.toolbarprofile))
         }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "날씨"
@@ -228,20 +229,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         getDeviceLocation()
 
         var locations = listOf(
-//            MapLocation("DT_0054", "진해", 35.147, 128.643),
-//            MapLocation("DT_0004", "제주", 33.527, 126.543),
-            MapLocation("11H20201", "DT_0005", "부산", 35.096, 129.035)
-//            MapLocation("DT_0007", "목포", 34.779, 126.375),
-//            MapLocation("DT_0012", "속초", 38.207, 128.594),
-//            MapLocation("DT_0016", "여수", 34.747, 127.765),
-//            MapLocation("DT_0027", "완도", 34.315, 126.759),
-//            MapLocation("DT_0028", "진도", 34.377, 126.308),
-//            MapLocation("DT_0029", "거제도", 34.801, 128.699),
-//            MapLocation("DT_0031", "거문도", 34.028, 127.308),
-//            MapLocation("DT_0035", "흑산도", 34.684, 125.435),
-//            MapLocation("DT_0050", "태안", 36.913, 126.238),
-//            MapLocation("DT_0056", "부산항 신항", 35.077, 128.768)
-
+            MapLocation("11H20301", "DT_0054", "진해", 35.147, 128.643),
+            MapLocation("11G00201", "DT_0004", "제주", 33.527, 126.543),
+            MapLocation("11H20201", "DT_0005", "부산", 35.096, 129.035),
+            MapLocation("21F20801", "DT_0007", "목포", 34.779, 126.375),
+            MapLocation("11D20401", "DT_0012", "속초", 38.207, 128.594),
+            MapLocation("11F20401", "DT_0016", "여수", 34.747, 127.765),
+            MapLocation("11F20301", "DT_0027", "완도", 34.315, 126.759),
+            MapLocation("21F20201", "DT_0028", "진도", 34.377, 126.308),
+            MapLocation("11H20403", "DT_0029", "거제도", 34.801, 128.699),
+            MapLocation("11F20401", "DT_0031", "거문도", 34.028, 127.308),
+            MapLocation("11F20701", "DT_0035", "흑산도", 34.684, 125.435),
+            MapLocation("11C20102", "DT_0050", "태안", 36.913, 126.238),
+            MapLocation("11H20201", "DT_0056", "부산항 신항", 35.077, 128.768)
         )
 
         val markers = mutableListOf<Marker>()
@@ -361,7 +361,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val fourthLunar = checkLunar(fourthDay.substring(0, 4).toInt(), fourthDay.substring(4, 6).toInt(), fourthDay.substring(6).toInt())
         val fifthLunar = checkLunar(fifthDay.substring(0, 4).toInt(), fifthDay.substring(4, 6).toInt(), fifthDay.substring(6).toInt())
         val sixthLunar = checkLunar(sixthDay.substring(0, 4).toInt(), sixthDay.substring(4, 6).toInt(), sixthDay.substring(6).toInt())
-        val seventhLunar = checkLunar(sixthDay.substring(0, 4).toInt(), seventhDay.substring(4, 6).toInt(), seventhDay.substring(6).toInt())
+        val seventhLunar = checkLunar(seventhDay.substring(0, 4).toInt(), seventhDay.substring(4, 6).toInt(), seventhDay.substring(6).toInt())
 
         val lunarlist = listOf<String>(firstLunar, secondLunar, thirdLunar, fourthLunar, fifthLunar, sixthLunar, seventhLunar)
 
@@ -393,285 +393,173 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
             try {
-                mytide1.enqueue(object : Callback<TideModel> {
-                    override fun onResponse(call: Call<TideModel>, response: Response<TideModel>) {
-                        tidelist.clear()
-                        val tide = response.body()
-                        if(tide != null) tidelist.add(tide!!)
-                        mytide2.enqueue(object : Callback<TideModel> {
-                            override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                val tide = response.body()
-                                if(tide != null) tidelist.add(tide!!)
-                                mytide3.enqueue(object : Callback<TideModel> {
-                                    override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                        val tide = response.body()
-                                        if(tide != null) tidelist.add(tide!!)
-                                        mytide4.enqueue(object : Callback<TideModel> {
-                                            override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                                val tide = response.body()
-                                                if(tide != null) tidelist.add(tide!!)
-                                                mytide5.enqueue(object : Callback<TideModel> {
-                                                    override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                                        val tide = response.body()
-                                                        if(tide != null) tidelist.add(tide!!)
-                                                        mytide6.enqueue(object :
-                                                            Callback<TideModel> {
-                                                            override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                                                val tide = response.body()
-                                                                if(tide != null) tidelist.add(tide!!)
-                                                                mytide7.enqueue(object :
-                                                                    Callback<TideModel> {
-                                                                    override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
-                                                                        val tide = response.body()
-                                                                        if(tide != null) tidelist.add(tide!!)
-                                                                        Log.d("google22", "$tidelist")
-                                                                        nowtide.enqueue(object : Callback<TidePreModel> {
-                                                                            override fun onResponse(call : Call<TidePreModel>, response: Response<TidePreModel>) {
-                                                                                val pretide = response.body()
-                                                                                Log.d("google22", "$pretide")
-                                                                                var i = 0
-                                                                                for(s in pretide?.result?.data!!) {
-                                                                                    levels.add(Entry(i.toFloat(), s.tidelevel!!.toFloat()))
-                                                                                    i++
-                                                                                }
-                                                                                weather.enqueue(object : Callback<WeatherModel> {
-                                                                                    override fun onResponse(call: Call<WeatherModel>, response: Response<WeatherModel>) {
-                                                                                        val temps = response.body()
-                                                                                        val tempPres = temps?.response?.body?.items?.tempPre
-                                                                                        var checknowtmp = true
-//                                                                                        var firstcheck = true
-//                                                                                        var secondcheck = true
-//                                                                                        var thirdcheck = true
-//                                                                                        var firstcheck2 = true
-//                                                                                        var secondcheck2 = true
-//                                                                                        var thirdcheck2 = true
-//                                                                                        var wavecheck1 = true
-//                                                                                        var wavecheck2 = true
-//                                                                                        var wavecheck3 = true
-//                                                                                        var windsizemin1 : Double = 0.0
-//                                                                                        var windsizemax1 : Double = 0.0
-//                                                                                        var winddirecmin1 : Int = 0
-//                                                                                        var winddirecmax1 : Int = 0
-//                                                                                        var wavesizemin1 : Double = 0.0
-//                                                                                        var wavesizemax1 : Double = 0.0
-//                                                                                        var windsizemin2 : Double = 0.0
-//                                                                                        var windsizemax2 : Double = 0.0
-//                                                                                        var winddirecmin2 : Int = 0
-//                                                                                        var winddirecmax2 : Int = 0
-//                                                                                        var wavesizemin2 : Double = 0.0
-//                                                                                        var wavesizemax2 : Double = 0.0
-//                                                                                        var windsizemin3 : Double = 0.0
-//                                                                                        var windsizemax3 : Double = 0.0
-//                                                                                        var winddirecmin3 : Int = 0
-//                                                                                        var winddirecmax3 : Int = 0
-//                                                                                        var wavesizemin3 : Double = 0.0
-//                                                                                        var wavesizemax3 : Double = 0.0
-                                                                                        tempPres!!.forEach {
-                                                                                            if(it.fcstDate == firstDay && it.category == "TMP" && checknowtmp) {
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-                                                                                                checknowtmp = false
-                                                                                            }
-                                                                                            if(it.fcstDate == secondDay && it.category == "TMN")
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-                                                                                            if(it.fcstDate == secondDay && it.category == "TMX")
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-                                                                                            if(it.fcstDate == thirdDay && it.category == "TMN")
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-                                                                                            if(it.fcstDate == thirdDay && it.category == "TMX")
-                                                                                                temperatures.add(
-                                                                                                    temper(it.fcstDate, it.category, it.fcstValue)
-                                                                                                )
-
-//                                                                                            if(it.fcstDate == firstDay && it.category == "VEC") {
-//                                                                                                if(firstcheck) {
-//                                                                                                    windsizemin1 = it.fcstValue.toDouble()
-//                                                                                                    windsizemax1 = it.fcstValue.toDouble()
-//                                                                                                    firstcheck = false
-//                                                                                                } else {
-//                                                                                                    if(windsizemax1 < it.fcstValue.toDouble()) windsizemax1 = it.fcstValue.toDouble()
-//                                                                                                    if(windsizemin1 > it.fcstValue.toDouble()) windsizemin1 = it.fcstValue.toDouble()
-//                                                                                                }
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == firstDay && it.category == "WSD") {
-//                                                                                                if(firstcheck2) {
-//                                                                                                    winddirecmin1 = it.fcstValue.toInt()
-//                                                                                                    winddirecmax1 = it.fcstValue.toInt()
-//                                                                                                    firstcheck2 = false
-//                                                                                                } else {
-//                                                                                                    if(winddirecmax1 < it.fcstValue.toInt()) winddirecmax1 = it.fcstValue.toInt()
-//                                                                                                    if(winddirecmin1 > it.fcstValue.toInt()) winddirecmin1 = it.fcstValue.toInt()
-//                                                                                                }
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == secondDay && it.category == "VEC") {
-//                                                                                                if(secondcheck) {
-//                                                                                                    windsizemin2 = it.fcstValue.toDouble()
-//                                                                                                    windsizemax2 = it.fcstValue.toDouble()
-//                                                                                                    secondcheck = false
-//                                                                                                } else {
-//                                                                                                    if(windsizemax2 < it.fcstValue.toDouble()) windsizemax2 = it.fcstValue.toDouble()
-//                                                                                                    if(windsizemin2 > it.fcstValue.toDouble()) windsizemin2 = it.fcstValue.toDouble()
-//                                                                                                }
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == secondDay && it.category == "WSD") {
-//                                                                                                if(secondcheck2) {
-//                                                                                                    winddirecmin2 = it.fcstValue.toInt()
-//                                                                                                    winddirecmax2 = it.fcstValue.toInt()
-//                                                                                                    secondcheck2 = false
-//                                                                                                } else {
-//                                                                                                    if(winddirecmax2 < it.fcstValue.toInt()) winddirecmax2 = it.fcstValue.toInt()
-//                                                                                                    if(winddirecmin2 > it.fcstValue.toInt()) winddirecmin2 = it.fcstValue.toInt()
-//                                                                                                }
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == thirdDay && it.category == "VEC") {
-//                                                                                                if(thirdcheck) {
-//                                                                                                    windsizemin3 = it.fcstValue.toDouble()
-//                                                                                                    windsizemax3 = it.fcstValue.toDouble()
-//                                                                                                    thirdcheck = false
-//                                                                                                } else {
-//                                                                                                    if(windsizemax3 < it.fcstValue.toDouble()) windsizemax3 = it.fcstValue.toDouble()
-//                                                                                                    if(windsizemin3 > it.fcstValue.toDouble()) windsizemin3 = it.fcstValue.toDouble()
-//                                                                                                }
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == thirdDay && it.category == "WSD") {
-//                                                                                                if(thirdcheck2) {
-//                                                                                                    winddirecmin3 = it.fcstValue.toInt()
-//                                                                                                    winddirecmax3 = it.fcstValue.toInt()
-//                                                                                                    thirdcheck2 = false
-//                                                                                                } else {
-//                                                                                                    if(winddirecmax3 < it.fcstValue.toInt()) winddirecmax3 = it.fcstValue.toInt()
-//                                                                                                    if(winddirecmin3 > it.fcstValue.toInt()) winddirecmin3 = it.fcstValue.toInt()
-//                                                                                                }
-//                                                                                            }
-
-//                                                                                            if(it.fcstDate == firstDay && it.category == "WAV") {
-//                                                                                                wavelist.add(wave(it.fcstDate, it.category, it.fcstValue))
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == secondDay && it.category == "WAV") {
-//                                                                                                wavelist.add(wave(it.fcstDate, it.category, it.fcstValue))
-//                                                                                            }
-//
-//                                                                                            if(it.fcstDate == thirdDay && it.category == "WAV") {
-//                                                                                                wavelist.add(wave(it.fcstDate, it.category, it.fcstValue))
-//                                                                                            }
-
-                                                                                            if(temperatures.size == 6) return@forEach
-                                                                                        }
-                                                                                        Log.d("google22", "yy22")
-//                                                                                        windlist.add(wind(firstDay, "VECMIN", windsizemin1.toString()))
-//                                                                                        windlist.add(wind(firstDay, "VECMAX", windsizemax1.toString()))
-//                                                                                        windlist.add(wind(secondDay, "VECMIN", windsizemin2.toString()))
-//                                                                                        windlist.add(wind(secondDay, "VECMAX", windsizemax2.toString()))
-//                                                                                        windlist.add(wind(thirdDay, "VECMIN", windsizemin3.toString()))
-//                                                                                        windlist.add(wind(thirdDay, "VECMAX", windsizemax3.toString()))
-//                                                                                        windlist2.add(wind(firstDay, "WSDMIN", winddirecmin1.toString()))
-//                                                                                        windlist2.add(wind(firstDay, "WSDMAX", winddirecmax1.toString()))
-//                                                                                        windlist2.add(wind(secondDay, "WSDMIN", winddirecmin2.toString()))
-//                                                                                        windlist2.add(wind(secondDay, "WSDMAX", winddirecmax2.toString()))
-//                                                                                        windlist2.add(wind(thirdDay, "WSDMIN", winddirecmin2.toString()))
-//                                                                                        windlist2.add(wind(thirdDay, "WSDMAX", winddirecmax2.toString()))
-
-                                                                                        forecast2.enqueue(object : Callback<ForecastModel> {
-                                                                                            override fun onResponse(call: Call<ForecastModel>, response: Response<ForecastModel>) {
-                                                                                                val fore = response.body()
-                                                                                                val forecasts = fore?.response?.body?.items?.tempFore
-                                                                                                temperatures.add(
-                                                                                                    temper(fourthDay, "TMN", forecasts?.get(0)?.taMin3!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(fourthDay, "TMX", forecasts?.get(0)?.taMax3!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(fifthDay, "TMN", forecasts?.get(0)?.taMin4!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(fifthDay, "TMX", forecasts?.get(0)?.taMax4!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(sixthDay, "TMN", forecasts?.get(0)?.taMin5!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(sixthDay, "TMX", forecasts?.get(0)?.taMax5!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(seventhDay, "TMN", forecasts?.get(0)?.taMin6!!)
-                                                                                                )
-                                                                                                temperatures.add(
-                                                                                                    temper(seventhDay, "TMX", forecasts?.get(0)?.taMax6!!)
-                                                                                                )
-                                                                                                Log.d("google22", "$temperatures")
-                                                                                                Log.d("google22", "$lunarlist")
-                                                                                                val bottomsheetdialog = BottomSheetDialog(tidelist, levels, temperatures, mytag.obsname, lunarlist)
-                                                                                                bottomsheetdialog.show(supportFragmentManager, "bottomsheetdialog")
-                                                                                            }
-                                                                                            override fun onFailure(call: Call<ForecastModel>, t: Throwable
-                                                                                            ) { Log.d("google22", "failedForecast") }
-                                                                                        })
+                Log.d("maptest", "$bottomcheckcondition")
+                if(!bottomcheckcondition) {
+                    bottomcheckcondition = true
+                    //Log.d("maptest", "***$bottomcheckcondition***")
+                    mytide1.enqueue(object : Callback<TideModel> {
+                        override fun onResponse(call: Call<TideModel>, response: Response<TideModel>) {
+                            tidelist.clear()
+                            val tide = response.body()
+                            if(tide != null) tidelist.add(tide!!)
+                            mytide2.enqueue(object : Callback<TideModel> {
+                                override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                    val tide = response.body()
+                                    if(tide != null) tidelist.add(tide!!)
+                                    mytide3.enqueue(object : Callback<TideModel> {
+                                        override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                            val tide = response.body()
+                                            if(tide != null) tidelist.add(tide!!)
+                                            mytide4.enqueue(object : Callback<TideModel> {
+                                                override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                                    val tide = response.body()
+                                                    if(tide != null) tidelist.add(tide!!)
+                                                    mytide5.enqueue(object : Callback<TideModel> {
+                                                        override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                                            val tide = response.body()
+                                                            if(tide != null) tidelist.add(tide!!)
+                                                            mytide6.enqueue(object :
+                                                                Callback<TideModel> {
+                                                                override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                                                    val tide = response.body()
+                                                                    if(tide != null) tidelist.add(tide!!)
+                                                                    mytide7.enqueue(object :
+                                                                        Callback<TideModel> {
+                                                                        override fun onResponse(call : Call<TideModel>, response : Response<TideModel>) {
+                                                                            val tide = response.body()
+                                                                            if(tide != null) tidelist.add(tide!!)
+                                                                            Log.d("google22", "$tidelist")
+                                                                            nowtide.enqueue(object : Callback<TidePreModel> {
+                                                                                override fun onResponse(call : Call<TidePreModel>, response: Response<TidePreModel>) {
+                                                                                    val pretide = response.body()
+                                                                                    Log.d("google22", "$pretide")
+                                                                                    var i = 0
+                                                                                    for(s in pretide?.result?.data!!) {
+                                                                                        levels.add(Entry(i.toFloat(), s.tidelevel!!.toFloat()))
+                                                                                        i++
                                                                                     }
-                                                                                    override fun onFailure(call: Call<WeatherModel>, t: Throwable)
-                                                                                    { Log.d("google22", "failedTemper") }
-                                                                                })
-                                                                            }
-                                                                            override fun onFailure(call : Call<TidePreModel>, t : Throwable) {
-                                                                                call.cancel()
-                                                                            }
-                                                                        })
-                                                                    }
-                                                                    override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                                                        Log.d("google22", "failed")
-                                                                        call.cancel()
-                                                                    } })
-                                                            }
-                                                            override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                                                Log.d("google22", "failed")
-                                                                call.cancel()
-                                                            } })
-                                                    }
-                                                    override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                                        Log.d("google22", "failed")
-                                                        call.cancel()
-                                                    }
-                                                })
-                                            }
-                                            override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                                Log.d("google22", "failed")
-                                                call.cancel()
-                                            }
-                                        })
-                                    }
-                                    override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                        Log.d("google22", "failed")
-                                        call.cancel()
-                                    }
-                                })
-                            }
-                            override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                                Log.d("google22", "failed")
-                                call.cancel()
-                            }
-                        })
-                    }
-                    override fun onFailure(call: Call<TideModel>, t: Throwable) {
-                        Log.d("google22", "failed")
-                        call.cancel()
-                    }
-                })
+                                                                                    weather.enqueue(object : Callback<WeatherModel> {
+                                                                                        override fun onResponse(call: Call<WeatherModel>, response: Response<WeatherModel>) {
+                                                                                            val temps = response.body()
+                                                                                            val tempPres = temps?.response?.body?.items?.tempPre
+                                                                                            var checknowtmp = true
+                                                                                            tempPres!!.forEach {
+                                                                                                if(it.fcstDate == firstDay && it.category == "TMP" && checknowtmp) {
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+                                                                                                    checknowtmp = false
+                                                                                                }
+                                                                                                if(it.fcstDate == secondDay && it.category == "TMN")
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+                                                                                                if(it.fcstDate == secondDay && it.category == "TMX")
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+                                                                                                if(it.fcstDate == thirdDay && it.category == "TMN")
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+                                                                                                if(it.fcstDate == thirdDay && it.category == "TMX")
+                                                                                                    temperatures.add(
+                                                                                                        temper(it.fcstDate, it.category, it.fcstValue)
+                                                                                                    )
+
+                                                                                                if(temperatures.size == 6) return@forEach
+                                                                                            }
+                                                                                            Log.d("google22", "yy22")
+                                                                                            forecast2.enqueue(object : Callback<ForecastModel> {
+                                                                                                override fun onResponse(call: Call<ForecastModel>, response: Response<ForecastModel>) {
+                                                                                                    val fore = response.body()
+                                                                                                    val forecasts = fore?.response?.body?.items?.tempFore
+                                                                                                    temperatures.add(
+                                                                                                        temper(fourthDay, "TMN", forecasts?.get(0)?.taMin3!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(fourthDay, "TMX", forecasts?.get(0)?.taMax3!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(fifthDay, "TMN", forecasts?.get(0)?.taMin4!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(fifthDay, "TMX", forecasts?.get(0)?.taMax4!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(sixthDay, "TMN", forecasts?.get(0)?.taMin5!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(sixthDay, "TMX", forecasts?.get(0)?.taMax5!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(seventhDay, "TMN", forecasts?.get(0)?.taMin6!!)
+                                                                                                    )
+                                                                                                    temperatures.add(
+                                                                                                        temper(seventhDay, "TMX", forecasts?.get(0)?.taMax6!!)
+                                                                                                    )
+                                                                                                    Log.d("google22", "$temperatures")
+                                                                                                    Log.d("google22", "$lunarlist")
+                                                                                                    val bottomsheetdialog = BottomSheetDialog(tidelist, levels, temperatures, mytag.obsname, lunarlist)
+                                                                                                    bottomsheetdialog.show(supportFragmentManager, "bottomsheetdialog")
+                                                                                                    bottomcheckcondition = false
+                                                                                                }
+                                                                                                override fun onFailure(call: Call<ForecastModel>, t: Throwable
+                                                                                                ) { Log.d("google22", "failedForecast") }
+                                                                                            })
+                                                                                        }
+                                                                                        override fun onFailure(call: Call<WeatherModel>, t: Throwable)
+                                                                                        { Log.d("google22", "failedTemper") }
+                                                                                    })
+                                                                                }
+                                                                                override fun onFailure(call : Call<TidePreModel>, t : Throwable) {
+                                                                                    call.cancel()
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                        override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                                                            Log.d("google22", "failed")
+                                                                            call.cancel()
+                                                                        } })
+                                                                }
+                                                                override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                                                    Log.d("google22", "failed")
+                                                                    call.cancel()
+                                                                } })
+                                                        }
+                                                        override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                                            Log.d("google22", "failed")
+                                                            call.cancel()
+                                                        }
+                                                    })
+                                                }
+                                                override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                                    Log.d("google22", "failed")
+                                                    call.cancel()
+                                                }
+                                            })
+                                        }
+                                        override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                            Log.d("google22", "failed")
+                                            call.cancel()
+                                        }
+                                    })
+                                }
+                                override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                                    Log.d("google22", "failed")
+                                    call.cancel()
+                                }
+                            })
+                        }
+                        override fun onFailure(call: Call<TideModel>, t: Throwable) {
+                            Log.d("google22", "failed")
+                            call.cancel()
+                        }
+                    })
+                }
             } catch (e : Exception) {
                 Log.d("google22", "failed api")
             }
