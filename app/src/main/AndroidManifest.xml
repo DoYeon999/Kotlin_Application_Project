@@ -15,9 +15,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:name="com.example.myapplication.weather_imgfind.net.APIApplication"
-        android:usesCleartextTraffic="true"
+        android:name=".weather_imgfind.net.APIApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,70 +26,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.MyApplication"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
-            android:name="com.example.myapplication.kdy.FishinfoActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.FishpageActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.FishplaceActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.LoginActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.JoinActivity"
+            android:name=".MypageActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.myapplication.FishingContent.FishingContentPoster"
+            android:name=".kdy.FishinfoActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.FishpageActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.FishplaceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".kdy.JoinActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FishingContent.FishingContentPoster"
             android:exported="false" />
         <activity
-            android:name="com.example.myapplication.FishingContent.Newbie"
+            android:name=".FishingContent.Newbie"
             android:exported="true" />
         <activity
-            android:name="com.example.myapplication.FishingContent.FishingContent"
+            android:name=".FishingContent.FishingContent"
             android:exported="true" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
+
         <activity
-            android:name="com.example.myapplication.weather_imgfind.findfish.FindFishActivity"
+            android:name=".weather_imgfind.findfish.FindFishActivity"
             android:exported="true" />
-
         <activity
-            android:name="com.example.myapplication.weather_imgfind.weather.MapActivity"
-            android:exported="true"
-            />
+            android:name=".weather_imgfind.weather.MapActivity"
+            android:exported="true" />
         <activity
-            android:name="com.example.myapplication.MainActivity"
+            android:name=".MainActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".IntroActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".community.SignUpActivity" />
         <activity
-        android:name="com.example.myapplication.IntroActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-        <activity android:name="com.example.myapplication.community.SignUpActivity"/>
-        <activity android:name="com.example.myapplication.community.HomeActivity"
-            android:exported="true"/>
-
-        <activity android:name="com.example.myapplication.community.ActivityDetailPost"/>
-        <activity android:name="com.example.myapplication.community.ActivityWritePost"/>
+            android:name=".community.HomeActivity"
+            android:exported="true" />
+        <activity android:name=".community.ActivityDetailPost" />
+        <activity android:name=".community.ActivityWritePost" />
     </application>
 
 </manifest>

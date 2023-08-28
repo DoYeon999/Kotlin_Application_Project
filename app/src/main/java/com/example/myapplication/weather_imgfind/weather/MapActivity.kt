@@ -119,11 +119,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick2).text = nick
+        findViewById<TextView>(R.id.toolbarnick).text = nick
         if(url != "") {
             Glide.with(this)
                 .load(url)
-                .into(findViewById(R.id.toolbarprofile2))
+                .into(findViewById(R.id.toolbarprofile))
         }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "날씨"

@@ -47,6 +47,28 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, MainActivity::class.java)
             startActivity(intent)
         }
+
+        // 네비게이션바 페이지 이동
+        findViewById<ImageView>(R.id.homepage).setOnClickListener{
+            val intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
+            val intent = Intent(this@MainActivity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
+            val intent = Intent(this@MainActivity, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.mypage).setOnClickListener{
+            val intent = Intent(this@MainActivity, MypageActivity::class.java)
+            startActivity(intent)
+        }
+
         // sharedPreference에서 데이터 받아와서 이름/프로필사진 띄움
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
@@ -57,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 .load(url)
                 .into(findViewById(R.id.toolbarprofile2))
         }
+
         binding.viewpagerbaner.adapter = MainbanerAdapter(this)
 
         binding.mainDrawerView.setNavigationItemSelectedListener { it ->
