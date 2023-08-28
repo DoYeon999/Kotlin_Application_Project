@@ -77,25 +77,23 @@
             android:exported="true"
             />
         <activity
-            android:name="com.example.myapplication.MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
-        </activity>
+            android:name=".MainActivity"
+            android:exported="true"></activity>
         <activity
-            android:name="com.example.myapplication.IntroActivity"
+            android:name=".IntroActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
-        <activity android:name="com.example.myapplication.community.HomeActivity"
-            android:exported="true"/>
-
-        <activity android:name="com.example.myapplication.community.ActivityDetailPost"/>
-        <activity android:name="com.example.myapplication.community.ActivityWritePost"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".community.SignUpActivity" />
+        <activity
+            android:name=".community.HomeActivity"
+            android:exported="true" />
+        <activity android:name=".community.ActivityDetailPost" />
+        <activity android:name=".community.ActivityWritePost" />
     </application>
 
 </manifest>

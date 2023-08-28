@@ -102,6 +102,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="회원가입"
+        android:textColor="@color/white"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:backgroundTint="#3F51B5" />
