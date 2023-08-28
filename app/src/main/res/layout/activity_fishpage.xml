@@ -101,8 +101,7 @@
                     android:text="미끼추천"
                     android:textSize="15sp" />
             </LinearLayout>
-
         </ScrollView>
-
     </LinearLayout>
+
 </LinearLayout>
