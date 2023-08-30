@@ -37,6 +37,7 @@ class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : Mutable
     lateinit var txtview: TextView
     lateinit var txtview2: TextView
     lateinit var rcview: RecyclerView
+    lateinit var txtview3 : TextView
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,8 +51,8 @@ class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : Mutable
         )
         txtview = view.findViewById(R.id.bottom_text)
         txtview.text = where
-        txtview2 = view.findViewById(R.id.bottom_text2)
-        txtview2.text = "오늘의 물때 : ${lunars?.get(0)}"
+        txtview2 = view.findViewById(R.id.bottom_text22)
+        txtview2.text = "${lunars?.get(0)}"
         txtview.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         txtview2.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         rcview = view.findViewById(R.id.myrecyclerView2)
@@ -59,17 +60,21 @@ class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : Mutable
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         rcview.layoutManager = linearLayoutManager
         rcview.adapter = APIAdapter(requireContext(), datas, tempers, lunars)
-
-        var hightide : MutableList<TideInfo> = ArrayList()
-        var lowtide  : MutableList<TideInfo> = ArrayList()
+        var tidetext = ""
+        var count = 1
         datas.get(0).result.data.forEach {
-            if(it.tidetype == "고조") hightide.add(it)
-                //val nowtime = it.tidetime.split(" ")[1].split(":")
-                //hightide.add((nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat())
-            else lowtide.add(it)
-                //val nowtime = it.tidetime.split(" ")[1].split(":")
-                //lowtide.add((nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat())
+            val nowtime = it.tidetime.split(" ")[1].split(":")
+            val timetext = nowtime[0] + " : " + nowtime[1]
+            val nowlevel = it.tidelevel.toString() + " cm"
+            if(it.tidetype == "저조") tidetext += "간조 : "
+            if(it.tidetype == "고조") tidetext += "만조 : "
+            if(count < datas.size) tidetext += ("$timetext ($nowlevel)\n")
+            else tidetext += ("$timetext ($nowlevel)")
+            count++
         }
+        txtview3 = view.findViewById(R.id.bottom_text3)
+        txtview3.text = tidetext
+        txtview3.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         val dataset = LineDataSet(levels, "")
         dataset.mode = LineDataSet.Mode.LINEAR
         dataset.color = ColorTemplate.VORDIPLOM_COLORS[0]
@@ -83,27 +88,27 @@ class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : Mutable
             }
         }
 
-        for(tide in hightide) {
-            Log.d("maptest", "$tide **")
-            val nowtime = tide.tidetime.split(" ")[1].split(":")
-            val nowx = (nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat()
-            val target = levels.find { it.x == nowx }
-            val myMarker = CustomMarkerView(requireContext(), R.layout.linechart_data_textview)
-            Log.d("maptest", "${target!!.x}, ${target!!.y}")
-            myMarker.refreshContent(target!!, Highlight(target.x, target.y, target.x.toInt()))
-            lineChart.marker = myMarker
-        }
-
-        for(tide in lowtide) {
-            Log.d("maptest", "** $tide **")
-            val nowtime = tide.tidetime.split(" ")[1].split(":")
-            val nowx = (nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat()
-            val target = levels.find { it.x == nowx }
-            val myMarker = CustomMarkerView(requireContext(), R.layout.linechart_data_textview)
-            Log.d("maptest", "${target!!.x}, ${target!!.y}")
-            myMarker.refreshContent(target!!, Highlight(target.x, target.y, target.x.toInt()))
-            lineChart.marker = myMarker
-        }
+//        for(tide in hightide) {
+//            Log.d("maptest", "$tide **")
+//            val nowtime = tide.tidetime.split(" ")[1].split(":")
+//            val nowx = (nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat()
+//            val target = levels.find { it.x == nowx }
+//            val myMarker = CustomMarkerView(requireContext(), R.layout.linechart_data_textview)
+//            Log.d("maptest", "${target!!.x}, ${target!!.y}")
+//            myMarker.refreshContent(target!!, Highlight(target.x, target.y, target.x.toInt()))
+//            lineChart.marker = myMarker
+//        }
+//
+//        for(tide in lowtide) {
+//            Log.d("maptest", "** $tide **")
+//            val nowtime = tide.tidetime.split(" ")[1].split(":")
+//            val nowx = (nowtime[0].toInt() * 60 + nowtime[1].toInt()).toFloat()
+//            val target = levels.find { it.x == nowx }
+//            val myMarker = CustomMarkerView(requireContext(), R.layout.linechart_data_textview)
+//            Log.d("maptest", "${target!!.x}, ${target!!.y}")
+//            myMarker.refreshContent(target!!, Highlight(target.x, target.y, target.x.toInt()))
+//            lineChart.marker = myMarker
+//        }
 
         val description = Description()
         description.text = "물높이 (cm)"
@@ -127,16 +132,16 @@ class BottomSheetDialog(val datas : MutableList<TideModel>, val levels : Mutable
     }
 }
 
-class CustomMarkerView(context: Context, layoutResource: Int) : MarkerView(context, layoutResource) {
-    override fun refreshContent(e: Entry, highlight: Highlight) {
-        val tidetime: TextView = findViewById(R.id.tide_box)
-        tidetime.text = e.x.toString() + "\n" + e.y.toString() + "cm"
-        Log.d("maptest", "${e.x.toString()}, ${e.y.toString()}")
-        super.refreshContent(e, highlight)
-    }
-
-    override fun getOffset(): MPPointF {
-        return MPPointF((-width / 2).toFloat(), -height.toFloat())
-    }
-
-}
+//class CustomMarkerView(context: Context, layoutResource: Int) : MarkerView(context, layoutResource) {
+//    override fun refreshContent(e: Entry, highlight: Highlight) {
+//        val tidetime: TextView = findViewById(R.id.tide_box)
+//        tidetime.text = e.x.toString() + "\n" + e.y.toString() + "cm"
+//        Log.d("maptest", "${e.x.toString()}, ${e.y.toString()}")
+//        super.refreshContent(e, highlight)
+//    }
+//
+//    override fun getOffset(): MPPointF {
+//        return MPPointF((-width / 2).toFloat(), -height.toFloat())
+//    }
+//
+//}
