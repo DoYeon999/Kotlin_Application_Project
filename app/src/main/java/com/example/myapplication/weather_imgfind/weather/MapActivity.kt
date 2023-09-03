@@ -297,7 +297,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val firstDay = today.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
         val firstTime = today.format(DateTimeFormatter.ofPattern("HHmm"))
         when(firstTime.toInt()) {
-            in 215..2400 -> {
+            in 215..514 -> {
                 apiTime = "0200"
                 apiDay = firstDay
             }
