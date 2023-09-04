@@ -20,7 +20,5 @@ data class PreMeta (
 
 data class PreTideInfo(
     @SerializedName("tide_level")
-    var tidelevel : String,
-    @SerializedName("recode_time")
-    var recodetime : String
+    var tidelevel : String
 )
