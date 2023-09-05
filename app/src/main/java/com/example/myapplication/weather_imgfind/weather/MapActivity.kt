@@ -128,11 +128,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.toolbarprofile))
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(logincheck) {
+            findViewById<TextView>(R.id.toolbarnick).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile))
+            }
         }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "날씨"
@@ -401,9 +404,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val scope = CoroutineScope(Dispatchers.Main)
 
         val fishService = (applicationContext as APIApplication).fishService
-        val todayTideDB = fishService.getTodayTide("DT_0005")
-        val preWeathDB   = fishService.getFirstDayForecast("DT_0005")
-        val preWeathDB2  = fishService.getOtherDayForecast("DT_0005")
+        val todayTideDB = fishService.getTodayTide(mytag.obscode)
+        val preWeathDB   = fishService.getFirstDayForecast(mytag.obscode)
+        val preWeathDB2  = fishService.getOtherDayForecast(mytag.obscode)
         val todayTideList : MutableList<Entry> = ArrayList()
         val totalTideList : MutableList<TideModel> = ArrayList()
         lateinit var firstdayForecast : FirstDayWeatherDB

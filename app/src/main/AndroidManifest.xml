@@ -36,36 +36,44 @@
 
         <activity
             android:name="com.example.myapplication.kdy.FishinfoActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.MypageActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.kdy.FishpageActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.kdy.FishplaceActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.kdy.LoginActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.kdy.JoinActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <activity
             android:name="com.example.myapplication.FishingContent.FishingContentPoster"
             android:exported="false" />
         <activity
             android:name="com.example.myapplication.FishingContent.Newbie"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <activity
             android:name="com.example.myapplication.FishingContent.FishingContent"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -74,15 +82,18 @@
             android:value="${MAPS_API_KEY}" />
         <activity
             android:name="com.example.myapplication.weather_imgfind.findfish.FindFishActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
 
         <activity
             android:name="com.example.myapplication.weather_imgfind.weather.MapActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:launchMode="singleTop"></activity>
         <activity
             android:name=".IntroActivity"
             android:exported="true">

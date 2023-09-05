@@ -224,7 +224,18 @@
         android:textColor="@color/white"
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:backgroundTint="#3F51B5" />
+        android:backgroundTint="#3F51B5"
+        android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#3F51B5" />
 
     </LinearLayout>
     </ScrollView>

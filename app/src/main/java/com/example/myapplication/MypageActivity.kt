@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -25,14 +26,28 @@ class MypageActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.mypagename).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.profileImage))
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(logincheck) {
+            findViewById<TextView>(R.id.mypagename).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.profileImage))
+            }
+            binding.logout.visibility = View.VISIBLE
+            binding.login.visibility  = View.GONE
         }
 
         binding.logout.setOnClickListener {
+            val intent = Intent(this@MypageActivity, MainActivity::class.java)
+            sharedPref.edit().run {
+                putBoolean("signedup", false)
+                commit()
+            }
+            startActivity(intent)
+        }
+
+        binding.login.setOnClickListener {
             val intent = Intent(this@MypageActivity, LoginActivity::class.java)
             startActivity(intent)
         }

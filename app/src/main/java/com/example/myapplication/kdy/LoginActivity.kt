@@ -68,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
                                 putString("nickname", tempuser?.get("nickname").toString())
                                 putString("phone", tempuser?.get("phone").toString())
                                 putString("profileuri", tempuser?.get("profileuri").toString())
+                                putBoolean("signedup", true)
                                 commit()
                             }
                             dialog("success")

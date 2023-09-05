@@ -38,11 +38,14 @@ class FishplaceActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.toolbarprofile))
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(logincheck) {
+            findViewById<TextView>(R.id.toolbarnick).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile))
+            }
         }
         databaseCallfunc("영흥도")
         binding.yeongheundo.setOnClickListener {
