@@ -8,6 +8,7 @@ import com.example.myapplication.kdy.model.FishInfoModel
 import com.example.myapplication.weather_imgfind.model.TidePreModelDB
 import com.example.myapplication.weather_imgfind.model.FirstDayWeatherDB
 import com.example.myapplication.weather_imgfind.model.OtherDayWeatherDB
+import com.example.myapplication.weather_imgfind.model.TotalWeatherDB
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -65,4 +66,9 @@ interface FishService {
     fun getOtherDayForecast(
         @Query("obscode") obscode : String
     ) : retrofit2.Call<List<OtherDayWeatherDB>>
+
+    @GET("weather/totalWeathers")
+    fun getTotalWeatherForecast(
+        @Query("obscode") obscode : String
+    ) : retrofit2.Call<TotalWeatherDB>
 }

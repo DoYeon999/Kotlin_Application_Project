@@ -7,6 +7,6 @@ data class TotalWeatherDB(
     var todaytidelist : List<TidePreModelDB>,
     @SerializedName("firstDayWeatherDTO")
     var firstDayWeather : FirstDayWeatherDB,
-    @SerializedName("otherWeatherDTOList")
-    var otherDayWeather : OtherDayWeatherDB
+    @SerializedName("otherDayWeatherDTOList")
+    var otherDayWeather : List<OtherDayWeatherDB>
 )

@@ -35,6 +35,7 @@ import com.example.myapplication.weather_imgfind.model.TideInfo
 import com.example.myapplication.weather_imgfind.model.TideModel
 import com.example.myapplication.weather_imgfind.model.TidePreModel
 import com.example.myapplication.weather_imgfind.model.TidePreModelDB
+import com.example.myapplication.weather_imgfind.model.TotalWeatherDB
 import com.example.myapplication.weather_imgfind.model.WeatherModel
 import com.example.myapplication.weather_imgfind.model.temper
 import com.example.myapplication.weather_imgfind.net.APIApplication
@@ -411,104 +412,191 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         var tidetemplist : MutableList<TideInfo> = ArrayList()
         var temperaturelist : MutableList<temper> = ArrayList()
 
-        todayTideDB.enqueue(object : Callback<List<TidePreModelDB>> {
+        val totalWeather = fishService.getTotalWeatherForecast(mytag.obscode)
+        totalWeather.enqueue(object : Callback<TotalWeatherDB> {
             override fun onResponse(
-                call: Call<List<TidePreModelDB>>,
-                response: Response<List<TidePreModelDB>>
+                call: Call<TotalWeatherDB>,
+                response: Response<TotalWeatherDB>
             ) {
-                val todayTide = response.body()
+                Log.d("today::::", "***${response.body()}***")
+                Log.d("today::::", "***${response.body()!!.todaytidelist}***")
+                Log.d("today::::", "***${response.body()!!.firstDayWeather}***")
+                Log.d("today::::", "***${response.body()!!.otherDayWeather}***")
+
+                val todayTide = response.body()!!.todaytidelist
                 var i = 0
                 todayTide!!.forEach {
                     todayTideList.add(Entry(i.toFloat(), it.tidelevel.toFloat()))
                     i++
                 }
-                preWeathDB.enqueue(object : Callback<FirstDayWeatherDB> {
-                    override fun onResponse(
-                        call: Call<FirstDayWeatherDB>,
-                        response: Response<FirstDayWeatherDB>
-                    ) {
-                        firstdayForecast = response.body()!!
-                        if(firstdayForecast!!.tidelevelone != null) {
-                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelone, firstdayForecast!!.tidetimeone, firstdayForecast!!.tidetypeone))
-                        }
-                        if(firstdayForecast!!.tideleveltwo != null) {
-                            tidetemplist.add(TideInfo(firstdayForecast!!.tideleveltwo, firstdayForecast!!.tidetimetwo, firstdayForecast!!.tidetypetwo))
-                        }
-                        if(firstdayForecast!!.tidelevelthree != null) {
-                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelthree, firstdayForecast!!.tidetimethree, firstdayForecast!!.tidetypethree))
-                        }
-                        if(firstdayForecast!!.tidelevelfour != null) {
-                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelfour, firstdayForecast!!.tidetimefour, firstdayForecast!!.tidetypefour))
-                        }
-                        val temptide = TideModel(Result(tidetemplist, Meta("", "")))
-                        totalTideList.add(temptide)
-                        temperaturelist.add(temper(firstDay, "TMP", firstdayForecast.nowtemp))
-                        preWeathDB2.enqueue(object : Callback<List<OtherDayWeatherDB>> {
-                            override fun onResponse(
-                                call: Call<List<OtherDayWeatherDB>>,
-                                response: Response<List<OtherDayWeatherDB>>
-                            ) {
-                                otherdayForecast = response.body()!!
-                                for(i in 0..5) {
-                                    var tidetemplist : MutableList<TideInfo> = ArrayList()
-                                    if(otherdayForecast[i]!!.tidelevelone != null) {
-                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelone, otherdayForecast[i]!!.tidetimeone, otherdayForecast[i]!!.tidetypeone))
-                                    }
-                                    if(otherdayForecast[i]!!.tideleveltwo != null) {
-                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tideleveltwo, otherdayForecast[i]!!.tidetimetwo, otherdayForecast[i]!!.tidetypetwo))
-                                    }
-                                    if(otherdayForecast[i]!!.tidelevelthree != null) {
-                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelthree, otherdayForecast[i]!!.tidetimethree, otherdayForecast[i]!!.tidetypethree))
-                                    }
-                                    if(otherdayForecast[i]!!.tidelevelfour != null) {
-                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelfour, otherdayForecast[i]!!.tidetimefour, otherdayForecast[i]!!.tidetypefour))
-                                    }
-                                    val temptide = TideModel(Result(tidetemplist, Meta("", "")))
-                                    totalTideList.add(temptide)
-                                    if(i == 0) {
-                                        temperaturelist.add(temper(secondDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(secondDay, "TMX", otherdayForecast[i].maxtemp))
-                                    } else if (i == 1) {
-                                        temperaturelist.add(temper(thirdDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(thirdDay, "TMX", otherdayForecast[i].maxtemp))
-                                    } else if (i == 2) {
-                                        temperaturelist.add(temper(fourthDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(fourthDay, "TMX", otherdayForecast[i].maxtemp))
-                                    } else if (i == 3) {
-                                        temperaturelist.add(temper(fifthDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(fifthDay, "TMX", otherdayForecast[i].maxtemp))
-                                    } else if (i == 4) {
-                                        temperaturelist.add(temper(sixthDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(sixthDay, "TMX", otherdayForecast[i].maxtemp))
-                                    } else if (i == 5) {
-                                        temperaturelist.add(temper(seventhDay, "TMN", otherdayForecast[i].mintemp))
-                                        temperaturelist.add(temper(seventhDay, "TMX", otherdayForecast[i].maxtemp))
-                                    }
-                                }
-                                if(!bottomcheckcondition) {
-                                    Log.d("today::::", "****************************")
-                                    bottomcheckcondition = true
-                                    val bottomsheetdialog = BottomSheetDialog(totalTideList, todayTideList, temperaturelist, mytag.obsname, lunarlist)
-                                    bottomsheetdialog.show(supportFragmentManager, "bottomsheetdialog")
-                                    bottomcheckcondition = false
-                                }
-                                Log.d("today::::", "3 : $temperaturelist")
-                            }
-                            override fun onFailure(call: Call<List<OtherDayWeatherDB>>, t: Throwable) {
-                                Log.d("today::::", "failed22")
-                            }
-                        })
+
+                firstdayForecast = response.body()!!.firstDayWeather
+                if(firstdayForecast!!.tidelevelone != null) {
+                    tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelone, firstdayForecast!!.tidetimeone, firstdayForecast!!.tidetypeone))
+                }
+                if(firstdayForecast!!.tideleveltwo != null) {
+                    tidetemplist.add(TideInfo(firstdayForecast!!.tideleveltwo, firstdayForecast!!.tidetimetwo, firstdayForecast!!.tidetypetwo))
+                }
+                if(firstdayForecast!!.tidelevelthree != null) {
+                    tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelthree, firstdayForecast!!.tidetimethree, firstdayForecast!!.tidetypethree))
+                }
+                if(firstdayForecast!!.tidelevelfour != null) {
+                    tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelfour, firstdayForecast!!.tidetimefour, firstdayForecast!!.tidetypefour))
+                }
+                val temptide = TideModel(Result(tidetemplist, Meta("", "")))
+                totalTideList.add(temptide)
+                temperaturelist.add(temper(firstDay, "TMP", firstdayForecast.nowtemp))
+
+                otherdayForecast = response.body()!!.otherDayWeather
+                for(i in 0..5) {
+                    var tidetemplist : MutableList<TideInfo> = ArrayList()
+                    if(otherdayForecast[i]!!.tidelevelone != null) {
+                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelone, otherdayForecast[i]!!.tidetimeone, otherdayForecast[i]!!.tidetypeone))
                     }
-                    override fun onFailure(call: Call<FirstDayWeatherDB>, t: Throwable) {
-                        Log.d("today::::", "failed22")
+                    if(otherdayForecast[i]!!.tideleveltwo != null) {
+                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tideleveltwo, otherdayForecast[i]!!.tidetimetwo, otherdayForecast[i]!!.tidetypetwo))
                     }
-                })
+                    if(otherdayForecast[i]!!.tidelevelthree != null) {
+                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelthree, otherdayForecast[i]!!.tidetimethree, otherdayForecast[i]!!.tidetypethree))
+                    }
+                    if(otherdayForecast[i]!!.tidelevelfour != null) {
+                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelfour, otherdayForecast[i]!!.tidetimefour, otherdayForecast[i]!!.tidetypefour))
+                    }
+                    val temptide = TideModel(Result(tidetemplist, Meta("", "")))
+                    totalTideList.add(temptide)
+                    if(i == 0) {
+                        temperaturelist.add(temper(secondDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(secondDay, "TMX", otherdayForecast[i].maxtemp))
+                    } else if (i == 1) {
+                        temperaturelist.add(temper(thirdDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(thirdDay, "TMX", otherdayForecast[i].maxtemp))
+                    } else if (i == 2) {
+                        temperaturelist.add(temper(fourthDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(fourthDay, "TMX", otherdayForecast[i].maxtemp))
+                    } else if (i == 3) {
+                        temperaturelist.add(temper(fifthDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(fifthDay, "TMX", otherdayForecast[i].maxtemp))
+                    } else if (i == 4) {
+                        temperaturelist.add(temper(sixthDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(sixthDay, "TMX", otherdayForecast[i].maxtemp))
+                    } else if (i == 5) {
+                        temperaturelist.add(temper(seventhDay, "TMN", otherdayForecast[i].mintemp))
+                        temperaturelist.add(temper(seventhDay, "TMX", otherdayForecast[i].maxtemp))
+                    }
+                }
+                if(!bottomcheckcondition) {
+                    Log.d("today::::", "****************************")
+                    bottomcheckcondition = true
+                    val bottomsheetdialog = BottomSheetDialog(totalTideList, todayTideList, temperaturelist, mytag.obsname, lunarlist)
+                    bottomsheetdialog.show(supportFragmentManager, "bottomsheetdialog")
+                    bottomcheckcondition = false
+                }
             }
-            override fun onFailure(call: Call<List<TidePreModelDB>>, t: Throwable) {
-                Log.d("today::::", "failed11")
+
+            override fun onFailure(call: Call<TotalWeatherDB>, t: Throwable) {
+                Log.d("today::::", "total failed")
             }
         })
 
+//        todayTideDB.enqueue(object : Callback<List<TidePreModelDB>> {
+//            override fun onResponse(
+//                call: Call<List<TidePreModelDB>>,
+//                response: Response<List<TidePreModelDB>>
+//            ) {
+//                val todayTide = response.body()
+//                var i = 0
+//                todayTide!!.forEach {
+//                    todayTideList.add(Entry(i.toFloat(), it.tidelevel.toFloat()))
+//                    i++
+//                }
+//                preWeathDB.enqueue(object : Callback<FirstDayWeatherDB> {
+//                    override fun onResponse(
+//                        call: Call<FirstDayWeatherDB>,
+//                        response: Response<FirstDayWeatherDB>
+//                    ) {
+//                        firstdayForecast = response.body()!!
+//                        if(firstdayForecast!!.tidelevelone != null) {
+//                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelone, firstdayForecast!!.tidetimeone, firstdayForecast!!.tidetypeone))
+//                        }
+//                        if(firstdayForecast!!.tideleveltwo != null) {
+//                            tidetemplist.add(TideInfo(firstdayForecast!!.tideleveltwo, firstdayForecast!!.tidetimetwo, firstdayForecast!!.tidetypetwo))
+//                        }
+//                        if(firstdayForecast!!.tidelevelthree != null) {
+//                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelthree, firstdayForecast!!.tidetimethree, firstdayForecast!!.tidetypethree))
+//                        }
+//                        if(firstdayForecast!!.tidelevelfour != null) {
+//                            tidetemplist.add(TideInfo(firstdayForecast!!.tidelevelfour, firstdayForecast!!.tidetimefour, firstdayForecast!!.tidetypefour))
+//                        }
+//                        val temptide = TideModel(Result(tidetemplist, Meta("", "")))
+//                        totalTideList.add(temptide)
+//                        temperaturelist.add(temper(firstDay, "TMP", firstdayForecast.nowtemp))
+//                        preWeathDB2.enqueue(object : Callback<List<OtherDayWeatherDB>> {
+//                            override fun onResponse(
+//                                call: Call<List<OtherDayWeatherDB>>,
+//                                response: Response<List<OtherDayWeatherDB>>
+//                            ) {
+//                                otherdayForecast = response.body()!!
+//                                for(i in 0..5) {
+//                                    var tidetemplist : MutableList<TideInfo> = ArrayList()
+//                                    if(otherdayForecast[i]!!.tidelevelone != null) {
+//                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelone, otherdayForecast[i]!!.tidetimeone, otherdayForecast[i]!!.tidetypeone))
+//                                    }
+//                                    if(otherdayForecast[i]!!.tideleveltwo != null) {
+//                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tideleveltwo, otherdayForecast[i]!!.tidetimetwo, otherdayForecast[i]!!.tidetypetwo))
+//                                    }
+//                                    if(otherdayForecast[i]!!.tidelevelthree != null) {
+//                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelthree, otherdayForecast[i]!!.tidetimethree, otherdayForecast[i]!!.tidetypethree))
+//                                    }
+//                                    if(otherdayForecast[i]!!.tidelevelfour != null) {
+//                                        tidetemplist.add(TideInfo(otherdayForecast[i]!!.tidelevelfour, otherdayForecast[i]!!.tidetimefour, otherdayForecast[i]!!.tidetypefour))
+//                                    }
+//                                    val temptide = TideModel(Result(tidetemplist, Meta("", "")))
+//                                    totalTideList.add(temptide)
+//                                    if(i == 0) {
+//                                        temperaturelist.add(temper(secondDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(secondDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    } else if (i == 1) {
+//                                        temperaturelist.add(temper(thirdDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(thirdDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    } else if (i == 2) {
+//                                        temperaturelist.add(temper(fourthDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(fourthDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    } else if (i == 3) {
+//                                        temperaturelist.add(temper(fifthDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(fifthDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    } else if (i == 4) {
+//                                        temperaturelist.add(temper(sixthDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(sixthDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    } else if (i == 5) {
+//                                        temperaturelist.add(temper(seventhDay, "TMN", otherdayForecast[i].mintemp))
+//                                        temperaturelist.add(temper(seventhDay, "TMX", otherdayForecast[i].maxtemp))
+//                                    }
+//                                }
+//                                if(!bottomcheckcondition) {
+//                                    Log.d("today::::", "****************************")
+//                                    bottomcheckcondition = true
+//                                    val bottomsheetdialog = BottomSheetDialog(totalTideList, todayTideList, temperaturelist, mytag.obsname, lunarlist)
+//                                    bottomsheetdialog.show(supportFragmentManager, "bottomsheetdialog")
+//                                    bottomcheckcondition = false
+//                                }
+//                                Log.d("today::::", "3 : $temperaturelist")
+//                            }
+//                            override fun onFailure(call: Call<List<OtherDayWeatherDB>>, t: Throwable) {
+//                                Log.d("today::::", "failed22")
+//                            }
+//                        })
+//                    }
+//                    override fun onFailure(call: Call<FirstDayWeatherDB>, t: Throwable) {
+//                        Log.d("today::::", "failed22")
+//                    }
+//                })
+//            }
+//            override fun onFailure(call: Call<List<TidePreModelDB>>, t: Throwable) {
+//                Log.d("today::::", "failed11")
+//            }
+//        })
+
+        // api에서 다이렉트로 받아오기
 //        lateinit var firstdayForecast : FirstDayWeatherDB
 //        lateinit var otherdayForecast : List<OtherDayWeatherDB>
 //
