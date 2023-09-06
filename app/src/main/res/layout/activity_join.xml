@@ -17,21 +17,16 @@
         android:layout_marginBottom="20dp"
         android:gravity="center_horizontal"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/galleryAdd"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:cardCornerRadius="90dp"
-        app:cardElevation="0dp"
-        android:layout_gravity="center"
-        >
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        app:civ_border_color="#00FF0000"
+        app:civ_border_width="2dp"
         android:layout_gravity="center"
-        android:src="@drawable/profile" />
-    </androidx.cardview.widget.CardView>
+        android:src="@drawable/baner1"
+        android:layout_margin="20dp"
+        />
 
     <EditText
         android:id="@+id/nameInput"
@@ -107,14 +102,13 @@
         android:layout_gravity="center"
         android:backgroundTint="#3F51B5" />
 
-    <Button
+    <TextView
         android:id="@+id/backlogin"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:text="로그인 화면으로 돌아가기"
+        android:textSize="15sp"
         android:gravity="center"
-        android:textSize="12sp"
         android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/white" />
+        android:textColor="@color/black" />
 </LinearLayout>

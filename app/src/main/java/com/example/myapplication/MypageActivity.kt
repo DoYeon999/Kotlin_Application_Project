@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityMypageBinding
 import com.example.myapplication.kdy.LoginActivity
+import com.example.myapplication.kdy.LoginModifyActivity
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 
 class MypageActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class MypageActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
+
         findViewById<TextView>(R.id.mypagename).text = nick
         if(url != "") {
             Glide.with(this)
@@ -36,6 +38,13 @@ class MypageActivity : AppCompatActivity() {
             val intent = Intent(this@MypageActivity, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        binding.modify.setOnClickListener {
+            val intent = Intent(this@MypageActivity, LoginModifyActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{

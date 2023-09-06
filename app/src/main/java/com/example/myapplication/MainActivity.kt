@@ -43,8 +43,15 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 로고 클릭 시
         findViewById<ImageView>(R.id.logomain2).setOnClickListener {
             val intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 프로필 클릭 시
+        findViewById<ImageView>(R.id.im_write_main_board).setOnClickListener{
+            val intent = Intent(this@MainActivity, MypageActivity::class.java)
             startActivity(intent)
         }
 

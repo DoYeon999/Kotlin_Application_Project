@@ -81,7 +81,7 @@ class JoinActivity : AppCompatActivity() {
         }
 
         //프로필 추가
-        binding.galleryAdd.setOnClickListener {
+        binding.profileImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
