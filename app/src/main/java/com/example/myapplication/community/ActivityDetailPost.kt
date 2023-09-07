@@ -23,6 +23,7 @@ import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityDetailPostBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ActivityDetailPost : AppCompatActivity() {
     private lateinit var mBinding: ActivityDetailPostBinding
@@ -65,61 +66,42 @@ class ActivityDetailPost : AppCompatActivity() {
 
         //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트
         mBinding.imSendDetail.setOnClickListener {
-            Log.i("##TEST", "asdfsadf${mBinding.edReplyDetail.text.toString()}sadfsadf")
-            //managePasswordDialog()
-//            findViewById<View>(R.id.bt_ok_dialog)
-//                .setOnClickListener {
+            val updb = FirebaseFirestore.getInstance().collection("BoardPosts").document(postInfo.id)
+                .get().addOnSuccessListener {
+                    postInfo.replies = (it.data?.get("Posts") as HashMap<String, Any>).get("replies") as ArrayList<Replies>
+                    Log.d("##INFO", "***${postInfo.replies}***")
                     val reply: String = mBinding.edReplyDetail.text.toString()
                     Log.i("##TEST", "-----$reply")
-                    //val inputPassword =
-                    //    (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
-                    //        .toString()
-                    Log.i("##TEST", "onViewClick(): re.getReply() = $reply")
-                    Log.i(
-                        "##TEST",
-                        "onViewClick(): replayList.size = " + replyList.size
-                    )
-                    postInfo.replies.add(reply)
-                    Log.d("##TEST", "-----${postInfo.replies}---------")
-                    PresenterPost.instance?.setReply(postInfo)
-                    //dlg.dismiss()
-                    mAdapter = AdapterReplay(postInfo.replies)
-                    mBinding.reRepliesDetail.adapter = mAdapter
-                    val linearLayoutManager = LinearLayoutManager(this)
-                    linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-                    mBinding.reRepliesDetail.layoutManager = linearLayoutManager
-                    //mAdapter.updateReplyList(postInfo.replies)
-                    mBinding.edReplyDetail.setText("")
-                    //mBinding.reRepliesDetail.adapter = AdapterReplay(postInfo.replies)
-                //}
-            Log.i("##INFO", "onViewClick(): replayList.size = " + replyList.size)
-            //            mBinding.tvRepliesCountDetailPost.setText(replyList.size() + "");
-
-            //댓글 입력시 자동으로 키보드 내림
-            val view = this.currentFocus
-            if (view != null) {
-                val imm =
-                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(view.windowToken, 0)
-            }
+                    val pref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+                    val nowid = pref.getString("id", "").toString()
+                    val addReply = Replies(nowid, reply)
+                    Log.d("##INFO", "$addReply")
+                    postInfo.replies.add(addReply)
+                    Log.d("##INFO", "$postInfo")
+                    val res = PresenterPost.instance?.setReply(postInfo)
+                    if(res!!) {
+                        val db = FirebaseFirestore.getInstance().collection("BoardPosts").document(postInfo.id).get()
+                            .addOnSuccessListener {
+                                val nowdata = it.data?.get("Posts") as HashMap<String, Any>
+                                Log.d("##INFO", "$nowdata")
+                                mAdapter = AdapterReplay(nowdata.get("replies") as ArrayList<Replies>, nowdata.get("id") as String)
+                                mBinding.reRepliesDetail.adapter = mAdapter
+                                val linearLayoutManager = LinearLayoutManager(this)
+                                linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+                                mBinding.reRepliesDetail.layoutManager = linearLayoutManager
+                                mBinding.edReplyDetail.setText("")
+                            }
+                    }
+                    //댓글 입력시 자동으로 키보드 내림
+                    val view = this.currentFocus
+                    if (view != null) {
+                        val imm =
+                            getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(view.windowToken, 0)
+                    }
+                }
         }
     }
-
-
-    private fun checkUserType() {
-        val preferences: SharedPreferences =
-            getSharedPreferences("userType", Context.MODE_PRIVATE)
-        val userType = preferences.getString("userType", "")
-        Log.i("##INFO", "userType = $userType ")
-
-        if (userType == "환자") {
-            mBinding.tvBlockDetailPost.visibility = View.VISIBLE
-            mBinding.edReplyDetail.isClickable = false
-            mBinding.edReplyDetail.isFocusable = false
-            mBinding.imSendDetail.isEnabled = false
-        }
-    }
-
     private fun initVariable() {
         replyList = ArrayList<String>()
         //mAdapter = AdapterReplay(replyList)
@@ -150,9 +132,9 @@ class ActivityDetailPost : AppCompatActivity() {
 //        setReplyData()
 //    }
 
-    private fun setReplyData(reps : MutableList<String>) {
+    private fun setReplyData(reps : MutableList<Replies>) {
         Log.d("testtesttest", "${reps}")
-        mAdapter = AdapterReplay(reps)
+        mAdapter = AdapterReplay(reps, postInfo.id)
         mBinding.reRepliesDetail.adapter = mAdapter
         mBinding.reRepliesDetail.layoutManager = LinearLayoutManager(this)
         //mAdapter.updateReplyList(replyList)

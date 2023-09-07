@@ -20,6 +20,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.google.firebase.auth.FirebaseAuth
@@ -54,10 +55,12 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         holder.fishspecies.text = postInfo.fishspecies
         //holder.replayCount.text = "[${pList[position].replies.size}]"
         if(postInfo.pictures.size > 0) {
-            holder.picture.visibility = View.VISIBLE
+            //holder.picture.visibility = View.VISIBLE
+            /*
             Glide.with(holder.itemView)
                 .load(postInfo.pictures[0])
-                .into(holder.picture)
+                .into(holder.picture)*/
+            holder.picture.adapter = CommunityImageAdapter((nowContext as AppCompatActivity), postInfo.pictures)
         }
         holder.catchedplace.text = postInfo.wherecatchfish
         holder.content.text = postInfo.content
@@ -65,24 +68,31 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         holder.nickname.text = postInfo.nickname
         holder.replyCnt.text = postInfo.replies.size.toString()
         holder.popup.setOnClickListener {
+            val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+            val nowid = sharedPref.getString("id", "")
+            Log.d("imgtest", "$nowid ------****------ ${postInfo.nickname}")
             //showPopup(holder.popup)
-            val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
-            popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
-            //popup.setOnMenuItemClickListener(this)
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.tv_modify_content -> {
-                        modifyPost(postInfo)
-                        true
+            if(nowid == postInfo.nickname) {
+                val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
+                popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
+                //popup.setOnMenuItemClickListener(this)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.tv_modify_content -> {
+                            modifyPost(postInfo)
+                            true
+                        }
+                        R.id.tv_delete_content -> {
+                            deletePost(postInfo)
+                            true
+                        }
+                        else -> false
                     }
-                    R.id.tv_delete_content -> {
-                        deletePost(postInfo)
-                        true
-                    }
-                    else -> false
                 }
+                popup.show() // 팝업 보여주기
+            } else {
+                Toast.makeText(nowContext, "본인의 게시글만 수정/삭제가 가능합니다.", Toast.LENGTH_LONG).show()
             }
-            popup.show() // 팝업 보여주기
         }
 
         /*
@@ -152,6 +162,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
+                postUpdate?.id = postInfo.id
                 postUpdate?.nickname = postInfo.nickname
                 postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
@@ -160,7 +171,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                 var nowFavorite = postInfo.favorites
                 nowFavorite.put(nowUser.toString(), true)
                 postUpdate?.favorites = nowFavorite
-                postUpdate?.password = postInfo.password
+                //postUpdate?.password = postInfo.password
                 postUpdate?.pictures = postInfo.pictures
                 postUpdate?.replies = postInfo.replies
                 postUpdate?.wherecatchfish = postInfo.wherecatchfish
@@ -184,6 +195,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
             nowDoc?.get()?.addOnSuccessListener {document ->
                 var postUpdate = document?.toObject(PostDataModel::class.java)
+                postUpdate?.id = postInfo.id
                 postUpdate?.nickname = postInfo.nickname
                 postUpdate?.fishspecies = postInfo.fishspecies
                 postUpdate?.content = postInfo.content
@@ -192,7 +204,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                 var nowFavorite = postInfo.favorites
                 nowFavorite.remove(nowUser.toString())
                 postUpdate?.favorites = nowFavorite
-                postUpdate?.password = postInfo.password
+                //postUpdate?.password = postInfo.password
                 postUpdate?.pictures = postInfo.pictures
                 postUpdate?.replies = postInfo.replies
                 postUpdate?.wherecatchfish = postInfo.wherecatchfish
@@ -232,18 +244,18 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
 
 
     private fun modifyPost(postInfo: PostDataModel) {
-        managePasswordDialog()
+        //managePasswordDialog()
         //Log.d("##test", "${adapterPosition}")
         //상단에 취소키를 눌렀을때 다이얼로그창 종료
         dlg!!.findViewById<View>(R.id.im_cancel_dialog)
             .setOnClickListener { t: View? -> dlg!!.dismiss() }
         dlg!!.findViewById<View>(R.id.bt_ok_dialog)
             .setOnClickListener { t: View? ->
-                val password: String = postInfo.password
+                //val password: String = postInfo.password
                 val inputPassword =
                     (dlg!!.findViewById<View>(R.id.ed_password_dialog) as EditText).text
                         .toString()
-                if (inputPassword == password) {
+                //if (inputPassword == password) {
                     dlg!!.dismiss()
                     val i =
                         Intent(nowContext, ActivityWritePost::class.java)
@@ -251,25 +263,25 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                     nowContext.startActivity(i)
                     //val contextActivity = nowContext as AppCompatActivity
                     //contextActivity.finish()
-                } else {
+                } /*else {
                     Toast.makeText(nowContext, "비밀번호가 틀립니다", Toast.LENGTH_SHORT)
                         .show()
                 }
-            }
+            }*/
     }
 
     private fun deletePost(postInfo: PostDataModel) {
-        managePasswordDialog()
+        //managePasswordDialog()
         //상단에 취소키를 눌렀을때 다이얼로그창 종료
-        dlg.findViewById<View>(R.id.im_cancel_dialog)
-            .setOnClickListener { t: View? -> dlg.dismiss() }
-        dlg.findViewById<View>(R.id.bt_ok_dialog)
-            .setOnClickListener { t: View? ->
-                val password: String = postInfo.password
-                val inputPassword =
-                    (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
-                        .toString()
-                if (inputPassword == password) {
+        //dlg.findViewById<View>(R.id.im_cancel_dialog)
+        //    .setOnClickListener { t: View? -> dlg.dismiss() }
+        //dlg.findViewById<View>(R.id.bt_ok_dialog)
+        //    .setOnClickListener { t: View? ->
+                //val password: String = postInfo.password
+                //val inputPassword =
+                //    (dlg.findViewById<View>(R.id.ed_password_dialog) as EditText).text
+                //        .toString()
+                //if (inputPassword == password) {
                     val updates = hashMapOf<String, Any>(
                         "Posts" to FieldValue.delete(),
                     )
@@ -287,19 +299,19 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                             )
                         }
                     }
-                    dlg.dismiss()
+                    //dlg.dismiss()
                     Toast.makeText(nowContext, "게시글이 삭제되었습니다", Toast.LENGTH_SHORT)
                         .show()
                     val intent = Intent(nowContext, HomeActivity::class.java)
                     nowContext.startActivity(intent)
                     //val contextActivity = nowContext as AppCompatActivity
                     //contextActivity.finish()
-                } else {
+                } /*else {
                     Toast.makeText(nowContext, "비밀번호가 틀립니다", Toast.LENGTH_SHORT)
                         .show()
                 }
             }
-    }
+    }*/
 
     private fun checkMyFavorite(user : String, post : PostDataModel, holder: ViewHolderMainBoard){
         if(post.favorites.containsKey(user)) {
@@ -315,7 +327,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         }
 
     }
-
+    /*
     private fun managePasswordDialog() {
         dlg = Dialog(nowContext, R.style.theme_dialog)
         dlg.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -326,7 +338,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         dlg.show()
         dlg.findViewById<View>(R.id.im_cancel_dialog)
             .setOnClickListener { t: View? -> dlg.dismiss() }
-    }
+    }*/
 
     fun deleteReply(postInfo: PostDataModel): Boolean {
         postInfo.id?.let {
@@ -387,7 +399,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         //val title: TextView
         val content : TextView
         //val replayCount: TextView
-        val picture: ImageView
+        //val picture: ImageView
+        val picture : ViewPager2
         val likeEmptyButton : Button
         val likeFillButton : Button
         //val modifyButton : TextView

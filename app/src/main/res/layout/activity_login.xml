@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="30dp"
-    android:gravity="center"
     tools:context=".kdy.LoginActivity">
+
+    <include layout="@layout/toolbarmain"/>
 
     <TextView
         android:layout_width="150dp"
@@ -16,12 +16,14 @@
         android:fontFamily="@font/yeongdeok_blueroad"
         android:textSize="30sp"
         android:layout_margin="50dp"
-        android:gravity="center_horizontal"/>
+        android:gravity="center"
+        android:layout_gravity="center"/>
 
     <EditText
         android:id="@+id/idInput"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="아이디" />
 
     <EditText
@@ -29,7 +31,8 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="비밀번호"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/loginbutton"
@@ -38,7 +41,9 @@
         android:text="로그인"
         android:textColor="@color/white"
         android:layout_marginBottom="5dp"
-        android:backgroundTint="#3F51B5" />
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#3F51B5"
+        android:layout_gravity="center"/>
 
     <Button
         android:id="@+id/signinbutton"
@@ -46,14 +51,16 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:text="회원가입"
-        android:backgroundTint="#3F51B5" />
+        android:backgroundTint="#3F51B5"
+        android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SNS 계정으로 로그인하기"
         android:textSize="20sp"
-        android:layout_margin="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
         android:textStyle="bold" />
 

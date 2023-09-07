@@ -73,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
                             dialog("success")
                             val intent = Intent(this, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
                             break
                         }
                         count++
