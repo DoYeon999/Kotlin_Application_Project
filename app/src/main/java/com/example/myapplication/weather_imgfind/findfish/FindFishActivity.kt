@@ -3,6 +3,7 @@ package com.example.myapplication.weather_imgfind.findfish
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,6 +13,7 @@ import android.media.ThumbnailUtils
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,10 +21,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
+import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityFindFishBinding
+import com.example.myapplication.kdy.LoginActivity
 import com.example.myapplication.ml.Model
 import com.example.myapplication.weather_imgfind.adapter.ConfidenceAdpater
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.IOException
@@ -51,6 +57,9 @@ class FindFishActivity : AppCompatActivity() {
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
             if(url != "") {
                 Glide.with(this)
                     .load(url)
@@ -111,6 +120,62 @@ class FindFishActivity : AppCompatActivity() {
             } else {
                 //Request camera permission if we don't have it.
                 requestPermissions(arrayOf(Manifest.permission.CAMERA), 100)
+            }
+        }
+
+        findViewById<ImageView>(R.id.homepage).setOnClickListener{
+            val intent = Intent(this@FindFishActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
+            val intent = Intent(this@FindFishActivity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
+            if(logincheck) {
+                val intent = Intent(this@FindFishActivity, HomeActivity::class.java)
+                startActivity(intent)
+            } else {
+                binding.findfishlayout.alpha = 0.2f
+                val dialog = AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@FindFishActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            binding.findfishlayout.alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
+            }
+        }
+
+        findViewById<ImageView>(R.id.mypage).setOnClickListener{
+            if(logincheck) {
+                val intent = Intent(this@FindFishActivity, MypageActivity::class.java)
+                startActivity(intent)
+            } else {
+                binding.findfishlayout.alpha = 0.2f
+                val dialog = AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@FindFishActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            binding.findfishlayout.alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
             }
         }
 

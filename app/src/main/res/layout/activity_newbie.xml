@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/newbielayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,6 +9,12 @@
     tools:context="com.example.myapplication.FishingContent.Newbie">
 
     <include layout="@layout/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,5 +69,6 @@
         android:gravity="center"
         android:background="@drawable/hiyoutube"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
+    </LinearLayout>
+    <include layout="@layout/navigation"/>
 </LinearLayout>

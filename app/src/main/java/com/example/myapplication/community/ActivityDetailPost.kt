@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityDetailPostBinding
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -57,11 +59,37 @@ class ActivityDetailPost : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.toolbarprofile))
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(logincheck) {
+            findViewById<TextView>(R.id.toolbarnick).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile))
+            }
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
+        }
+
+        findViewById<ImageView>(R.id.homepage).setOnClickListener{
+            val intent = Intent(this@ActivityDetailPost, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
+            val intent = Intent(this@ActivityDetailPost, MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
+            val intent = Intent(this@ActivityDetailPost, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.mypage).setOnClickListener{
+            val intent = Intent(this@ActivityDetailPost, MypageActivity::class.java)
+            startActivity(intent)
         }
 
         //댓글 작성 후 보내기 버튼 클릭시 발생 이벤트

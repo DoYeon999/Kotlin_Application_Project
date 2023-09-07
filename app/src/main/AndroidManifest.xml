@@ -103,10 +103,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".community.SignUpActivity" />
         <activity
             android:name=".community.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop"/>
         <activity android:name=".community.ActivityDetailPost" />
         <activity android:name=".community.ActivityWritePost" />
     </application>

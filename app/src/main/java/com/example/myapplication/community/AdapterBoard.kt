@@ -19,10 +19,14 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -99,6 +103,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                 }
             }
             val nowUser = sharedPref.getString("id", "")
+
+            // 네비게이션바 페이지 이동
 
             checkMyFavorite(nowUser.toString(), pList[position], holder)
 

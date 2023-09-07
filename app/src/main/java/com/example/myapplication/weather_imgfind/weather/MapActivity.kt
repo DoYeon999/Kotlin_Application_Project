@@ -16,6 +16,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -23,8 +24,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
+import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityBottomSheetDialogBinding
+import com.example.myapplication.kdy.LoginActivity
 import com.example.myapplication.weather_imgfind.model.FirstDayWeatherDB
 import com.example.myapplication.weather_imgfind.model.ForecastModel
 import com.example.myapplication.weather_imgfind.model.Meta
@@ -131,6 +135,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
             if(url != "") {
                 Glide.with(this)
                     .load(url)
@@ -139,6 +146,62 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "날씨"
+
+        findViewById<ImageView>(R.id.homepage).setOnClickListener{
+            val intent = Intent(this@MapActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
+            val intent = Intent(this@MapActivity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
+            if(logincheck) {
+                val intent = Intent(this@MapActivity, HomeActivity::class.java)
+                startActivity(intent)
+            } else {
+                findViewById<LinearLayout>(R.id.maplayout).alpha = 0.2f
+                val dialog = android.app.AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@MapActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            findViewById<LinearLayout>(R.id.maplayout).alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
+            }
+        }
+
+        findViewById<ImageView>(R.id.mypage).setOnClickListener{
+            if(logincheck) {
+                val intent = Intent(this@MapActivity, MypageActivity::class.java)
+                startActivity(intent)
+            } else {
+                findViewById<LinearLayout>(R.id.maplayout).alpha = 0.2f
+                val dialog = android.app.AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@MapActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            findViewById<LinearLayout>(R.id.maplayout).alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
+            }
+        }
 
 
         // [START_EXCLUDE silent]

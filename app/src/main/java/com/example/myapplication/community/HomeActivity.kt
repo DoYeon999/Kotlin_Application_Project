@@ -1,17 +1,22 @@
 package com.example.myapplication.community
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBoardBinding
+import com.example.myapplication.kdy.LoginActivity
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class HomeActivity : AppCompatActivity() {
@@ -42,6 +47,29 @@ class HomeActivity : AppCompatActivity() {
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile))
             }
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
+        }
+        // 네비게이션바 페이지 이동
+        findViewById<ImageView>(R.id.homepage).setOnClickListener{
+            val intent = Intent(this@HomeActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
+            val intent = Intent(this@HomeActivity, MapActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
+            val intent = Intent(this@HomeActivity, HomeActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<ImageView>(R.id.mypage).setOnClickListener{
+            val intent = Intent(this@HomeActivity, MypageActivity::class.java)
+            startActivity(intent)
         }
         initVariable()
         getPosts()
