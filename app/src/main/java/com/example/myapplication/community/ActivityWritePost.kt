@@ -57,7 +57,7 @@ class ActivityWritePost : AppCompatActivity() {
     private var imageUriList = ArrayList<String>()
     private var favoritesList = mutableMapOf<String, Boolean>()
     private val bitmapList = ArrayList<Bitmap>()
-    private val maxSize = 2
+    private val maxSize = 5
     private var addr = ""
     private lateinit var locationManager : LocationManager
     private lateinit var naverMap : NaverMap
@@ -65,6 +65,7 @@ class ActivityWritePost : AppCompatActivity() {
     private val PERMISSION_REQUEST_CODE = 1
     private var lat : Double = 0.0
     private var lng : Double = 0.0
+    private var imgcount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityWritePostBinding.inflate(layoutInflater)
@@ -101,12 +102,29 @@ class ActivityWritePost : AppCompatActivity() {
             val data = result.data
             if (data!!.clipData != null) {
                 val clipData = data.clipData
-                val uri = clipData?.getItemAt(0)?.uri
-                val bitmap: Bitmap =
-                    FileUtils.uriToBitmap(this@ActivityWritePost, uri)
-                bitmapList.add(bitmap)
+                Log.d("##INFO", "$clipData")
+                //val uri = clipData?.getItemAt(0)?.uri
+                for(i in 0 until(clipData?.itemCount!!)) {
+                    if(i == maxSize) {
+                        Toast.makeText(this@ActivityWritePost, "5장까지만 첨부가능합니다.", Toast.LENGTH_SHORT).show()
+                        break
+                    }
+                    val uri = clipData?.getItemAt(i)?.uri
+                    val bitmap : Bitmap = FileUtils.uriToBitmap(this@ActivityWritePost, uri)
+                    bitmapList.add(bitmap)
+                }
+                //val bitmap: Bitmap =
+                //    FileUtils.uriToBitmap(this@ActivityWritePost, uri)
+                //bitmapList.add(bitmap)
                 Log.i("##INFO", "(): bitmap.size = " + bitmapList.size)
-                mBinding.imOneWrite.setImageBitmap(bitmap)
+                for(i in 0 until bitmapList.size) {
+                    if(i == 0) mBinding.imOneWrite1.setImageBitmap(bitmapList.get(0))
+                    else if(i == 1) mBinding.imOneWrite2.setImageBitmap(bitmapList.get(1))
+                    else if(i == 2) mBinding.imOneWrite3.setImageBitmap(bitmapList.get(2))
+                    else if(i == 3) mBinding.imOneWrite4.setImageBitmap(bitmapList.get(3))
+                    else if(i == 4) mBinding.imOneWrite5.setImageBitmap(bitmapList.get(4))
+                }
+
             }
 
         }
@@ -114,7 +132,7 @@ class ActivityWritePost : AppCompatActivity() {
 
     //region ---- getImages Section  ---
     var pickMultipleMedia = registerForActivityResult<PickVisualMediaRequest, List<Uri>>(
-        ActivityResultContracts.PickMultipleVisualMedia(maxSize)
+        ActivityResultContracts.PickMultipleVisualMedia(10)
     ) { uris: List<Uri> ->
         // photo picker.
         if (!uris.isEmpty()) {
@@ -125,7 +143,7 @@ class ActivityWritePost : AppCompatActivity() {
                 contentResolver.takePersistableUriPermission(uri, flag)
                 val bitmap: Bitmap =
                     FileUtils.uriToBitmap(this@ActivityWritePost, uri)
-                mBinding.imOneWrite.setImageBitmap(bitmap)
+                //mBinding.imOneWrite.setImageBitmap(bitmap)
                 bitmapList.add(bitmap)
             }
         } else {
@@ -226,14 +244,14 @@ class ActivityWritePost : AppCompatActivity() {
         if (getPostData != null) {
             mBinding.edFishspeciesWrite.setText(getPostData.fishspecies)
             mBinding.edContentWrite.setText(getPostData.content)
-            mBinding.edPasswordWrite.setText(getPostData.password)
+            //mBinding.edPasswordWrite.setText(getPostData.password)
             postId = getPostData.id
 
             //replies = getPostData.replies!!
             if (getPostData.pictures?.size == 0) return
-
-            Glide.with(this).load(getPostData.pictures?.get(0)).into(mBinding.imOneWrite)
+            Glide.with(this).load(getPostData.pictures?.get(0)).into(mBinding.imOneWrite1)
             imageUriList = getPostData.pictures!!
+            //Log.d("imgtest", "$imageUriList")
         }
     }
 
@@ -243,8 +261,8 @@ class ActivityWritePost : AppCompatActivity() {
             //user 입력란에 공백이 있는지에 대한 확인
             val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
             val content: String = mBinding.edContentWrite.getText().toString()
-            val password: String = mBinding.edPasswordWrite.getText().toString()
-            if (fishspecies.isEmpty() && password.isEmpty()) {
+            //val password: String = mBinding.edPasswordWrite.getText().toString()
+            if (fishspecies.isEmpty()) {
                 Toast.makeText(this, "빈 부분이 있습니다", Toast.LENGTH_SHORT).show()
                 mBinding.prLoadingPost.setVisibility(View.GONE)
             } else if (!bitmapList.isEmpty()) {
@@ -260,31 +278,37 @@ class ActivityWritePost : AppCompatActivity() {
         }
 
         mBinding.ibtGetPhotoWrite.setOnClickListener { v ->
-            if (mBinding.imOneWrite.getDrawable() != null) {
-                Toast.makeText(this@ActivityWritePost, "이미지는 최대 1장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
+            if (mBinding.imOneWrite1.getDrawable() != null) {
+                Toast.makeText(this@ActivityWritePost, "이미지는 최대 5장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 launchPhotoPicker()
             }
         }
         mBinding.imOneCancelWrite.setOnClickListener { v ->
-            mBinding.imOneWrite.setImageResource(0)
+            mBinding.imOneWrite1.setImageResource(0)
+            mBinding.imOneWrite2.setImageResource(0)
+            mBinding.imOneWrite3.setImageResource(0)
+            mBinding.imOneWrite4.setImageResource(0)
+            mBinding.imOneWrite5.setImageResource(0)
             if (!imageUriList.isEmpty()) {
                 Log.i("##INFO", "onViewClick(): delete Image to imageUriList")
-                imageUriList.removeAt(0)
+                val counter = imageUriList.size
+                for(i in 0 until counter) imageUriList.removeAt(0)
             }
             if (!bitmapList.isEmpty()) {
                 Log.i("##INFO", "onViewClick(): delete Image to bitmapList")
-                bitmapList.removeAt(0)
+                val counter2 = bitmapList.size
+                for(i in 0 until counter2) bitmapList.removeAt(0)
             }
         }
-        if (!bitmapList.isEmpty()) {
-            if (bitmapList.size == 2) {
-                bitmapList.removeAt(1)
-            } else {
-                bitmapList.removeAt(0)
-            }
-        }
+//        if (!bitmapList.isEmpty()) {
+//            if (bitmapList.size == 2) {
+//                bitmapList.removeAt(1)
+//            } else {
+//                bitmapList.removeAt(0)
+//            }
+//        }
     }
 
 
@@ -293,7 +317,7 @@ class ActivityWritePost : AppCompatActivity() {
         val storageRef: StorageReference = storage.getReference()
         val randomNum = (Math.random() * 100000).toInt()
         val mountainsRef: StorageReference =
-            storageRef.child(mBinding.edFishspeciesWrite.text.toString() + randomNum.toString() + ".jpg")
+            storageRef.child("communityImages/" + mBinding.edFishspeciesWrite.text.toString() + randomNum.toString() + ".jpg")
         val baos = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val data = baos.toByteArray()
@@ -307,12 +331,21 @@ class ActivityWritePost : AppCompatActivity() {
             OnSuccessListener<Any?> {
                 Log.i("##INFO", "onSuccess(): success save images")
                 mountainsRef.downloadUrl.addOnSuccessListener(OnSuccessListener<Uri> { uri ->
+                    Log.d("##INFO", "${bitmapList.size}")
                     Log.i("##INFO", "onSuccess(): getImageUri = $uri")
-                    if (imageUriList.size < 2) {
+                    Log.i("##INFO", "********${imageUriList.size}*******")
+                    if (imageUriList.size <= 5) {
                         imageUriList.add(uri.toString())
                         Log.i("##INFO", "onSuccess(): bimLIst.size = " + bitmapList.size)
                     }
-                    addPost()
+                    imgcount += 1
+                    //addPost()
+                    Log.d("##INFO", "$imgcount")
+                    if(imgcount == bitmapList.size) {
+                        addPost()
+                        Toast.makeText(this@ActivityWritePost, "게시물 작성이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        return@OnSuccessListener
+                    }
                 })
             })
     }
@@ -320,7 +353,7 @@ class ActivityWritePost : AppCompatActivity() {
     private fun addPost() {
         val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
         val content: String = mBinding.edContentWrite.getText().toString()
-        val password: String = mBinding.edPasswordWrite.getText().toString()
+        //val password: String = mBinding.edPasswordWrite.getText().toString()
         auth = FirebaseAuth.getInstance()
         val nowuid = auth?.currentUser?.uid
         var nowUserNick = ""
@@ -344,10 +377,8 @@ class ActivityWritePost : AppCompatActivity() {
         Log.d("maptest", "${request.url}")
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onFailure(call: okhttp3.Call, e: IOException) {
-
                 Log.e("maptest", "Error: ${e.message}")
             }
-
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 val responseBody = response.body?.string()
                 Log.d("maptest", "Address: $responseBody")
@@ -361,18 +392,19 @@ class ActivityWritePost : AppCompatActivity() {
                     val addr1 = JSONObject(address).getJSONObject("region").getJSONObject("area1").get("name")
                     val addr2 = JSONObject(address).getJSONObject("region").getJSONObject("area2").get("name")
                     val addr3 = JSONObject(address).getJSONObject("region").getJSONObject("area3").get("name")
-                    addr += String.format("%s %s %s", addr1.toString(), addr2.toString(), addr3.toString())
+                    addr = String.format("%s %s %s", addr1.toString(), addr2.toString(), addr3.toString())
                     Log.d("maptest", "Address: $addr0 - $addr1 - $addr2 - $addr3")
                     Log.d("maptest", "###$addr###")
                 } else {
                     Log.d("maptest", "###xxxxxxxxxx##")
-                    addr += String.format("[%.2f, %.2f]", latLng.latitude, latLng.longitude)
+                    addr = String.format("[%.2f, %.2f]", latLng.latitude, latLng.longitude)
                     Log.d("maptest", "바다 - [위도, 경도] : [${latLng.latitude}, ${latLng.longitude}]")
                     Log.d("maptest", "###$addr###")
                 }
 
                 val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
                 val nowUserNick = sharedPref.getString("id", "")
+                val nowUserProfile = sharedPref.getString("profileuri", "")
 
                 db.collection("Users").document(nowuid.toString()).get().addOnSuccessListener {
                     Log.d("test1234", "$nowUserNick")
@@ -384,7 +416,6 @@ class ActivityWritePost : AppCompatActivity() {
                             nowUserNick!!,
                             fishspecies,
                             content,
-                            password,
                             ArrayList(),
                             imageUriList,
                             0,
