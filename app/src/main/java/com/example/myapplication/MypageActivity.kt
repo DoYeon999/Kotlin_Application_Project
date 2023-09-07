@@ -39,15 +39,6 @@ class MypageActivity : AppCompatActivity() {
         }
 
         binding.logout.setOnClickListener {
-            val intent = Intent(this@MypageActivity, MainActivity::class.java)
-            sharedPref.edit().run {
-                putBoolean("signedup", false)
-                commit()
-            }
-            startActivity(intent)
-        }
-
-        binding.login.setOnClickListener {
             val intent = Intent(this@MypageActivity, LoginActivity::class.java)
             startActivity(intent)
         }

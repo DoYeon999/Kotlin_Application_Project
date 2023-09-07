@@ -8,18 +8,18 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/maintoolbar2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="@color/blue">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:id="@+id/toptoolbar">
 
             <ImageView
                 android:id="@+id/logomain2"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:src="@drawable/mainlogo2"
                 android:layout_marginRight="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -31,38 +31,24 @@
                 android:id="@+id/toolbarnick2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/toolbarprofile2"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"
                 />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/toolbarprofile2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
-                android:layout_marginRight="5dp"/>
-
-            <TextView
-                android:id="@+id/loginbuttonmain2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:text="로그인"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"/>
 
 <!--            <ImageView-->
 <!--                android:layout_width="50dp"-->

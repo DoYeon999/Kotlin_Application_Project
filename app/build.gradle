@@ -129,4 +129,6 @@ dependencies {
     implementation 'com.navercorp.nid:oauth:5.7.0'
     implementation("com.naver.maps:map-sdk:3.17.0")
 
+    // 프로필 동그랗게
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
 }

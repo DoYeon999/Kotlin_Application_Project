@@ -53,13 +53,13 @@
                     android:id="@+id/weatherforfishing"
                     android:layout_width="70dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/wheater2"
+                    android:src="@drawable/guide"
                     android:background="@drawable/round"
                     android:layout_margin="5dp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="날씨"
+                    android:text="초보자 가이드"
                     android:gravity="center"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -72,7 +72,7 @@
                 android:id="@+id/fishinfo"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
-                android:src="@drawable/book2"
+                android:src="@drawable/book"
                 android:background="@drawable/round"
                 android:layout_margin="5dp" />
 
@@ -92,9 +92,10 @@
                 android:id="@+id/fishplace"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
-                android:src="@drawable/point2"
+                android:src="@drawable/point3"
                 android:background="@drawable/round"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:padding="5dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,7 +112,7 @@
                     android:id="@+id/fishtonement"
                     android:layout_width="80dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/tonement2"
+                    android:src="@drawable/tonement"
                     android:background="@drawable/round"
                     android:layout_margin="5dp" />
                 <TextView
