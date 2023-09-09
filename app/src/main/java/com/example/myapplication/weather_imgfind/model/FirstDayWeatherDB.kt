@@ -6,27 +6,27 @@ data class FirstDayWeatherDB(
     @SerializedName("nowtemp")
     var nowtemp : String,
     @SerializedName("tidelevelOne")
-    var tidelevelone : String,
+    var tidelevelone : String?,
     @SerializedName("tidetimeOne")
-    var tidetimeone : String,
+    var tidetimeone : String?,
     @SerializedName("tidetypeOne")
-    var tidetypeone : String,
+    var tidetypeone : String?,
     @SerializedName("tidelevelTwo")
-    var tideleveltwo : String,
+    var tideleveltwo : String?,
     @SerializedName("tidetimeTwo")
-    var tidetimetwo : String,
+    var tidetimetwo : String?,
     @SerializedName("tidetypeTwo")
-    var tidetypetwo : String,
+    var tidetypetwo : String?,
     @SerializedName("tidelevelThree")
-    var tidelevelthree : String,
+    var tidelevelthree : String?,
     @SerializedName("tidetimeThree")
-    var tidetimethree : String,
+    var tidetimethree : String?,
     @SerializedName("tidetypeThree")
-    var tidetypethree : String,
+    var tidetypethree : String?,
     @SerializedName("tidelevelFour")
-    var tidelevelfour : String,
+    var tidelevelfour : String?,
     @SerializedName("tidetimeFour")
-    var tidetimefour : String,
+    var tidetimefour : String?,
     @SerializedName("tidetypeFour")
-    var tidetypefour : String
+    var tidetypefour : String?
 )

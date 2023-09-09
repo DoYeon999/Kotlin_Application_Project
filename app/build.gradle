@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+    apply plugin : 'kotlin-kapt'
+
     namespace 'com.example.myapplication'
     compileSdk 33
 
@@ -132,4 +134,7 @@ dependencies {
 
     // 프로필 동그랗게
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation "androidx.room:room-runtime:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
 }
