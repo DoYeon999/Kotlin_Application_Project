@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityMypageBinding
 import com.example.myapplication.kdy.LoginActivity
+import com.example.myapplication.kdy.LoginModifyActivity
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 
 class MypageActivity : AppCompatActivity() {
@@ -40,6 +41,17 @@ class MypageActivity : AppCompatActivity() {
 
         binding.logout.setOnClickListener {
             val intent = Intent(this@MypageActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.login.setOnClickListener {
+            val intent = Intent(this@MypageActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.meminfomodify.setOnClickListener {
+            val intent = Intent(this@MypageActivity, LoginModifyActivity::class.java)
+            finish()
             startActivity(intent)
         }
 

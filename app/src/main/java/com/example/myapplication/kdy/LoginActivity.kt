@@ -60,9 +60,11 @@ class LoginActivity : AppCompatActivity() {
                 .addOnSuccessListener { users ->
                     for(user in users.documents) {
                         val tempuser = user.data
+                        Log.d("logintest", "${user}")
                         if(id == tempuser?.get("id") && pw == tempuser?.get("password")) {
                             val sharedPref = getSharedPreferences("logininfo", MODE_PRIVATE)
                             sharedPref.edit().run {
+                                putString("docid", user.id)
                                 putString("id", tempuser?.get("id").toString())
                                 putString("name", tempuser?.get("name").toString())
                                 putString("nickname", tempuser?.get("nickname").toString())

@@ -86,7 +86,7 @@
         android:inputType="textPassword"/>
 
     <Button
-        android:id="@+id/joinbutton"
+        android:id="@+id/modifybutton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="수정하기"
