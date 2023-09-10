@@ -73,6 +73,9 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         holder.replyCnt.text = postInfo.replies.size.toString()
         val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val logincheck = sharedPref.getBoolean("signedup", false)
+        if(postInfo.writerProfile != "") {
+            Glide.with(nowContext).load(postInfo.writerProfile).into(holder.profile)
+        }
         if(logincheck) {
             holder.popup.setOnClickListener {
                 val nowid = sharedPref.getString("id", "")
@@ -128,6 +131,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                     postUpdate?.pictures = postInfo.pictures
                     postUpdate?.replies = postInfo.replies
                     postUpdate?.wherecatchfish = postInfo.wherecatchfish
+                    postUpdate?.writerProfile = postInfo.writerProfile
                     nowDoc.update("Posts", postUpdate)
                 }
                 holder.likeEmptyButton.visibility = View.GONE
@@ -162,6 +166,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                     postUpdate?.pictures = postInfo.pictures
                     postUpdate?.replies = postInfo.replies
                     postUpdate?.wherecatchfish = postInfo.wherecatchfish
+                    postUpdate?.writerProfile = postInfo.writerProfile
                     nowDoc.update("Posts", postUpdate)
                 }
                 holder.likeEmptyButton.visibility = View.VISIBLE
@@ -427,6 +432,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         val catchedplace : TextView
         val commentbtn : TextView
         val popup : Button
+        val profile : ImageView
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
@@ -445,6 +451,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             fishspecies = itemView.findViewById(R.id.tv_fishspecies)
             catchedplace = itemView.findViewById(R.id.catchedplace)
             commentbtn = itemView.findViewById(R.id.total_reply)
+            profile = itemView.findViewById(R.id.profileImg)
+
             //onItemClick()
         }
 

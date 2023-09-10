@@ -151,6 +151,7 @@
         android:textSize="17sp" />
 
         <ImageView
+            android:id="@+id/mycommnuity"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/right"
@@ -222,6 +223,17 @@
         android:layout_gravity="center"
         android:backgroundTint="#3F51B5"
         android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/memberout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="회원탈퇴"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#3F51B5"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/login"

@@ -33,18 +33,18 @@ class PlaceAdapter (val datas: MutableList<FishplaceActivity.Place>?): RecyclerV
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding=(holder as MyViewHolder).binding
         val nowtel = datas!![position].tel.split("-")
-        var dialogtel = "tel:"
-        for (tel in nowtel) dialogtel += tel
-        binding.tel.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse(dialogtel)
-            context.startActivity(intent)
-
-        }
-        Log.d("place", "$dialogtel")
+        //var dialogtel = "tel:"
+        //for (tel in nowtel) dialogtel += tel
+        //binding.tel.setOnClickListener {
+        //    val intent = Intent(Intent.ACTION_DIAL)
+        //    intent.data = Uri.parse(dialogtel)
+        //    context.startActivity(intent)
+        //
+        //}
+        //Log.d("place", "$dialogtel")
         binding.name.text= datas!![position].name
         binding.fish.text= datas!![position].fish
-        binding.tel.text= "예약번호\n" + datas!![position].tel
+        //binding.tel.text= "예약번호\n" + datas!![position].tel
         Glide.with(binding.root).load(datas!![position].fishimgurl).into(binding.fishingImg)
     }
 }

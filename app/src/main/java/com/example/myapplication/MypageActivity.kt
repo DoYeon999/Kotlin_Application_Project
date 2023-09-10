@@ -12,6 +12,7 @@ import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityMypageBinding
 import com.example.myapplication.kdy.LoginActivity
 import com.example.myapplication.kdy.LoginModifyActivity
+import com.example.myapplication.kdy.WrittenByMeActivity
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 
 class MypageActivity : AppCompatActivity() {
@@ -37,6 +38,7 @@ class MypageActivity : AppCompatActivity() {
             }
             binding.logout.visibility = View.VISIBLE
             binding.login.visibility  = View.GONE
+            binding.memberout.visibility = View.VISIBLE
         }
 
         binding.logout.setOnClickListener {
@@ -49,10 +51,19 @@ class MypageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.mycommnuity.setOnClickListener {
+            val intent = Intent(this@MypageActivity, WrittenByMeActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.meminfomodify.setOnClickListener {
             val intent = Intent(this@MypageActivity, LoginModifyActivity::class.java)
             finish()
             startActivity(intent)
+        }
+
+        binding.memberout.setOnClickListener {
+
         }
 
         // 네비게이션바 페이지 이동

@@ -62,7 +62,7 @@ class LoginModifyActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 val nowUser = it.data
-                if(nowUser!!.get("profileuri") != null) {
+                if(nowUser!!.get("profileuri") != "") {
                     Glide.with(this).load(nowUser!!.get("profileuri")).into(binding.profileImage)
                     profileuri = nowUser!!.get("profileuri") as String
                 }

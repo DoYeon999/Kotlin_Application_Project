@@ -94,7 +94,6 @@ class HomeActivity : AppCompatActivity() {
                 mAdapter!!.updatePostList(list!!)
                 binding.rePosts.adapter = mAdapter
             }
-
             override fun onError(erMsg: String?) {
                 Log.e("##H", "onError: error = $erMsg")
             }
