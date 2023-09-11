@@ -16,5 +16,6 @@ data class PostDataModel(
     var pictures: ArrayList<String> = ArrayList(),
     var favoriteCount: Int = 0,
     var favorites : MutableMap<String, Boolean> = HashMap(),
-    var wherecatchfish : String = ""
+    var wherecatchfish : String = "",
+    var writerProfile : String = ""
 ) : Serializable

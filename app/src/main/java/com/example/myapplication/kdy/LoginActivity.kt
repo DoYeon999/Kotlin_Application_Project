@@ -8,9 +8,12 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.navercorp.nid.NaverIdLoginSDK
@@ -48,6 +51,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        findViewById<TextView>(R.id.loginbuttonmain2).visibility = View.GONE
+
+
         //로그인 버튼 - 로그인 시에 shared preference에 로그인 정보를 넣음
         binding.loginbutton.setOnClickListener{
             val id : String = binding.idInput.text.toString()
@@ -60,14 +66,17 @@ class LoginActivity : AppCompatActivity() {
                 .addOnSuccessListener { users ->
                     for(user in users.documents) {
                         val tempuser = user.data
+                        Log.d("logintest", "${user}")
                         if(id == tempuser?.get("id") && pw == tempuser?.get("password")) {
                             val sharedPref = getSharedPreferences("logininfo", MODE_PRIVATE)
                             sharedPref.edit().run {
+                                putString("docid", user.id)
                                 putString("id", tempuser?.get("id").toString())
                                 putString("name", tempuser?.get("name").toString())
                                 putString("nickname", tempuser?.get("nickname").toString())
                                 putString("phone", tempuser?.get("phone").toString())
                                 putString("profileuri", tempuser?.get("profileuri").toString())
+                                putBoolean("signedup", true)
                                 commit()
                             }
                             dialog("success")

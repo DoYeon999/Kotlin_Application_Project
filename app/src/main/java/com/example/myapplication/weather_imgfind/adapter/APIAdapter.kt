@@ -57,7 +57,7 @@ class APIAdapter(val context : Context, val datas : List<TideModel>?, val temper
                     if(counta > 0) highStr += " / "
                     highStr += "${tidetimes?.get(i)?.tidetime?.substring(11, 16)}"
                     counta++
-                } else {
+                } else if (tidetimes?.get(i)?.tidetype.equals("저조")){
                     if(countb > 0) lowStr += " / "
                     lowStr += "${tidetimes?.get(i)?.tidetime?.substring(11, 16)}"
                     countb++

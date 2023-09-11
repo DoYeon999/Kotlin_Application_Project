@@ -70,6 +70,7 @@ class PresenterPost private constructor() {
                         data.favorites = res.get("favorites") as HashMap<String, Boolean>
                         data.favoriteCount = java.lang.String.valueOf(res.get("favoriteCount")).toInt()
                         data.wherecatchfish = java.lang.String.valueOf(res.get("wherecatchfish"))
+                        data.writerProfile = java.lang.String.valueOf(res.get("writerProfile"))
                         postsList.add(data)
                         count++
                         callback.onResult(postsList)

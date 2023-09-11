@@ -28,5 +28,4 @@ interface TemperService {
         @Query("regId") regId : String,
         @Query("tmFc") tmFc : String
     ) : retrofit2.Call<ForecastModel>
-
 }

@@ -52,12 +52,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/im_one_detail_post"
                     android:layout_width="300dp"
-                    android:layout_height="30dp">
+                    android:layout_height="40dp">
 
                     <ImageView
                         android:id="@+id/profileImg"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/boardprofile"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -68,10 +68,11 @@
                         android:layout_width="200dp"
                         android:layout_height="20dp"
                         android:textSize="12dp"
-                        android:layout_marginTop="6dp"
                         android:paddingLeft="16dp"
+                        android:layout_marginLeft="20dp"
                         app:layout_constraintStart_toEndOf="@id/profileImg"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,6 +109,7 @@
                         android:id="@+id/whereImg"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
+                        android:layout_marginLeft="20dp"
                         android:src="@drawable/nowpoint"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv_fishspecies"
@@ -118,12 +120,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:textSize="12dp"
-                        android:layout_marginTop="10dp"
                         android:paddingLeft="10dp"
                         android:text="거제도"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/whereImg" />
+                        app:layout_constraintStart_toEndOf="@id/whereImg"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

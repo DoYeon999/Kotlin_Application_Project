@@ -20,28 +20,29 @@
         app:layout_constraintTop_toBottomOf="@id/boardtool"
         app:layout_constraintBottom_toTopOf="@id/navi">
 
-             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/re_posts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:layout_constraintVertical_bias="0.0"
-                tools:layout_editor_absoluteX="16dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/re_posts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="16dp" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_pan"
-            android:id="@+id/im_write_main_board"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/navi"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_pan"
+        android:id="@+id/im_write_main_board"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navi"
+        android:visibility="gone"/>
 
     <include layout="@layout/navigation"
         android:id="@+id/navi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

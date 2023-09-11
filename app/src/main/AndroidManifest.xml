@@ -17,13 +17,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--휴대전화걸기-->
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 휴대전화걸기 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
+
     <application
-        android:name="com.example.myapplication.weather_imgfind.net.APIApplication"
-        android:usesCleartextTraffic="true"
+        android:name=".weather_imgfind.net.APIApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -32,53 +31,73 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.MyApplication"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
         <activity
-            android:name="com.example.myapplication.kdy.FishinfoActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.FishpageActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.FishplaceActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.LoginActivity"
-            android:exported="true" />
-
-        <activity
-            android:name="com.example.myapplication.kdy.JoinActivity"
-            android:exported="true" />
-        <activity
-            android:name="com.example.myapplication.FishingContent.FishingContentPoster"
+            android:name=".kdy.WrittenByMeActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.myapplication.FishingContent.Newbie"
+            android:name=".sqliteProcess.TestActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.myapplication.FishingContent.FishingContent"
-            android:exported="true" />
+            android:name=".kdy.FishinfoActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".MypageActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".kdy.LoginModifyActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".kdy.FishpageActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".kdy.FishplaceActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".kdy.LoginActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".kdy.JoinActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".FishingContent.FishingContentPoster"
+            android:exported="false" />
+        <activity
+            android:name=".FishingContent.Newbie"
+            android:exported="true"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".FishingContent.FishingContent"
+            android:exported="true"
+            android:launchMode="singleTop" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
-        <activity
-            android:name="com.example.myapplication.weather_imgfind.findfish.FindFishActivity"
-            android:exported="true" />
 
         <activity
-            android:name="com.example.myapplication.weather_imgfind.weather.MapActivity"
+            android:name=".weather_imgfind.findfish.FindFishActivity"
             android:exported="true"
-            />
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".weather_imgfind.weather.MapActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".IntroActivity"
             android:exported="true">
@@ -88,10 +107,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".community.SignUpActivity" />
         <activity
             android:name=".community.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity android:name=".community.ActivityDetailPost" />
         <activity android:name=".community.ActivityWritePost" />
     </application>

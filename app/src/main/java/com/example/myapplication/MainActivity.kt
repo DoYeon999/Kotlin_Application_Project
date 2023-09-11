@@ -1,13 +1,20 @@
 package com.example.myapplication
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.app.AlertDialog
 import android.content.SharedPreferences
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.FishingContent.FishingContent
@@ -38,9 +45,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 //    var user: User? = null
     data class Main(val fishname : String, val fishimg : String)
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
+        // sharedPreference에서 데이터 받아와서 이름/프로필사진 띄움
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val nick = sharedPref.getString("nickname", "")
+        val url = sharedPref.getString("profileuri", "")
+        val loginCheck = sharedPref.getBoolean("signedup", false)
         setContentView(binding.root)
 
         // 로고 클릭 시
@@ -67,24 +80,66 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
-            val intent = Intent(this@MainActivity, HomeActivity::class.java)
-            startActivity(intent)
+            if(loginCheck) {
+                val intent = Intent(this@MainActivity, HomeActivity::class.java)
+                startActivity(intent)
+            } else {
+                binding.mainlayout.alpha = 0.2f
+                val dialog = AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            binding.mainlayout.alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
+            }
         }
 
         findViewById<ImageView>(R.id.mypage).setOnClickListener{
-            val intent = Intent(this@MainActivity, MypageActivity::class.java)
-            startActivity(intent)
+            if(loginCheck) {
+                val intent = Intent(this@MainActivity, MypageActivity::class.java)
+                startActivity(intent)
+            } else {
+                binding.mainlayout.alpha = 0.2f
+                val dialog = AlertDialog.Builder(this).run {
+                    setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
+                        .setPositiveButton("로그인하기") { it, now ->
+                            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("취소") { it, now ->
+                            it.dismiss()
+                            //val opacity = ContextCompat.getColor(this@MainActivity, R.color.opacity_100)
+                            binding.mainlayout.alpha = 1.0f
+                        }
+                }
+                dialog.setCancelable(false)
+                dialog.show()
+            }
         }
 
-        // sharedPreference에서 데이터 받아와서 이름/프로필사진 띄움
-        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
-        val nick = sharedPref.getString("nickname", "")
-        val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick2).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.toolbarprofile2))
+        if(loginCheck) {
+            findViewById<TextView>(R.id.loginbuttonmain2).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick2).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile2).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.toolbarnick2).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile2))
+            }
+        } else {
+            findViewById<TextView>(R.id.loginbuttonmain2).setOnClickListener {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.viewpagerbaner.adapter = MainbanerAdapter(this)

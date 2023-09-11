@@ -3,6 +3,7 @@ package com.example.myapplication.community
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
@@ -81,12 +82,20 @@ class ActivityWritePost : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        findViewById<TextView>(R.id.toolbarnick).text = nick
-        if(url != "") {
-            Glide.with(this)
-                .load(url)
-                .into(findViewById(R.id.toolbarprofile))
+        val signedup = sharedPref.getBoolean("signedup", false)
+        if(signedup) {
+            Log.d("writing", "**** $nick **** $url ****")
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.toolbarnick).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile))
+            }
         }
+
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         requestLocationPermissions()
         startLocationUpdates()
@@ -351,6 +360,9 @@ class ActivityWritePost : AppCompatActivity() {
     }
 
     private fun addPost() {
+        val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val writerProfileImage = sharedPref.getString("profileuri", "")
+        Log.d("writing" , "$writerProfileImage")
         val fishspecies: String = mBinding.edFishspeciesWrite.getText().toString()
         val content: String = mBinding.edContentWrite.getText().toString()
         //val password: String = mBinding.edPasswordWrite.getText().toString()
@@ -420,7 +432,8 @@ class ActivityWritePost : AppCompatActivity() {
                             imageUriList,
                             0,
                             favoritesList,
-                            addr
+                            addr,
+                            writerProfileImage!!
                         ), postId
                     )
                     if (res) {

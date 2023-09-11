@@ -19,10 +19,14 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.myapplication.MainActivity
+import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
+import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -67,32 +71,123 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         //삭제버튼 클릭시 게시글 삭제
         holder.nickname.text = postInfo.nickname
         holder.replyCnt.text = postInfo.replies.size.toString()
-        holder.popup.setOnClickListener {
-            val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
-            val nowid = sharedPref.getString("id", "")
-            Log.d("imgtest", "$nowid ------****------ ${postInfo.nickname}")
-            //showPopup(holder.popup)
-            if(nowid == postInfo.nickname) {
-                val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
-                popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
-                //popup.setOnMenuItemClickListener(this)
-                popup.setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.tv_modify_content -> {
-                            modifyPost(postInfo)
-                            true
+        val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(postInfo.writerProfile != "") {
+            Glide.with(nowContext).load(postInfo.writerProfile).into(holder.profile)
+        }
+        if(logincheck) {
+            holder.popup.setOnClickListener {
+                val nowid = sharedPref.getString("id", "")
+                Log.d("imgtest", "$nowid ------****------ ${postInfo.nickname}")
+                //showPopup(holder.popup)
+                if (nowid == postInfo.nickname) {
+                    val popup = PopupMenu(nowContext, holder.popup) // PopupMenu 객체 선언
+                    popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
+                    //popup.setOnMenuItemClickListener(this)
+                    popup.setOnMenuItemClickListener { item ->
+                        when (item.itemId) {
+                            R.id.tv_modify_content -> {
+                                modifyPost(postInfo)
+                                true
+                            }
+
+                            R.id.tv_delete_content -> {
+                                deletePost(postInfo)
+                                true
+                            }
+
+                            else -> false
                         }
-                        R.id.tv_delete_content -> {
-                            deletePost(postInfo)
-                            true
-                        }
-                        else -> false
                     }
+                    popup.show() // 팝업 보여주기
+                } else {
+                    Toast.makeText(nowContext, "본인의 게시글만 수정/삭제가 가능합니다.", Toast.LENGTH_LONG).show()
                 }
-                popup.show() // 팝업 보여주기
-            } else {
-                Toast.makeText(nowContext, "본인의 게시글만 수정/삭제가 가능합니다.", Toast.LENGTH_LONG).show()
             }
+            val nowUser = sharedPref.getString("id", "")
+
+            // 네비게이션바 페이지 이동
+
+            checkMyFavorite(nowUser.toString(), pList[position], holder)
+
+            holder.likeEmptyButton.setOnClickListener{
+                Log.d("test1234", "checkempty")
+                val firestore = FirebaseFirestore.getInstance()
+                val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
+                nowDoc?.get()?.addOnSuccessListener {document ->
+                    var postUpdate = document?.toObject(PostDataModel::class.java)
+                    postUpdate?.id = postInfo.id
+                    postUpdate?.nickname = postInfo.nickname
+                    postUpdate?.fishspecies = postInfo.fishspecies
+                    postUpdate?.content = postInfo.content
+                    postUpdate?.favoriteCount = postInfo.favoriteCount + 1
+                    notifyItemChanged(position)
+                    postInfo.favoriteCount += 1
+                    var nowFavorite = postInfo.favorites
+                    nowFavorite.put(nowUser.toString(), true)
+                    postUpdate?.favorites = nowFavorite
+                    //postUpdate?.password = postInfo.password
+                    postUpdate?.pictures = postInfo.pictures
+                    postUpdate?.replies = postInfo.replies
+                    postUpdate?.wherecatchfish = postInfo.wherecatchfish
+                    postUpdate?.writerProfile = postInfo.writerProfile
+                    nowDoc.update("Posts", postUpdate)
+                }
+                holder.likeEmptyButton.visibility = View.GONE
+                holder.likeFillButton.visibility = View.VISIBLE
+//            holder.likeCnt.text = postInfo.favoriteCount.toString()
+//            holder.likeCnt2.text = ""
+                holder.likeCnt.text = ""
+                holder.likeCnt2.text = postInfo.favoriteCount.toString()
+                //val intent = Intent(nowContext, HomeActivity::class.java)
+                //nowContext.startActivity(intent)
+                //val contextActivity = nowContext as AppCompatActivity
+                //contextActivity.finish()
+            }
+
+            holder.likeFillButton.setOnClickListener{
+                Log.d("test1234", "checkfill")
+                val firestore = FirebaseFirestore.getInstance()
+                val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
+                nowDoc?.get()?.addOnSuccessListener {document ->
+                    var postUpdate = document?.toObject(PostDataModel::class.java)
+                    postUpdate?.id = postInfo.id
+                    postUpdate?.nickname = postInfo.nickname
+                    postUpdate?.fishspecies = postInfo.fishspecies
+                    postUpdate?.content = postInfo.content
+                    postUpdate?.favoriteCount = postInfo.favoriteCount - 1
+                    notifyItemChanged(position)
+                    postInfo.favoriteCount -= 1
+                    var nowFavorite = postInfo.favorites
+                    nowFavorite.remove(nowUser.toString())
+                    postUpdate?.favorites = nowFavorite
+                    //postUpdate?.password = postInfo.password
+                    postUpdate?.pictures = postInfo.pictures
+                    postUpdate?.replies = postInfo.replies
+                    postUpdate?.wherecatchfish = postInfo.wherecatchfish
+                    postUpdate?.writerProfile = postInfo.writerProfile
+                    nowDoc.update("Posts", postUpdate)
+                }
+                holder.likeEmptyButton.visibility = View.VISIBLE
+                holder.likeFillButton.visibility = View.GONE
+//            holder.likeCnt.text = ""
+//            holder.likeCnt2.text = postInfo.favoriteCount.toString()
+                holder.likeCnt.text = postInfo.favoriteCount.toString()
+                holder.likeCnt2.text = ""
+                //val intent = Intent(nowContext, HomeActivity::class.java)
+                //intent.addFlags(intent.FLAG_ACTIVITY_NO_ANIMATION);
+                //nowContext.startActivity(intent)
+                //(nowContext as? Activity)?.overridePendingTransition(0, 0)
+                //val contextActivity = nowContext as AppCompatActivity
+                //contextActivity.finish()
+                //(nowContext as Activity).overridePendingTransition(0, 0)
+                //val contextActivity = nowContext as AppCompatActivity
+                //contextActivity.finish()
+                //(nowContext as Activity).overridePendingTransition(0, 0)
+            }
+        } else {
+            holder.popup.visibility = View.GONE
         }
 
         /*
@@ -151,82 +246,6 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         }*/
 
         //val auth = FirebaseAuth.getInstance()
-        val sharedPref = nowContext.getSharedPreferences("logininfo", Context.MODE_PRIVATE)
-        val nowUser = sharedPref.getString("id", "")
-
-        checkMyFavorite(nowUser.toString(), pList[position], holder)
-
-        holder.likeEmptyButton.setOnClickListener{
-            Log.d("test1234", "checkempty")
-            val firestore = FirebaseFirestore.getInstance()
-            val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
-            nowDoc?.get()?.addOnSuccessListener {document ->
-                var postUpdate = document?.toObject(PostDataModel::class.java)
-                postUpdate?.id = postInfo.id
-                postUpdate?.nickname = postInfo.nickname
-                postUpdate?.fishspecies = postInfo.fishspecies
-                postUpdate?.content = postInfo.content
-                postUpdate?.favoriteCount = postInfo.favoriteCount + 1
-                postInfo.favoriteCount += 1
-                var nowFavorite = postInfo.favorites
-                nowFavorite.put(nowUser.toString(), true)
-                postUpdate?.favorites = nowFavorite
-                //postUpdate?.password = postInfo.password
-                postUpdate?.pictures = postInfo.pictures
-                postUpdate?.replies = postInfo.replies
-                postUpdate?.wherecatchfish = postInfo.wherecatchfish
-                nowDoc.update("Posts", postUpdate)
-            }
-            holder.likeEmptyButton.visibility = View.GONE
-            holder.likeFillButton.visibility = View.VISIBLE
-//            holder.likeCnt.text = postInfo.favoriteCount.toString()
-//            holder.likeCnt2.text = ""
-            holder.likeCnt.text = ""
-            holder.likeCnt2.text = postInfo.favoriteCount.toString()
-            val intent = Intent(nowContext, HomeActivity::class.java)
-            nowContext.startActivity(intent)
-            val contextActivity = nowContext as AppCompatActivity
-            contextActivity.finish()
-        }
-
-        holder.likeFillButton.setOnClickListener{
-            Log.d("test1234", "checkfill")
-            val firestore = FirebaseFirestore.getInstance()
-            val nowDoc = firestore?.collection("BoardPosts")?.document(postInfo.id)
-            nowDoc?.get()?.addOnSuccessListener {document ->
-                var postUpdate = document?.toObject(PostDataModel::class.java)
-                postUpdate?.id = postInfo.id
-                postUpdate?.nickname = postInfo.nickname
-                postUpdate?.fishspecies = postInfo.fishspecies
-                postUpdate?.content = postInfo.content
-                postUpdate?.favoriteCount = postInfo.favoriteCount - 1
-                postInfo.favoriteCount -= 1
-                var nowFavorite = postInfo.favorites
-                nowFavorite.remove(nowUser.toString())
-                postUpdate?.favorites = nowFavorite
-                //postUpdate?.password = postInfo.password
-                postUpdate?.pictures = postInfo.pictures
-                postUpdate?.replies = postInfo.replies
-                postUpdate?.wherecatchfish = postInfo.wherecatchfish
-                nowDoc.update("Posts", postUpdate)
-            }
-            holder.likeEmptyButton.visibility = View.VISIBLE
-            holder.likeFillButton.visibility = View.GONE
-//            holder.likeCnt.text = ""
-//            holder.likeCnt2.text = postInfo.favoriteCount.toString()
-            holder.likeCnt.text = postInfo.favoriteCount.toString()
-            holder.likeCnt2.text = ""
-            val intent = Intent(nowContext, HomeActivity::class.java)
-            //intent.addFlags(intent.FLAG_ACTIVITY_NO_ANIMATION);
-            nowContext.startActivity(intent)
-            (nowContext as? Activity)?.overridePendingTransition(0, 0)
-            val contextActivity = nowContext as AppCompatActivity
-            contextActivity.finish()
-            //(nowContext as Activity).overridePendingTransition(0, 0)
-            //val contextActivity = nowContext as AppCompatActivity
-            //contextActivity.finish()
-            //(nowContext as Activity).overridePendingTransition(0, 0)
-        }
 
         holder.commentbtn.setOnClickListener { v: View? ->
             Log.d("testtesttest", "asdfasdf44444")
@@ -413,6 +432,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
         val catchedplace : TextView
         val commentbtn : TextView
         val popup : Button
+        val profile : ImageView
 
         init {
             //title = itemView.findViewById(R.id.tv_title_detail_post)
@@ -431,6 +451,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
             fishspecies = itemView.findViewById(R.id.tv_fishspecies)
             catchedplace = itemView.findViewById(R.id.catchedplace)
             commentbtn = itemView.findViewById(R.id.total_reply)
+            profile = itemView.findViewById(R.id.profileImg)
+
             //onItemClick()
         }
 

@@ -64,82 +64,87 @@ class AdapterReplay(val datas : MutableList<Replies>, val postId : String) : Rec
         if(nowid == replyId) {
             nowbinding.btPopupReply.visibility = View.VISIBLE
         }
-
-        nowbinding.btPopupReply.setOnClickListener {
-            val popup = PopupMenu(nowContext, holder.binding.btPopupReply) // PopupMenu 객체 선언
-            popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
-            //popup.setOnMenuItemClickListener(this)
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.tv_modify_content -> {
-                        Log.d("##INFO", "modify reply")
-                        val dialogView = LayoutInflater.from(nowContext).inflate(R.layout.reply_modify_dialog, null)
-                        val dialog = AlertDialog.Builder(nowContext)
-                            .setTitle("댓글 수정")
-                            .setView(dialogView)
-                            .setPositiveButton("수정") { dialog, now
-                                -> val modifiedReply = dialogView.findViewById<EditText>(R.id.reply_edit).text
-                                nowRp["reply"] = modifiedReply.toString()
-                                notifyItemChanged(position)
-                                val nowDoc = FirebaseFirestore.getInstance().collection("BoardPosts").document(postId)
-                                nowDoc.get().addOnSuccessListener {
-                                    val now = ((it.data)?.get("Posts")) as HashMap<String, Any>
-                                    now.put("replies", datas)
-                                    Log.d("##INFO", "$now")
-                                    val updateReply = hashMapOf<String, Any>(
-                                        "Posts" to now
-                                    )
-                                    nowDoc.update(updateReply)
-                                        .addOnSuccessListener {
-                                            Toast.makeText(nowContext, "댓글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                                        }
-                                        .addOnFailureListener {
-                                            Toast.makeText(nowContext, "댓글 수정 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
-                                        }
+        val logincheck = sharedPref.getBoolean("signedup", false)
+        if(logincheck) {
+            nowbinding.btPopupReply.setOnClickListener {
+                val popup = PopupMenu(nowContext, holder.binding.btPopupReply) // PopupMenu 객체 선언
+                popup.menuInflater.inflate(R.menu.popup, popup.menu) // 메뉴 레이아웃 inflate
+                //popup.setOnMenuItemClickListener(this)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.tv_modify_content -> {
+                            Log.d("##INFO", "modify reply")
+                            val dialogView = LayoutInflater.from(nowContext).inflate(R.layout.reply_modify_dialog, null)
+                            val dialog = AlertDialog.Builder(nowContext)
+                                .setTitle("댓글 수정")
+                                .setView(dialogView)
+                                .setPositiveButton("수정") { dialog, now
+                                    -> val modifiedReply = dialogView.findViewById<EditText>(R.id.reply_edit).text
+                                    nowRp["reply"] = modifiedReply.toString()
+                                    notifyItemChanged(position)
+                                    val nowDoc = FirebaseFirestore.getInstance().collection("BoardPosts").document(postId)
+                                    nowDoc.get().addOnSuccessListener {
+                                        val now = ((it.data)?.get("Posts")) as HashMap<String, Any>
+                                        now.put("replies", datas)
+                                        Log.d("##INFO", "$now")
+                                        val updateReply = hashMapOf<String, Any>(
+                                            "Posts" to now
+                                        )
+                                        nowDoc.update(updateReply)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(nowContext, "댓글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(nowContext, "댓글 수정 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
                                 }
-                            }
-                            .setNegativeButton("취소") { dialog, now
-                                -> dialog.dismiss()
-                            }.create()
-                        dialog.show()
-                        true
-                    }
-                    R.id.tv_delete_content -> {
-                        Log.d("##INFO", "remove reply")
-                        val dialog = AlertDialog.Builder(nowContext)
-                            .setTitle("댓글 삭제")
-                            .setMessage("댓글을 삭제하시겠습니까?")
-                            .setPositiveButton("예") { it, now ->
-                                datas.removeAt(position)
-                                notifyDataSetChanged()
-                                val nowDoc = FirebaseFirestore.getInstance().collection("BoardPosts").document(postId)
-                                nowDoc.get().addOnSuccessListener {
-                                    val now = ((it.data)?.get("Posts")) as HashMap<String, Any>
-                                    now.put("replies", datas)
-                                    Log.d("##INFO", "$now")
-                                    val updateReply = hashMapOf<String, Any>(
-                                        "Posts" to now
-                                    )
-                                    nowDoc.update(updateReply)
-                                        .addOnSuccessListener {
-                                            Toast.makeText(nowContext, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                                        }
-                                        .addOnFailureListener {
-                                            Toast.makeText(nowContext, "댓글 삭제 중 오류가 발생했습니다", Toast.LENGTH_SHORT).show()
-                                        }
+                                .setNegativeButton("취소") { dialog, now
+                                    -> dialog.dismiss()
+                                }.create()
+                            dialog.show()
+                            true
+                        }
+                        R.id.tv_delete_content -> {
+                            Log.d("##INFO", "remove reply")
+                            val dialog = AlertDialog.Builder(nowContext)
+                                .setTitle("댓글 삭제")
+                                .setMessage("댓글을 삭제하시겠습니까?")
+                                .setPositiveButton("예") { it, now ->
+                                    datas.removeAt(position)
+                                    notifyDataSetChanged()
+                                    val nowDoc = FirebaseFirestore.getInstance().collection("BoardPosts").document(postId)
+                                    nowDoc.get().addOnSuccessListener {
+                                        val now = ((it.data)?.get("Posts")) as HashMap<String, Any>
+                                        now.put("replies", datas)
+                                        Log.d("##INFO", "$now")
+                                        val updateReply = hashMapOf<String, Any>(
+                                            "Posts" to now
+                                        )
+                                        nowDoc.update(updateReply)
+                                            .addOnSuccessListener {
+                                                Toast.makeText(nowContext, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(nowContext, "댓글 삭제 중 오류가 발생했습니다", Toast.LENGTH_SHORT).show()
+                                            }
+                                    }
                                 }
-                            }
-                            .setNegativeButton("아니오") { it, now ->
-                                it.dismiss()
-                            }.create()
-                        dialog.show()
-                        true
+                                .setNegativeButton("아니오") { it, now ->
+                                    it.dismiss()
+                                }.create()
+                            dialog.show()
+                            true
+                        }
+                        else -> false
                     }
-                    else -> false
                 }
+                popup.show() // 팝업 보여주기
             }
-            popup.show() // 팝업 보여주기
+        } else {
+            nowbinding.btPopupReply.visibility = View.GONE
         }
+
         nowbinding.tvReply.text = nowRp.get("reply")
         //onItemClick(position)
 

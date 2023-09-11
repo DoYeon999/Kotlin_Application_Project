@@ -5,6 +5,10 @@ import com.example.myapplication.FishingContent.model.FishContest
 import com.example.myapplication.FishingContent.model.FishFish
 import com.example.myapplication.FishingContent.model.FishRope
 import com.example.myapplication.kdy.model.FishInfoModel
+import com.example.myapplication.weather_imgfind.model.TidePreModelDB
+import com.example.myapplication.weather_imgfind.model.FirstDayWeatherDB
+import com.example.myapplication.weather_imgfind.model.OtherDayWeatherDB
+import com.example.myapplication.weather_imgfind.model.TotalWeatherDB
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -48,4 +52,23 @@ interface FishService {
         @Query("fid") fid : Long
     ) : retrofit2.Call<FishInfoModel>
 
+    @GET("weather/getTodayTide")
+    fun getTodayTide(
+        @Query("obscode") obscode : String
+    ) : retrofit2.Call<List<TidePreModelDB>>
+
+    @GET("weather/getPreWeatherFirstDay")
+    fun getFirstDayForecast(
+        @Query("obscode") obscode : String
+    ) : retrofit2.Call<FirstDayWeatherDB>
+
+    @GET("weather/getPreWeatherOtherDay")
+    fun getOtherDayForecast(
+        @Query("obscode") obscode : String
+    ) : retrofit2.Call<List<OtherDayWeatherDB>>
+
+    @GET("weather/totalWeathers")
+    fun getTotalWeatherForecast(
+        @Query("obscode") obscode : String
+    ) : retrofit2.Call<TotalWeatherDB>
 }

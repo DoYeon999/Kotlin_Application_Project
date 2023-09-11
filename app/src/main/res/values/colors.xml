@@ -10,4 +10,6 @@
     <color name="gray_50">#F5F5F5</color>
     <color name="navy_50">#F5F5FF</color>
     <color name="gray_500">#848484</color>
+    <color name="opacity_55">#8C000000</color>
+    <color name="opacity_100">#00000000</color>
 </resources>
