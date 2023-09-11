@@ -89,7 +89,7 @@ class ActivityWritePost : AppCompatActivity() {
             findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
             findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
             findViewById<TextView>(R.id.toolbarnick).text = nick
-            if(url != "") {
+            if(url != "" && url != "null") {
                 Glide.with(this)
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile))

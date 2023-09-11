@@ -62,7 +62,7 @@ class ActivityDetailPost : AppCompatActivity() {
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
-            if(url != "") {
+            if(url != "" && url != "null") {
                 Glide.with(this)
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile))

@@ -130,7 +130,9 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.toolbarnick2).visibility = View.VISIBLE
             findViewById<ImageView>(R.id.toolbarprofile2).visibility = View.VISIBLE
             findViewById<TextView>(R.id.toolbarnick2).text = nick
-            if(url != "") {
+            Log.d("urlcheck", "$url // ${url == "null"}")
+            if(url != "" && url != "null") {
+                Log.d("urlcheck", "******")
                 Glide.with(this)
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile2))

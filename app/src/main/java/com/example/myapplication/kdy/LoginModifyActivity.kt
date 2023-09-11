@@ -41,7 +41,7 @@ class LoginModifyActivity : AppCompatActivity() {
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
-            if(url != "") {
+            if(url != "" && url != "null") {
                 Glide.with(this)
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile))
@@ -62,7 +62,7 @@ class LoginModifyActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener {
                 val nowUser = it.data
-                if(nowUser!!.get("profileuri") != "") {
+                if(nowUser!!.get("profileuri") != "" && nowUser!!.get("profileuri") != "null") {
                     Glide.with(this).load(nowUser!!.get("profileuri")).into(binding.profileImage)
                     profileuri = nowUser!!.get("profileuri") as String
                 }
