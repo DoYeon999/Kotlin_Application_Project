@@ -47,7 +47,7 @@ class FishinfoActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
             findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
             findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
-            if(url != "") {
+            if(url != "" && url != "null") {
                 Glide.with(this)
                     .load(url)
                     .into(findViewById(R.id.toolbarprofile))
