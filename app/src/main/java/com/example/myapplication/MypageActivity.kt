@@ -97,9 +97,9 @@ class MypageActivity : AppCompatActivity() {
                                             Log.d("deletemem", "$nowdata")
                                             if(nowdata!!.get("nickname") == sharedPref.getString("id", "")) {
                                                 Log.d("deletemem", "작성한 글 찾음")
-                                                //db.collection("BoardPosts").document(it.id).delete()
-                                                //    .addOnSuccessListener { Log.d("##Board", "deleted") }
-                                                //    .addOnFailureListener { Log.d("##Board", "not deleted") }
+                                                db.collection("BoardPosts").document(it.id).delete()
+                                                    .addOnSuccessListener { Log.d("##Board", "deleted") }
+                                                    .addOnFailureListener { Log.d("##Board", "not deleted") }
                                             } else {
                                                 val likes = nowdata!!.get("favorites") as HashMap<String, Boolean>
                                                 Log.d("deletemem", "****-----$likes------*****")
@@ -114,11 +114,11 @@ class MypageActivity : AppCompatActivity() {
                                                 val comments = nowdata!!.get("replies") as ArrayList<Replies>
                                                 Log.d("deletemem", "****-----${comments}")
                                                 for(i in 0 until comments.size) {
-                                                    Log.d("deletemem", "comment for loop")
-                                                    Log.d("deletemem", "*******${comments.get(i)}*********")
-                                                    val reply = comments.get(i)
-                                                    Log.d("deletemem", "$reply")
-                                                    if(reply.reply_id == sharedPref.getString("id", "")) {
+                                                    //Log.d("deletemem", "comment for loop")
+                                                    //Log.d("deletemem", "*******${comments.get(i)}*********")
+                                                    val reply = comments.get(i) as HashMap<String, Any>
+                                                    //Log.d("deletemem", "$reply")
+                                                    if(reply.get("reply_id") == sharedPref.getString("id", "")) {
                                                         Log.d("deletemem", "댓글 단 글 찾음")
                                                         break
                                                     } else {
