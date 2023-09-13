@@ -161,17 +161,6 @@ class JoinActivity : AppCompatActivity() {
                             Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
 
-                    // 회원가입 성공 토스트 메세지 띄우기
-
-                    // 유저가 입력한 id, pw를 쉐어드에 저장한다.
-                    //val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
-                    //val editor = sharedPreference.edit()
-                    //editor.putString("id", id)
-                    //editor.putString("pw", pw)
-                    //editor.apply()
-                    // 로그인 화면으로 이동
-                    //val intent = Intent(this, LoginActivity::class.java)
-                    //startActivity(intent)
 
                 } else {
                     // 상태에 따라 다른 다이얼로그 띄워주기

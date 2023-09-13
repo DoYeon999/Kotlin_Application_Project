@@ -56,6 +56,12 @@ class FishplaceActivity : AppCompatActivity() {
             findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
         }
 
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{
             val intent = Intent(this@FishplaceActivity, MainActivity::class.java)

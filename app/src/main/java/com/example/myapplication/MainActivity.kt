@@ -125,6 +125,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // 툴바 설정
         if(loginCheck) {
             findViewById<TextView>(R.id.loginbuttonmain2).visibility = View.GONE
             findViewById<TextView>(R.id.toolbarnick2).visibility = View.VISIBLE
