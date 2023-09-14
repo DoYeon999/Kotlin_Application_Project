@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.example.myapplication.community.HomeActivity
+import com.example.myapplication.community.PostDataModel
 import com.example.myapplication.community.Replies
 import com.example.myapplication.databinding.ActivityMypageBinding
 import com.example.myapplication.kdy.LikedByMeActivity
@@ -92,40 +93,72 @@ class MypageActivity : AppCompatActivity() {
                                 db.collection("BoardPosts").get()
                                     .addOnSuccessListener {
                                         val docs = it.documents
-                                        docs.forEach {
-                                            val nowdata = it.data!!.get("Posts") as HashMap<String, Any>
+                                        docs.forEach {nowDoc ->
+                                            val nowdata = nowDoc.data!!.get("Posts") as HashMap<String, Any>
                                             Log.d("deletemem", "$nowdata")
                                             if(nowdata!!.get("nickname") == sharedPref.getString("id", "")) {
                                                 Log.d("deletemem", "작성한 글 찾음")
-                                                db.collection("BoardPosts").document(it.id).delete()
+                                                db.collection("BoardPosts").document(nowDoc.id).delete()
                                                     .addOnSuccessListener { Log.d("##Board", "deleted") }
                                                     .addOnFailureListener { Log.d("##Board", "not deleted") }
                                             } else {
+                                                val updatePost = PostDataModel()
+                                                var updated = false
                                                 val likes = nowdata!!.get("favorites") as HashMap<String, Boolean>
-                                                Log.d("deletemem", "****-----$likes------*****")
+                                                //Log.d("deletemem", "****-----$likes------*****")
                                                 likes.forEach {
                                                     if(it.key == sharedPref.getString("id", "")) {
                                                         Log.d("deletemem", "좋아요 한 글 찾음")
+                                                        Log.d("deletemem", "&&$nowdata$$")
+                                                        updatePost.id =  nowdata!!.get("id") as String
+                                                        updatePost.nickname = nowdata!!.get("nickname") as String
+                                                        updatePost.replies = nowdata!!.get("replies") as ArrayList<Replies>
+                                                        updatePost.pictures = nowdata!!.get("pictures") as ArrayList<String>
+                                                        updatePost.content = nowdata!!.get("content") as String
+                                                        updatePost.favorites = nowdata!!.get("favorites") as HashMap<String, Boolean>
+                                                        updatePost.favorites.remove(sharedPref.getString("id", ""))
+                                                        updatePost.favoriteCount = java.lang.String.valueOf(nowdata!!.get("favoriteCount")).toInt()
+                                                        updatePost.favoriteCount -= 1
+                                                        updatePost.fishspecies = nowdata!!.get("fishspecies") as String
+                                                        updatePost.wherecatchfish = nowdata!!.get("wherecatchfish") as String
+                                                        updatePost.writerProfile = nowdata!!.get("writerProfile") as String
+                                                        updated = true
                                                         return@forEach
-                                                    } else {
-
                                                     }
                                                 }
-                                                val comments = nowdata!!.get("replies") as ArrayList<Replies>
+                                                val comments = updatePost.replies
                                                 Log.d("deletemem", "****-----${comments}")
                                                 for(i in 0 until comments.size) {
                                                     //Log.d("deletemem", "comment for loop")
                                                     //Log.d("deletemem", "*******${comments.get(i)}*********")
-                                                    val reply = comments.get(i) as HashMap<String, Any>
+                                                    val reply = comments.get(i) as HashMap<String, String>
                                                     //Log.d("deletemem", "$reply")
                                                     if(reply.get("reply_id") == sharedPref.getString("id", "")) {
                                                         Log.d("deletemem", "댓글 단 글 찾음")
+                                                        comments.removeAt(i)
+                                                        updated = true
                                                         break
-                                                    } else {
                                                     }
+                                                }
+                                                Log.d("deletemem", "&&&&&&&$updatePost&&&&&&&&&")
+                                                if(updated) {
+                                                    updatePost.replies = comments
+                                                    db.collection("BoardPost").document(nowDoc.id).update("Posts", updatePost)
+                                                        .addOnSuccessListener {Log.d("deletemem", "success delete board")}
                                                 }
                                             }
                                         }
+                                        db.collection("UserInfo").document(docId).delete()
+                                            .addOnSuccessListener {
+                                                Toast.makeText(this, "회원탈퇴에 성공했습니다.", Toast.LENGTH_SHORT).show()
+                                                sharedPref.edit().run {
+                                                    putBoolean("signedup", false)
+                                                    commit()
+                                                }
+                                                val intent = Intent(this@MypageActivity, MainActivity::class.java)
+                                                finish()
+                                                startActivity(intent)
+                                            }
                                     }
                             } else {
                                 Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
