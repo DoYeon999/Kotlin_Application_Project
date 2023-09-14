@@ -33,12 +33,20 @@ class MypageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        findViewById<TextView>(R.id.activitytitle).text = "마이페이지"
+
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@MypageActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         // sharedPreference에서 데이터 받아와서 닉네임/프로필사진 띄움
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
-        val logincheck = sharedPref.getBoolean("signedup", false)
-        if(logincheck) {
+        val loginCheck = sharedPref.getBoolean("signedup", false)
+        if(loginCheck) {
             findViewById<TextView>(R.id.mypagename).text = nick
             if(url != "" && url != "null") {
                 Glide.with(this)
@@ -46,18 +54,35 @@ class MypageActivity : AppCompatActivity() {
                     .into(findViewById(R.id.profileImage))
             }
             binding.logout.visibility = View.VISIBLE
-            binding.login.visibility  = View.GONE
             binding.memberout.visibility = View.VISIBLE
         }
 
         binding.logout.setOnClickListener {
             val intent = Intent(this@MypageActivity, LoginActivity::class.java)
+            val sharedPref = getSharedPreferences("logininfo", MODE_PRIVATE)
+            sharedPref.edit().run {
+                putBoolean("signedup", false)
+                commit()
+            }
             startActivity(intent)
         }
 
-        binding.login.setOnClickListener {
-            val intent = Intent(this@MypageActivity, LoginActivity::class.java)
-            startActivity(intent)
+        // 툴바 설정
+        if(loginCheck) {
+            findViewById<TextView>(R.id.loginbuttonmain).visibility = View.GONE
+            findViewById<TextView>(R.id.toolbarnick).visibility = View.VISIBLE
+            findViewById<ImageView>(R.id.toolbarprofile).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.toolbarnick).text = nick
+            if(url != "") {
+                Glide.with(this)
+                    .load(url)
+                    .into(findViewById(R.id.toolbarprofile))
+            }
+        } else {
+            findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+                val intent = Intent(this@MypageActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.mycommnuity.setOnClickListener {

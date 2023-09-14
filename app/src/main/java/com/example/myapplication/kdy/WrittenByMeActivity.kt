@@ -41,6 +41,14 @@ class WrittenByMeActivity : AppCompatActivity() {
         }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "작성한 글"
+
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@WrittenByMeActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")

@@ -61,6 +61,12 @@ class FishpageActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.activitytitle).text = fish.fishname
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
 
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@FishpageActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{
             val intent = Intent(this@FishpageActivity, MainActivity::class.java)
