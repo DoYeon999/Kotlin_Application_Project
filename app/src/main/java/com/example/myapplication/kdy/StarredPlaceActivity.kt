@@ -15,28 +15,22 @@ import com.example.myapplication.MainActivity
 import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
 import com.example.myapplication.community.HomeActivity
-import com.example.myapplication.databinding.ActivityFishplaceBinding
+import com.example.myapplication.databinding.ActivityStarredPlaceBinding
 import com.example.myapplication.kdy.adapter.PlaceAdapter
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
-class FishplaceActivity : AppCompatActivity() {
+class StarredPlaceActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityFishplaceBinding
-
-    data class Place (val docId : String, val fish : String,
-                      val name : String, val tel : String,
-                      val fishimgurl : String, val stars : HashMap<String, Boolean>)
+    lateinit var binding : ActivityStarredPlaceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        binding = ActivityFishplaceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_starred_place)
         findViewById<ImageView>(R.id.logomain).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
         findViewById<TextView>(R.id.activitytitle).text = "낚시포인트"
@@ -60,31 +54,31 @@ class FishplaceActivity : AppCompatActivity() {
 
         // 로고 클릭 시
         findViewById<ImageView>(R.id.logomain).setOnClickListener {
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MapActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MapActivity::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
             if(logincheck) {
-                val intent = Intent(this@FishplaceActivity, HomeActivity::class.java)
+                val intent = Intent(this@StarredPlaceActivity, HomeActivity::class.java)
                 startActivity(intent)
             } else {
                 binding.fishplacelayout.alpha = 0.2f
                 val dialog = AlertDialog.Builder(this).run {
                     setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
                         .setPositiveButton("로그인하기") { it, now ->
-                            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
+                            val intent = Intent(this@StarredPlaceActivity, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .setNegativeButton("취소") { it, now ->
@@ -100,14 +94,14 @@ class FishplaceActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.mypage).setOnClickListener{
             if(logincheck) {
-                val intent = Intent(this@FishplaceActivity, MypageActivity::class.java)
+                val intent = Intent(this@StarredPlaceActivity, MypageActivity::class.java)
                 startActivity(intent)
             } else {
                 binding.fishplacelayout.alpha = 0.2f
                 val dialog = AlertDialog.Builder(this).run {
                     setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
                         .setPositiveButton("로그인하기") { it, now ->
-                            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
+                            val intent = Intent(this@StarredPlaceActivity, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .setNegativeButton("취소") { it, now ->
@@ -120,29 +114,20 @@ class FishplaceActivity : AppCompatActivity() {
                 dialog.show()
             }
         }
-        databaseCallfunc("영흥도")
-        binding.yeongheundo.setOnClickListener {
-            databaseCallfunc("영흥도")
-        }
-        binding.sachun.setOnClickListener {
-            databaseCallfunc("사천")
-        }
-        binding.geoje.setOnClickListener {
-            databaseCallfunc("거제")
-        }
-        binding.tongyeong.setOnClickListener {
-            databaseCallfunc("인천")
-        }
-        binding.yeosu.setOnClickListener {
-            databaseCallfunc("태안")
-        }
 
+        val placelist = listOf("거제", "사천", "영흥도", "인천", "태안")
+
+        for(i in 0 until 5) {
+            databaseCallfunc(placelist[i])
+        }
     }
+
+
     fun databaseCallfunc(docName : String) {
         val database = Firebase.firestore
         val docList = database.collection(docName)
         var count = 0
-        var fishingplace = mutableListOf<Place>()
+        var fishingplace = mutableListOf<FishplaceActivity.Place>()
         docList.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
@@ -158,7 +143,7 @@ class FishplaceActivity : AppCompatActivity() {
                             storageRef.downloadUrl
                                 .addOnSuccessListener { uri ->
                                     fishingplace.add(
-                                        Place(
+                                        FishplaceActivity.Place(
                                             nowdoc.id,
                                             nowdoc.data?.get("fish").toString(),
                                             nowdoc.data?.get("name").toString(),
@@ -183,8 +168,7 @@ class FishplaceActivity : AppCompatActivity() {
             }
     }
 
-
-    fun fishingplacefunc(places : MutableList<Place>, docName : String) {
+    fun fishingplacefunc(places : MutableList<FishplaceActivity.Place>, docName : String) {
         val placeAdpater = PlaceAdapter(places, docName)
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL

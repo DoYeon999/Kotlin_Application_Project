@@ -59,6 +59,19 @@
 <!--                android:text=""-->
 <!--                android:fontFamily="@font/yeongdeok_blueroad"-->
 <!--                android:textSize="11sp"/>-->
+
+            <Button
+                android:id="@+id/tostar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="등록"/>
+
+            <Button
+                android:id="@+id/unstar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="해제"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -20,6 +20,7 @@ import com.example.myapplication.databinding.ActivityMypageBinding
 import com.example.myapplication.kdy.LikedByMeActivity
 import com.example.myapplication.kdy.LoginActivity
 import com.example.myapplication.kdy.LoginModifyActivity
+import com.example.myapplication.kdy.StarredPlaceActivity
 import com.example.myapplication.kdy.WrittenByMeActivity
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -96,6 +97,11 @@ class MypageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.staredplace.setOnClickListener {
+            val intent = Intent(this@MypageActivity, StarredPlaceActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.memberout.setOnClickListener {
             val docId = sharedPref.getString("docid", "")
             val dialogView = LayoutInflater.from(this).inflate(R.layout.mem_delete_check, null)
@@ -156,19 +162,31 @@ class MypageActivity : AppCompatActivity() {
                                                 for(i in 0 until comments.size) {
                                                     //Log.d("deletemem", "comment for loop")
                                                     //Log.d("deletemem", "*******${comments.get(i)}*********")
+                                                    updatePost.id =  nowdata!!.get("id") as String
+                                                    updatePost.nickname = nowdata!!.get("nickname") as String
+                                                    updatePost.replies = nowdata!!.get("replies") as ArrayList<Replies>
+                                                    updatePost.pictures = nowdata!!.get("pictures") as ArrayList<String>
+                                                    updatePost.content = nowdata!!.get("content") as String
+                                                    updatePost.favorites = nowdata!!.get("favorites") as HashMap<String, Boolean>
+                                                    updatePost.favorites.remove(sharedPref.getString("id", ""))
+                                                    updatePost.favoriteCount = java.lang.String.valueOf(nowdata!!.get("favoriteCount")).toInt()
+                                                    updatePost.favoriteCount -= 1
+                                                    updatePost.fishspecies = nowdata!!.get("fishspecies") as String
+                                                    updatePost.wherecatchfish = nowdata!!.get("wherecatchfish") as String
+                                                    updatePost.writerProfile = nowdata!!.get("writerProfile") as String
                                                     val reply = comments.get(i) as HashMap<String, String>
                                                     //Log.d("deletemem", "$reply")
                                                     if(reply.get("reply_id") == sharedPref.getString("id", "")) {
                                                         Log.d("deletemem", "댓글 단 글 찾음")
                                                         comments.removeAt(i)
+                                                        updatePost.replies = comments
                                                         updated = true
                                                         break
                                                     }
                                                 }
                                                 Log.d("deletemem", "&&&&&&&$updatePost&&&&&&&&&")
                                                 if(updated) {
-                                                    updatePost.replies = comments
-                                                    db.collection("BoardPost").document(nowDoc.id).update("Posts", updatePost)
+                                                    db.collection("BoardPosts").document(nowDoc.id).update("Posts", updatePost)
                                                         .addOnSuccessListener {Log.d("deletemem", "success delete board")}
                                                 }
                                             }
