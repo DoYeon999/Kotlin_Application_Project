@@ -54,6 +54,12 @@ class FishinfoActivity : AppCompatActivity() {
             }
         }
 
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain).setOnClickListener {
+            val intent = Intent(this@FishinfoActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{
             val intent = Intent(this@FishinfoActivity, MainActivity::class.java)

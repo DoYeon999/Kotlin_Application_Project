@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -53,6 +54,11 @@ class LoginActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.loginbuttonmain2).visibility = View.GONE
 
+        // 로고 클릭 시
+        findViewById<ImageView>(R.id.logomain2).setOnClickListener {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         //로그인 버튼 - 로그인 시에 shared preference에 로그인 정보를 넣음
         binding.loginbutton.setOnClickListener{
@@ -95,34 +101,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "failedforlogin", Toast.LENGTH_SHORT).show()
                 }
 
-//            if(canlogin) {
-//                dialog("success")
-//                val intent = Intent(this, MainActivity::class.java)
-//                startActivity(intent)
-//            } else {
-//                dialog("failure")
-//            }
-
-            /*
-            // 쉐어드로부터 저장된 id, pw 가져오기
-            val sharedPreference = getSharedPreferences("user name", Context.MODE_PRIVATE)
-            val savedId = sharedPreference.getString("id", "")
-            val savedPw = sharedPreference.getString("pw", "")
-
-            // 유저가 입력한 id, pw값과 쉐어드로 불러온 id, pw값 비교
-            if(id == savedId && pw == savedPw){
-                // 로그인 성공 다이얼로그 보여주기
-                dialog("success")
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-
-            }
-            else{
-                // 로그인 실패 다이얼로그 보여주기
-                dialog("failure")
-            }*/
-
         }
 
         binding.signinbutton.setOnClickListener {
@@ -136,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-    // 로그인 성공/실패 시 다이얼로그를 띄워주는 메소드
+    // 로그인 성공, 실패 시 다이얼로그를 띄워주는 메소드
     fun dialog(type: String){
         var dialog = AlertDialog.Builder(this)
 
