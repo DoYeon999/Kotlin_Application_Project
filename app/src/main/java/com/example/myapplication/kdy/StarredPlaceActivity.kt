@@ -17,6 +17,7 @@ import com.example.myapplication.R
 import com.example.myapplication.community.HomeActivity
 import com.example.myapplication.databinding.ActivityStarredPlaceBinding
 import com.example.myapplication.kdy.adapter.PlaceAdapter
+import com.example.myapplication.kdy.adapter.PlaceAdapter2
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,10 +26,19 @@ import com.google.firebase.storage.FirebaseStorage
 class StarredPlaceActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityStarredPlaceBinding
+    var fishingplace = mutableListOf<Place>()
+    val placelist = listOf("거제", "사천", "영흥도", "인천", "태안")
+    var nowid : String? = ""
+
+    data class Place (val docId : String, val fish : String,
+                      val name : String, val tel : String,
+                      val fishimgurl : String, val stars : HashMap<String, Boolean>,
+                      val city : String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityStarredPlaceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_starred_place)
+        setContentView(binding.root)
         findViewById<ImageView>(R.id.logomain).setOnClickListener{
             val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
@@ -39,6 +49,7 @@ class StarredPlaceActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
+        nowid = sharedPref.getString("id", "")
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
@@ -115,24 +126,23 @@ class StarredPlaceActivity : AppCompatActivity() {
             }
         }
 
-        val placelist = listOf("거제", "사천", "영흥도", "인천", "태안")
 
-        for(i in 0 until 5) {
-            databaseCallfunc(placelist[i])
+
+        for(i in 0 until placelist.size) {
+            databaseCallfunc(placelist[i], i)
         }
     }
 
 
-    fun databaseCallfunc(docName : String) {
+    fun databaseCallfunc(docName : String, idx : Int) {
         val database = Firebase.firestore
         val docList = database.collection(docName)
-        var count = 0
-        var fishingplace = mutableListOf<FishplaceActivity.Place>()
         docList.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val docs = document.documents
                     var checkflag = true
+                    var count = 0
                     docs.forEach {nowdoc->
                         if(!checkflag) return@forEach
                         if(nowdoc.exists()) {
@@ -142,34 +152,37 @@ class StarredPlaceActivity : AppCompatActivity() {
                                 storage.reference.child(nowdoc.data?.get("fishimgurl").toString())
                             storageRef.downloadUrl
                                 .addOnSuccessListener { uri ->
-                                    fishingplace.add(
-                                        FishplaceActivity.Place(
-                                            nowdoc.id,
-                                            nowdoc.data?.get("fish").toString(),
-                                            nowdoc.data?.get("name").toString(),
-                                            nowdoc.data?.get("tel").toString(),
-                                            uri.toString(),
-                                            nowdoc.data?.get("star") as HashMap<String, Boolean>
+                                    val stars = nowdoc.data?.get("star") as HashMap<String, Boolean>
+                                    if(nowid in stars.keys) {
+                                        Log.d("starred", "asdfasdfasdfasdfsad")
+                                        fishingplace.add(
+                                            Place(
+                                                nowdoc.id,
+                                                nowdoc.data?.get("fish").toString(),
+                                                nowdoc.data?.get("name").toString(),
+                                                nowdoc.data?.get("tel").toString(),
+                                                uri.toString(),
+                                                nowdoc.data?.get("star") as HashMap<String, Boolean>,
+                                                docName
+                                            )
                                         )
-                                    )
+                                    }
+                                    Log.d("starred", "$fishingplace")
                                     count++
-                                    Log.d("test1234", "$fishingplace")
-                                    Log.d("test1234", "${docs.size}, $count")
-                                    if(docs.size == count) {
-                                        Log.d("test1234", "asdfsadfsadfsadf")
-                                        fishingplacefunc(fishingplace, docName)
-                                        checkflag = false
+                                    Log.d("starred", "$count,,,,$idx")
+                                    if(count == docs.size && idx == (placelist.size - 1)) {
+                                        Log.d("starred", "adapter call")
+                                        fishingplacefunc(fishingplace)
                                     }
                                 }
                         }
                     }
-
                 }
             }
     }
 
-    fun fishingplacefunc(places : MutableList<FishplaceActivity.Place>, docName : String) {
-        val placeAdpater = PlaceAdapter(places, docName)
+    fun fishingplacefunc(places : MutableList<Place>) {
+        val placeAdpater = PlaceAdapter2(places)
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.place.layoutManager = linearLayoutManager
