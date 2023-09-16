@@ -35,7 +35,7 @@ import org.w3c.dom.Text
 /**
  * 게시판의 게시글을 보여주는 어댑터 및 게시글의 관리 클래스
  */
-class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>(){
+class AdapterBoard(val list: ArrayList<PostDataModel>) : RecyclerView.Adapter<AdapterBoard.ViewHolderMainBoard>(){
 
     private var pList: ArrayList<PostDataModel>
     private val db = FirebaseFirestore.getInstance()
@@ -94,6 +94,8 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
 
                             R.id.tv_delete_content -> {
                                 deletePost(postInfo)
+                                pList.removeAt(position)
+                                notifyDataSetChanged()
                                 true
                             }
 
@@ -311,6 +313,7 @@ class AdapterBoard(list: ArrayList<PostDataModel>) : RecyclerView.Adapter<Adapte
                                 "##INFO",
                                 "deletePost(): success"
                             )
+                            notifyDataSetChanged()
                         }.addOnFailureListener { e ->
                             Log.i(
                                 "##INFO",

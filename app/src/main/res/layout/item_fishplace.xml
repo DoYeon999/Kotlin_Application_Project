@@ -11,23 +11,26 @@
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:paddingLeft="30dp"
+        android:paddingLeft="15dp"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="100dp"
             app:cardCornerRadius="10dp">
+
         <ImageButton
             android:id="@+id/fishing_img"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@drawable/round"
             android:backgroundTint="@color/white"/>
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2.5"
             android:layout_height="90dp"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
@@ -37,16 +40,17 @@
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:text=""
                 android:textStyle="bold"
                 android:fontFamily="@font/yeongdeok_blueroad"
+                android:layout_marginBottom="5dp"
                 android:textSize="17sp"/>
 
             <TextView
                 android:id="@+id/fish"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="40dp"
                 android:text=""
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/yeongdeok_blueroad"
@@ -60,18 +64,29 @@
 <!--                android:fontFamily="@font/yeongdeok_blueroad"-->
 <!--                android:textSize="11sp"/>-->
 
-            <Button
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2.5"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingRight="10dp"
+            android:orientation="vertical">
+
+            <ImageView
                 android:id="@+id/tostar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="등록"/>
+                android:layout_height="40dp"
+                android:src="@drawable/emptybook"/>
 
-            <Button
+            <ImageView
                 android:id="@+id/unstar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:visibility="gone"
-                android:text="해제"/>
+                android:src="@drawable/fillbook"/>
+
         </LinearLayout>
     </LinearLayout>
 
