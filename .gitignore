@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+./app/release/fishing_app.apk
+./app/release/fishing_app.zip
+./app/release/output-metadata.json

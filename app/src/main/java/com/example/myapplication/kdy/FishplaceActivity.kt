@@ -41,7 +41,10 @@ class FishplaceActivity : AppCompatActivity() {
         }
         findViewById<TextView>(R.id.activitytitle).text = "낚시포인트"
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
-
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")

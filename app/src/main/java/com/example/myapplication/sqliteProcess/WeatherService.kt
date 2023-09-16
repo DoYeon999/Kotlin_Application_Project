@@ -1,17 +1,17 @@
 package com.example.myapplication.sqliteProcess
 
+import android.app.Service
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Binder
 import android.os.Bundle
+import android.os.IBinder
+import android.os.PersistableBundle
 import android.util.Log
-import com.example.myapplication.R
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityTestBinding
-import com.example.myapplication.weather_imgfind.model.TidePreModelDB
 import com.example.myapplication.weather_imgfind.model.TotalWeatherDB
 import com.example.myapplication.weather_imgfind.net.APIApplication
-import com.example.myapplication.weather_imgfind.weather.MapActivity
-import com.github.mikephil.charting.data.Entry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -19,13 +19,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class TestActivity : AppCompatActivity() {
+class WeatherService : Service() {
     lateinit var binding : ActivityTestBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityTestBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val context : Context = this@TestActivity
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        //super.onCreate(savedInstanceState)
+        //binding = ActivityTestBinding.inflate(layoutInflater)
+        //setContentView(binding.root)
+        val context : Context = this@WeatherService
         val dbHelper = CustomDatabaseHelper(context)
         Log.d("sqlite", "${dbHelper.databaseName}")
         val fishService = (applicationContext as APIApplication).fishService
@@ -83,12 +83,24 @@ class TestActivity : AppCompatActivity() {
 
                     Log.d("SQLite Test", "success $i")
                     i++
+                    if(i == obscodelist.size) stopSelf()
                 }
                 override fun onFailure(call: Call<TotalWeatherDB>, t: Throwable) {
                     Log.d("SQLite Test", "failed")
                 }
             })
         }
-
+        Log.d("google1234", "finished!!")
+        return super.onStartCommand(intent, flags, startId)
     }
+
+    override fun onBind(p0: Intent?): IBinder? {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDestroy() {
+        Log.d("service", "destroyed")
+        super.onDestroy()
+    }
+
 }

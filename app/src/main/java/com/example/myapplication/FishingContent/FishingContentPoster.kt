@@ -34,6 +34,10 @@ class FishingContentPoster : AppCompatActivity() {
             val intent = Intent(this@FishingContentPoster, MainActivity::class.java)
             startActivity(intent)
         }
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@FishingContentPoster, LoginActivity::class.java)
+            startActivity(intent)
+        }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = data.contesttitle
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)

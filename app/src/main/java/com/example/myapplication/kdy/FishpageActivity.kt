@@ -43,6 +43,10 @@ class FishpageActivity : AppCompatActivity() {
             val intent = Intent(this@FishpageActivity, MainActivity::class.java)
             startActivity(intent)
         }
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@FishpageActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")

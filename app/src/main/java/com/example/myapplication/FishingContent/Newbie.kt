@@ -45,7 +45,10 @@ class Newbie : AppCompatActivity() {
         setContentView(binding.root)
 
         loadFirestoreData("매듭")
-
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@Newbie, LoginActivity::class.java)
+            startActivity(intent)
+        }
         binding.button.setOnClickListener {
             newbielist.clear()
             loadFirestoreData("매듭")  // 원하는 문서 ID를 적절히 변경하세요

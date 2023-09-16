@@ -5,15 +5,19 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.app.AlertDialog
+import android.content.ComponentName
+import android.content.ServiceConnection
 import android.content.SharedPreferences
 import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -31,7 +35,11 @@ import com.example.myapplication.kdy.adapter.CommunityAdapter
 import com.example.myapplication.kdy.adapter.MainAdapter
 import com.example.myapplication.kdy.adapter.MainbanerAdapter
 import com.example.myapplication.kdy.adapter.PlaceAdapter
+import com.example.myapplication.sqliteProcess.CustomDatabaseHelper
+import com.example.myapplication.sqliteProcess.WeatherService
 import com.example.myapplication.weather_imgfind.findfish.FindFishActivity
+import com.example.myapplication.weather_imgfind.model.TotalWeatherDB
+import com.example.myapplication.weather_imgfind.net.APIApplication
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,12 +47,27 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.navercorp.nid.NaverIdLoginSDK
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 //    var user: User? = null
     data class Main(val fishname : String, val fishimg : String)
+
+    fun serviceStart()
+    {
+        Log.d("google1234", "started!!")
+        val intent = Intent(this, WeatherService::class.java)
+        startService(intent)
+    }
+
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +78,11 @@ class MainActivity : AppCompatActivity() {
         val url = sharedPref.getString("profileuri", "")
         val loginCheck = sharedPref.getBoolean("signedup", false)
         setContentView(binding.root)
+        serviceStart()
+        findViewById<TextView>(R.id.loginbuttonmain2).setOnClickListener {
+            val intent = Intent(this@MainActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         // 로고 클릭 시
         findViewById<ImageView>(R.id.logomain2).setOnClickListener {
@@ -192,17 +220,9 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, FindFishActivity::class.java)
                 startActivity(intent)
             }
-//
-//            Toast.makeText(
-//                this@MainActivity,
-//                "navigation item click... ${it.title}",
-//                Toast.LENGTH_SHORT
-//            ).show()
+
             true
         }
-
-        //setSupportActionBar(binding.toolbar)
-
 
         val database = Firebase.firestore
         val docList = database.collection("8월제철")
@@ -300,15 +320,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-
-
-        //        binding.profileImage.setOnClickListener {
-//            showPopup(binding.profileImage)
-//        }
-
-
     }
+
 
 //    val requestLauncher : ActivityResultLauncher<Intent> = registerForActivityResult(
 //        ActivityResultContracts.StartActivityForResult())
@@ -341,4 +354,4 @@ class MainActivity : AppCompatActivity() {
 //        popup.setOnMenuItemClickListener(this)
 //        popup.show() // 팝업 보여주기
 //    }
-}
+    }
