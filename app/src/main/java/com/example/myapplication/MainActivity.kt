@@ -61,13 +61,6 @@ class MainActivity : AppCompatActivity() {
 //    var user: User? = null
     data class Main(val fishname : String, val fishimg : String)
 
-    fun serviceStart()
-    {
-        Log.d("google1234", "started!!")
-        val intent = Intent(this, WeatherService::class.java)
-        startService(intent)
-    }
-
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         val url = sharedPref.getString("profileuri", "")
         val loginCheck = sharedPref.getBoolean("signedup", false)
         setContentView(binding.root)
-        serviceStart()
         findViewById<TextView>(R.id.loginbuttonmain2).setOnClickListener {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
