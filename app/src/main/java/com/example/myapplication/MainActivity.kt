@@ -251,8 +251,8 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-        binding.weatherforfishing.setOnClickListener {
-            val intent = Intent(this@MainActivity, MapActivity::class.java)
+        binding.newbieguide.setOnClickListener {
+            val intent = Intent(this@MainActivity, Newbie::class.java)
             startActivity(intent)
         }
 
