@@ -47,6 +47,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.navercorp.nid.NaverIdLoginSDK
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -312,6 +313,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+        startService(Intent(this@MainActivity, WeatherService::class.java))
     }
 
 
@@ -346,4 +348,5 @@ class MainActivity : AppCompatActivity() {
 //        popup.setOnMenuItemClickListener(this)
 //        popup.show() // 팝업 보여주기
 //    }
+
     }
