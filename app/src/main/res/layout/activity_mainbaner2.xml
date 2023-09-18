@@ -14,9 +14,9 @@
         <ImageView
             android:id="@+id/backdrop"
             android:layout_width="wrap_content"
-            android:layout_height="230dp"
+            android:layout_height="220dp"
             android:scaleType="fitStart"
-            android:src="@drawable/baner1" />
+            android:src="@drawable/banner2" />
 
     </LinearLayout>
 </FrameLayout>
