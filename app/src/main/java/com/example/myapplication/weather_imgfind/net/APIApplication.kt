@@ -25,7 +25,7 @@ class APIApplication : Application(){
 
     val retrofit3 : Retrofit
         get() = Retrofit.Builder()
-            .baseUrl("http://10.100.103.22:8088/")
+            .baseUrl("http://58.239.58.243:8088/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
