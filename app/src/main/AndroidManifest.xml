@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
 
+
     <application
         android:name=".weather_imgfind.net.APIApplication"
         android:allowBackup="true"
@@ -33,15 +34,21 @@
         android:theme="@style/Base.Theme.MyApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <service
+            android:name=".sqliteProcess.WeatherService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity
+            android:name=".kdy.StarredPlaceActivity"
+            android:exported="false" />
         <activity
             android:name=".kdy.LikedByMeActivity"
             android:exported="false" />
         <activity
             android:name=".kdy.WrittenByMeActivity"
             android:exported="false" />
-        <activity
-            android:name=".sqliteProcess.TestActivity"
-            android:exported="true" />
         <activity
             android:name=".kdy.FishinfoActivity"
             android:exported="true"

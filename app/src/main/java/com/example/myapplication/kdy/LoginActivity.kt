@@ -108,10 +108,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.naver.setOnClickListener {
-            NaverIdLoginSDK.initialize(this@LoginActivity, "Kbfd81BNQVDUZBU07nRo", "j_ulvQXh2R","test")
-            NaverIdLoginSDK.authenticate(this@LoginActivity, oauthLoginCallback)
-        }
+//        binding.naver.setOnClickListener {
+//            NaverIdLoginSDK.initialize(this@LoginActivity, "Kbfd81BNQVDUZBU07nRo", "j_ulvQXh2R","test")
+//            NaverIdLoginSDK.authenticate(this@LoginActivity, oauthLoginCallback)
+//        }
 
     }
     // 로그인 성공, 실패 시 다이얼로그를 띄워주는 메소드

@@ -9,17 +9,6 @@
 
     <include layout="@layout/toolbar"/>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profileImage"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        app:civ_border_color="#00FF0000"
-        app:civ_border_width="1dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,6 +18,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        app:civ_border_color="#00FF0000"
+        app:civ_border_width="1dp"
+        android:layout_gravity="center"
+        android:src="@drawable/profile"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        />
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -183,7 +184,8 @@
                     android:textSize="20dp"
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:inputType="textPassword"/>
 
             </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.myapplication.FishingContent.model.FishBait
 import com.example.myapplication.FishingContent.model.FishFish
@@ -45,7 +46,10 @@ class Newbie : AppCompatActivity() {
         setContentView(binding.root)
 
         loadFirestoreData("매듭")
-
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@Newbie, LoginActivity::class.java)
+            startActivity(intent)
+        }
         binding.button.setOnClickListener {
             newbielist.clear()
             loadFirestoreData("매듭")  // 원하는 문서 ID를 적절히 변경하세요
@@ -95,7 +99,9 @@ class Newbie : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
             val intent = Intent(this@Newbie, MapActivity::class.java)
-            startActivity(intent)
+            val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+            if(checkdataloading) startActivity(intent)
+            else Toast.makeText(this@Newbie, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{

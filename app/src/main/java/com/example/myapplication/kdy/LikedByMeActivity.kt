@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -63,7 +64,9 @@ class LikedByMeActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
             val intent = Intent(this@LikedByMeActivity, MapActivity::class.java)
-            startActivity(intent)
+            val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+            if(checkdataloading) startActivity(intent)
+            else Toast.makeText(this@LikedByMeActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{

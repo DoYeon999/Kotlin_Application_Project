@@ -16,39 +16,41 @@ import com.example.myapplication.MainActivity
 import com.example.myapplication.MypageActivity
 import com.example.myapplication.R
 import com.example.myapplication.community.HomeActivity
-import com.example.myapplication.databinding.ActivityFishplaceBinding
+import com.example.myapplication.databinding.ActivityStarredPlaceBinding
 import com.example.myapplication.kdy.adapter.PlaceAdapter
+import com.example.myapplication.kdy.adapter.PlaceAdapter2
 import com.example.myapplication.weather_imgfind.weather.MapActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
-class FishplaceActivity : AppCompatActivity() {
+class StarredPlaceActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityFishplaceBinding
+    lateinit var binding : ActivityStarredPlaceBinding
+    var fishingplace = mutableListOf<Place>()
+    val placelist = listOf("거제", "사천", "영흥도", "인천", "태안")
+    var nowid : String? = ""
 
     data class Place (val docId : String, val fish : String,
                       val name : String, val tel : String,
-                      val fishimgurl : String, val stars : HashMap<String, Boolean>)
+                      val fishimgurl : String, val stars : HashMap<String, Boolean>,
+                      val city : String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        binding = ActivityFishplaceBinding.inflate(layoutInflater)
+        binding = ActivityStarredPlaceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         findViewById<ImageView>(R.id.logomain).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
         findViewById<TextView>(R.id.activitytitle).text = "낚시포인트"
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
-        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
-            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
+
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
+        nowid = sharedPref.getString("id", "")
         val logincheck = sharedPref.getBoolean("signedup", false)
         if(logincheck) {
             findViewById<TextView>(R.id.toolbarnick).text = nick
@@ -64,33 +66,33 @@ class FishplaceActivity : AppCompatActivity() {
 
         // 로고 클릭 시
         findViewById<ImageView>(R.id.logomain).setOnClickListener {
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
         // 네비게이션바 페이지 이동
         findViewById<ImageView>(R.id.homepage).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MainActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MainActivity::class.java)
             startActivity(intent)
         }
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
-            val intent = Intent(this@FishplaceActivity, MapActivity::class.java)
+            val intent = Intent(this@StarredPlaceActivity, MapActivity::class.java)
             val checkdataloading = sharedPref.getBoolean("getdatabase", false)
             if(checkdataloading) startActivity(intent)
-            else Toast.makeText(this@FishplaceActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
+            else Toast.makeText(this@StarredPlaceActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
             if(logincheck) {
-                val intent = Intent(this@FishplaceActivity, HomeActivity::class.java)
+                val intent = Intent(this@StarredPlaceActivity, HomeActivity::class.java)
                 startActivity(intent)
             } else {
                 binding.fishplacelayout.alpha = 0.2f
                 val dialog = AlertDialog.Builder(this).run {
                     setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
                         .setPositiveButton("로그인하기") { it, now ->
-                            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
+                            val intent = Intent(this@StarredPlaceActivity, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .setNegativeButton("취소") { it, now ->
@@ -106,14 +108,14 @@ class FishplaceActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.mypage).setOnClickListener{
             if(logincheck) {
-                val intent = Intent(this@FishplaceActivity, MypageActivity::class.java)
+                val intent = Intent(this@StarredPlaceActivity, MypageActivity::class.java)
                 startActivity(intent)
             } else {
                 binding.fishplacelayout.alpha = 0.2f
                 val dialog = AlertDialog.Builder(this).run {
                     setMessage("로그인한 사용자만 이용할 수 있는 기능입니다.")
                         .setPositiveButton("로그인하기") { it, now ->
-                            val intent = Intent(this@FishplaceActivity, LoginActivity::class.java)
+                            val intent = Intent(this@StarredPlaceActivity, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         .setNegativeButton("취소") { it, now ->
@@ -126,34 +128,24 @@ class FishplaceActivity : AppCompatActivity() {
                 dialog.show()
             }
         }
-        databaseCallfunc("영흥도")
-        binding.yeongheundo.setOnClickListener {
-            databaseCallfunc("영흥도")
-        }
-        binding.sachun.setOnClickListener {
-            databaseCallfunc("사천")
-        }
-        binding.geoje.setOnClickListener {
-            databaseCallfunc("거제")
-        }
-        binding.tongyeong.setOnClickListener {
-            databaseCallfunc("인천")
-        }
-        binding.yeosu.setOnClickListener {
-            databaseCallfunc("태안")
-        }
 
+
+
+        for(i in 0 until placelist.size) {
+            databaseCallfunc(placelist[i], i)
+        }
     }
-    fun databaseCallfunc(docName : String) {
+
+
+    fun databaseCallfunc(docName : String, idx : Int) {
         val database = Firebase.firestore
         val docList = database.collection(docName)
-        var count = 0
-        var fishingplace = mutableListOf<Place>()
         docList.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val docs = document.documents
                     var checkflag = true
+                    var count = 0
                     docs.forEach {nowdoc->
                         if(!checkflag) return@forEach
                         if(nowdoc.exists()) {
@@ -163,35 +155,37 @@ class FishplaceActivity : AppCompatActivity() {
                                 storage.reference.child(nowdoc.data?.get("fishimgurl").toString())
                             storageRef.downloadUrl
                                 .addOnSuccessListener { uri ->
-                                    fishingplace.add(
-                                        Place(
-                                            nowdoc.id,
-                                            nowdoc.data?.get("fish").toString(),
-                                            nowdoc.data?.get("name").toString(),
-                                            nowdoc.data?.get("tel").toString(),
-                                            uri.toString(),
-                                            nowdoc.data?.get("star") as HashMap<String, Boolean>
+                                    val stars = nowdoc.data?.get("star") as HashMap<String, Boolean>
+                                    if(nowid in stars.keys) {
+                                        Log.d("starred", "asdfasdfasdfasdfsad")
+                                        fishingplace.add(
+                                            Place(
+                                                nowdoc.id,
+                                                nowdoc.data?.get("fish").toString(),
+                                                nowdoc.data?.get("name").toString(),
+                                                nowdoc.data?.get("tel").toString(),
+                                                uri.toString(),
+                                                nowdoc.data?.get("star") as HashMap<String, Boolean>,
+                                                docName
+                                            )
                                         )
-                                    )
+                                    }
+                                    Log.d("starred", "$fishingplace")
                                     count++
-                                    Log.d("test1234", "$fishingplace")
-                                    Log.d("test1234", "${docs.size}, $count")
-                                    if(docs.size == count) {
-                                        Log.d("test1234", "asdfsadfsadfsadf")
-                                        fishingplacefunc(fishingplace, docName)
-                                        checkflag = false
+                                    Log.d("starred", "$count,,,,$idx")
+                                    if(count == docs.size && idx == (placelist.size - 1)) {
+                                        Log.d("starred", "adapter call")
+                                        fishingplacefunc(fishingplace)
                                     }
                                 }
                         }
                     }
-
                 }
             }
     }
 
-
-    fun fishingplacefunc(places : MutableList<Place>, docName : String) {
-        val placeAdpater = PlaceAdapter(places, docName)
+    fun fishingplacefunc(places : MutableList<Place>) {
+        val placeAdpater = PlaceAdapter2(places)
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.place.layoutManager = linearLayoutManager

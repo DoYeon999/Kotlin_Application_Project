@@ -68,7 +68,5 @@ interface FishService {
     ) : retrofit2.Call<List<OtherDayWeatherDB>>
 
     @GET("weather/totalWeathers")
-    fun getTotalWeatherForecast(
-        @Query("obscode") obscode : String
-    ) : retrofit2.Call<TotalWeatherDB>
+    fun getTotalWeatherForecast() : retrofit2.Call<List<TotalWeatherDB>>
 }

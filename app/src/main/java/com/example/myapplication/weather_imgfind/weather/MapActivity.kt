@@ -18,6 +18,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -145,6 +146,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .into(findViewById(R.id.toolbarprofile))
             }
         }
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@MapActivity, LoginActivity::class.java)
+            startActivity(intent)
+        }
         findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         findViewById<TextView>(R.id.activitytitle).text = "날씨"
 
@@ -155,7 +160,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
             val intent = Intent(this@MapActivity, MapActivity::class.java)
-            startActivity(intent)
+            val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+            if(checkdataloading) startActivity(intent)
+            else Toast.makeText(this@MapActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
@@ -437,12 +444,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val fifthLunar = checkLunar(fifthDay.substring(0, 4).toInt(), fifthDay.substring(4, 6).toInt(), fifthDay.substring(6).toInt())
         val sixthLunar = checkLunar(sixthDay.substring(0, 4).toInt(), sixthDay.substring(4, 6).toInt(), sixthDay.substring(6).toInt())
         val seventhLunar = checkLunar(seventhDay.substring(0, 4).toInt(), seventhDay.substring(4, 6).toInt(), seventhDay.substring(6).toInt())
-
+        Log.d("google1234", "$firstDay, $secondDay, $thirdDay, $fourthDay, $fifthDay, $sixthDay, $seventhDay")
         val lunarlist = listOf<String>(firstLunar, secondLunar, thirdLunar, fourthLunar, fifthLunar, sixthLunar, seventhLunar)
-
         val tideService = (applicationContext as APIApplication).tideService
         val tempService = (applicationContext as APIApplication).temperService
         val tidelist = mutableListOf<TideModel>()
+        Log.d("google1234", "$lunarlist")
         //val myadapter = APIAdapter(this@SixPracticeGoogleMap, tidelist)
         //Log.d("google22", marker?.tag.toString())
         val mytag : MapLocation = (marker?.tag!! as MapLocation)
@@ -1017,17 +1024,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
      */
 
     fun checkLunar(year : Int, month : Int, day : Int) : String{
-        var checkYoon : Boolean = false
-
-        if(year % 4 == 0) {
-            if(year % 100 == 0) {
-                checkYoon = year % 400 == 0
-            }
-            checkYoon = true
-        }
+//        var checkYoon : Boolean = false
+//
+//        if(year % 4 == 0) {
+//            if(year % 100 == 0) {
+//                checkYoon = year % 400 == 0
+//            }
+//            checkYoon = true
+//        }
         val nowCal = KoreanLunarCalendar.getInstance()
-        nowCal.setLunarDate(year, month, day, checkYoon)
-        val tempLunar = nowCal.solarIsoFormat
+        Log.d("google1234", "$year, $month, $day")
+        nowCal.setSolarDate(year, month, day)
+        val tempLunar = nowCal.lunarIsoFormat
         val checkMoolDDae = tempLunar.substring(8).toInt()
         var returnVal : String = ""
         when(checkMoolDDae) {
@@ -1062,7 +1070,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             29 -> returnVal = "5물"
             30 -> returnVal = "6물"
         }
-
+        Log.d("google1234", "$tempLunar,,,$returnVal")
         return returnVal
     }
 

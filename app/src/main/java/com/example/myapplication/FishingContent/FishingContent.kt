@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -53,6 +54,10 @@ class FishingContent : AppCompatActivity() {
         findViewById<ImageView>(R.id.backbtn).setOnClickListener {
             finish()
         }
+        findViewById<TextView>(R.id.loginbuttonmain).setOnClickListener {
+            val intent = Intent(this@FishingContent, LoginActivity::class.java)
+            startActivity(intent)
+        }
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")
         val url = sharedPref.getString("profileuri", "")
@@ -77,7 +82,9 @@ class FishingContent : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
             val intent = Intent(this@FishingContent, MapActivity::class.java)
-            startActivity(intent)
+            val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+            if(checkdataloading) startActivity(intent)
+            else Toast.makeText(this@FishingContent, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{

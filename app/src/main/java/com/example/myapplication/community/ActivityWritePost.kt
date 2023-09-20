@@ -125,8 +125,9 @@ class ActivityWritePost : AppCompatActivity() {
                 //val bitmap: Bitmap =
                 //    FileUtils.uriToBitmap(this@ActivityWritePost, uri)
                 //bitmapList.add(bitmap)
-                Log.i("##INFO", "(): bitmap.size = " + bitmapList.size)
+                Log.i("imgtt", "(): bitmap.size = " + bitmapList.size)
                 for(i in 0 until bitmapList.size) {
+                    Log.i("imgtt", "(): bitmap = " + bitmapList.get(i))
                     if(i == 0) mBinding.imOneWrite1.setImageBitmap(bitmapList.get(0))
                     else if(i == 1) mBinding.imOneWrite2.setImageBitmap(bitmapList.get(1))
                     else if(i == 2) mBinding.imOneWrite3.setImageBitmap(bitmapList.get(2))
