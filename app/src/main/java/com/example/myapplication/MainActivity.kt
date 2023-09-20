@@ -55,6 +55,7 @@ import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
@@ -97,7 +98,9 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.weatherpage).setOnClickListener{
             val intent = Intent(this@MainActivity, MapActivity::class.java)
-            startActivity(intent)
+            val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+            if(checkdataloading) startActivity(intent)
+            else Toast.makeText(this@MainActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
         }
 
         findViewById<ImageView>(R.id.cumunitypage).setOnClickListener{
@@ -171,7 +174,9 @@ class MainActivity : AppCompatActivity() {
         binding.mainDrawerView.setNavigationItemSelectedListener { it ->
             if(it.title == "날씨") {
                 val intent = Intent(this@MainActivity, MapActivity::class.java)
-                startActivity(intent)
+                val checkdataloading = sharedPref.getBoolean("getdatabase", false)
+                if(checkdataloading) startActivity(intent)
+                else Toast.makeText(this@MainActivity, "데이터를 받아오는 중입니다!", Toast.LENGTH_LONG).show()
             }
 
             else if(it.title == "낚시포인트") {
@@ -313,7 +318,9 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        startService(Intent(this@MainActivity, WeatherService::class.java))
+
+        //startService(Intent(this@MainActivity, WeatherService::class.java))
+
     }
 
 

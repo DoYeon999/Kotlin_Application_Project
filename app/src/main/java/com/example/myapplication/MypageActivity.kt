@@ -41,7 +41,7 @@ class MypageActivity : AppCompatActivity() {
             val intent = Intent(this@MypageActivity, MainActivity::class.java)
             startActivity(intent)
         }
-
+        findViewById<ImageView>(R.id.backbtn).setOnClickListener { finish() }
         // sharedPreference에서 데이터 받아와서 닉네임/프로필사진 띄움
         val sharedPref = getSharedPreferences("logininfo", Context.MODE_PRIVATE)
         val nick = sharedPref.getString("nickname", "")

@@ -117,7 +117,7 @@ class WeatherService : Service() {
                 })
             }
         //}).start()
-*/
+
         val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             val dbHelper = CustomDatabaseHelper(this@WeatherService)
@@ -178,7 +178,7 @@ class WeatherService : Service() {
                 })
             }
         }
-        Log.d("application111", "finished!!")
+        Log.d("application111", "finished!!") */
         return super.onStartCommand(intent, flags, startId)
     }
 
