@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:layout_margin="15dp">
+            android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -60,7 +61,6 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/round"
                     android:src="@drawable/guide" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -77,11 +77,12 @@
                 android:gravity="center_horizontal">
             <ImageView
                 android:id="@+id/fishinfo"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:src="@drawable/book"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/book2"
                 android:background="@drawable/round"
-                android:layout_margin="5dp" />
+                android:padding="5dp"
+                android:layout_margin="10dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -99,11 +100,11 @@
                 android:gravity="center_horizontal">
             <ImageView
                 android:id="@+id/fishplace"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:src="@drawable/point3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/point2"
                 android:background="@drawable/round"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:padding="5dp"/>
 
                 <TextView
@@ -122,11 +123,12 @@
                 android:gravity="center_horizontal">
                 <ImageView
                     android:id="@+id/fishtonement"
-                    android:layout_width="80dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/tonement"
                     android:background="@drawable/round"
-                    android:layout_margin="5dp" />
+                    android:padding="2dp"
+                    android:layout_margin="10dp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
